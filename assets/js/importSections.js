@@ -1,7 +1,7 @@
 // importSections.js
 
 const sections = [
-  "header",
+  "header",  // <-- Thêm lại
   "overview",
   "vision",
   "lean-canvas",
@@ -10,18 +10,17 @@ const sections = [
   "market",
   "financials",
   "advantage",
-  "footer",
+  "footer",  // <-- Thêm lại
 ];
 
 async function loadSection(name) {
   const container = document.getElementById(name);
   if (!container) {
     console.warn(`Container #${name} not found.`);
-    return; // Stop if the div doesn't exist
+    return;
   }
 
   try {
-    // Add cache-busting query to prevent loading old files
     const response = await fetch(`sections/${name}.html?t=${new Date().getTime()}`);
     
     if (!response.ok) {
@@ -35,17 +34,13 @@ async function loadSection(name) {
   }
 }
 
-// This function runs once the base index.html page is loaded
 document.addEventListener("DOMContentLoaded", async () => {
   
-  // 1. Create an array of all the loading promises
   const loadingPromises = sections.map(loadSection);
 
-  // 2. Wait for ALL sections to finish loading
   await Promise.all(loadingPromises);
 
-  // 3. AFTER all HTML is loaded, initialize the main app script.
-  // This calls the function we defined in main.js
+  // SAU KHI TẢI TẤT CẢ HTML, chạy file main.js
   if (typeof window.initializeApp === 'function') {
     window.initializeApp();
   } else {
