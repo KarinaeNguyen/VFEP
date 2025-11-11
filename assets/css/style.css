@@ -1,39 +1,92 @@
 /* -----------------------------------------------------
-   GLOBAL COLORS (Deep Ocean Theme)
+   GLOBAL COLORS (Merged: Glassy Ocean Theme)
 ----------------------------------------------------- */
-/* Base ocean palette */
 :root {
-    --ocean-bg: #0A1A2F;        /* Deep ocean navy */
-    --ocean-surface: #102540;   /* Slightly lighter navy */
-    --ocean-line: #1E3A5F;      /* Technical line blue */
-    --ocean-blue: #1E3A8A;      /* Blue 800 */
-    --ocean-accent: #3B82F6;    /* Blue 500 */
-    --ocean-glow: rgba(59, 130, 246, 0.4);
+    /* Base ocean palette */
+    --ocean-deep: #041f36;
+    --ocean-gradient-mid: #0a3355;
+    --ocean-gradient-end: #0f416c;
+    --ocean-accent: #4fc3ff; /* Bright blue accent */
+    --ocean-glow: rgba(79, 195, 255, 0.4);
+
+    /* Glassmorphism palette */
+    --glass-surface: rgba(135, 206, 250, 0.25); /* Light glass */
+    --glass-surface-strong: rgba(135, 206, 250, 0.45); /* Stronger glass */
+    --glass-border: rgba(255, 255, 255, 0.35); /* Glass edge highlight */
+    --glass-line: rgba(255, 255, 255, 0.18); /* Dimmer line */
 
     /* Warm contrast highlights */
-    --highlight-soft: #fdaca0;  /* Coral rose */
+    --highlight-soft: #fdaca0;   /* Coral rose */
     --highlight-bright: #ffc59d; /* Peach amber */
 
     /* Typography */
-    --text-light: #F3F4F6;
-    --text-dim: #9CA3AF;
+    --text-light: #eef6ff;
+    --text-dim: #b6d3ea;
 }
 
 /* -----------------------------------------------------
    BASE BODY + BACKGROUND
 ----------------------------------------------------- */
-body {
-    font-family: 'Inter', sans-serif;
-    background-color: var(--ocean-bg);
-    color: var(--text-light);
+html {
+    scroll-behavior: smooth;
 }
 
-/* Section container refinement */
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-light);
+    /* Using the gradient background from the glassy theme */
+    background: linear-gradient(
+        180deg,
+        var(--ocean-deep),
+        var(--ocean-gradient-mid) 60%,
+        var(--ocean-gradient-end) 100%
+    );
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+/* -----------------------------------------------------
+   LAYOUT CONTAINERS (Glassmorphism)
+----------------------------------------------------- */
+/* Main section container, now with glass style */
 section {
-    background-color: var(--ocean-surface);
-    border: 1px solid var(--ocean-line);
-    border-radius: 0.75rem;
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.45);
+    background: var(--glass-surface);
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px; /* Using glass-theme radius */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    padding: 2rem 1.5rem; /* Added padding */
+}
+
+/* Added glass-card component from the second file */
+.glass-card {
+    background: var(--glass-surface-strong);
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
+    padding: 1.8rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* -----------------------------------------------------
+   NAVIGATION (from Glassy Theme)
+----------------------------------------------------- */
+nav ul li a {
+    color: var(--text-dim);
+    transition: 0.25s ease;
+    text-decoration: none;
+}
+nav ul li a:hover {
+    color: white;
+    text-shadow: 0 0 8px var(--ocean-accent);
 }
 
 /* -----------------------------------------------------
@@ -45,12 +98,13 @@ h1, h2, h3, h4 {
 }
 
 h1 {
-    text-shadow: 0 0 25px rgba(255, 255, 255, 0.05);
+    text-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
 }
 
+/* Kept the industrial-style border, but using a warm highlight */
 h2, h3 {
     border-left: 4px solid var(--highlight-soft);
-    padding-left: 0.5rem;
+    padding-left: 0.75rem;
 }
 
 /* -----------------------------------------------------
@@ -59,35 +113,40 @@ h2, h3 {
 .divider {
     height: 1px;
     margin: 3.5rem 0;
+    border: 0;
     background: linear-gradient(
         90deg,
         transparent,
-        var(--ocean-line),
+        var(--glass-line), /* Updated color */
         transparent
     );
 }
 
 /* -----------------------------------------------------
-   CHART CONTAINERS
+   CHART CONTAINERS (Glassmorphism)
 ----------------------------------------------------- */
 .chart-container, .chart-container-large {
     position: relative;
     width: 100%;
     margin: auto;
-    background: var(--ocean-bg);
-    border: 1px solid var(--ocean-line);
-    border-radius: 0.75rem;
-    padding: 1rem;
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border-radius: 18px; /* Using glass-theme radius */
 }
 
 .chart-container {
     max-width: 450px;
     height: 320px;
+    padding: 1.5rem; /* Adjusted padding */
+    background: var(--glass-surface);
 }
 
 .chart-container-large {
     max-width: 1000px;
     height: 400px;
+    padding: 2rem; /* Adjusted padding */
+    background: var(--glass-surface-strong); /* Stronger glass for main charts */
 }
 
 @media (min-width: 768px) {
@@ -100,24 +159,27 @@ h2, h3 {
 }
 
 /* -----------------------------------------------------
-   TABS (High-Tech Industrial Style)
+   TABS (High-Tech Glassy Style)
 ----------------------------------------------------- */
 .tab-btn {
     transition: all 0.25s ease;
-    border: 1px solid var(--ocean-line);
-    background: var(--ocean-surface);
+    border: 1px solid var(--glass-border);
+    background: var(--glass-surface); /* Glass background */
     color: var(--text-dim);
+    backdrop-filter: blur(10px);
 }
 
 .tab-btn:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: var(--ocean-blue);
+    background: rgba(255, 255, 255, 0.15); /* Brighter hover */
+    border-color: var(--glass-border);
+    color: var(--text-light);
 }
 
 .tab-btn.active {
-    background: var(--ocean-blue);
+    background: var(--ocean-accent); /* Use bright accent */
     border-color: var(--ocean-accent);
-    color: white;
+    color: var(--ocean-deep); /* Dark text on bright button */
+    font-weight: 600;
     box-shadow: 0 0 12px var(--ocean-glow);
 }
 
@@ -131,42 +193,62 @@ h2, h3 {
 }
 
 /* -----------------------------------------------------
-   TABLES (Technical Dashboard Style)
+   TABLES (Technical Glassy Style)
 ----------------------------------------------------- */
 table {
-    background-color: var(--ocean-bg);
-    border: 1px solid var(--ocean-line);
-    border-radius: 0.5rem;
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--glass-surface); /* Glass background */
+    border: 1px solid var(--glass-border);
+    border-radius: 0.75rem; /* Kept original radius */
+    overflow: hidden; /* Ensures radius clips content */
+    backdrop-filter: blur(10px);
 }
 
 thead {
-    background-color: #152c4a;
+    /* Stronger glass for header */
+    background-color: var(--glass-surface-strong);
     color: var(--text-light);
 }
 
+th, td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+}
+
 tbody tr {
-    border-bottom: 1px solid var(--ocean-line);
+    border-bottom: 1px solid var(--glass-line); /* Lighter line */
+}
+
+tbody tr:last-child {
+    border-bottom: none;
 }
 
 tbody tr:nth-child(even) {
-    background-color: rgba(255, 255, 255, 0.02);
+    background-color: rgba(255, 255, 255, 0.04); /* Subtle stripe */
 }
 
 tbody tr:hover {
-    background-color: rgba(255, 255, 255, 0.04);
+    background-color: rgba(255, 255, 255, 0.1); /* Brighter hover */
 }
 
 td, th {
     color: var(--text-dim);
 }
 
+th {
+    color: var(--text-light);
+}
+
 td strong {
-    color: var(--highlight-bright);
+    color: var(--highlight-bright); /* Kept bright highlight */
+    font-weight: 600;
 }
 
 /* Monospace numbers for technical clarity */
 td.num {
     font-family: 'JetBrains Mono', monospace;
+    color: var(--text-light);
 }
 
 /* -----------------------------------------------------
@@ -177,6 +259,7 @@ td.num {
     color: #1F2937;
     padding: 2px 8px;
     border-radius: 4px;
+    font-size: 0.8rem;
     font-weight: 600;
 }
 
@@ -185,6 +268,7 @@ td.num {
     color: #1F2937;
     padding: 3px 10px;
     border-radius: 4px;
+    font-size: 0.85rem;
     font-weight: 600;
 }
 
@@ -193,13 +277,5 @@ td.num {
 ----------------------------------------------------- */
 .glow-text {
     color: var(--ocean-accent);
-    text-shadow: 0 0 14px rgba(59, 130, 246, 0.6);
+    text-shadow: 0 0 14px var(--ocean-glow);
 }
-
-/* -----------------------------------------------------
-   SMOOTH SCROLL
------------------------------------------------------ */
-html {
-    scroll-behavior: smooth;
-}
-
