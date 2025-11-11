@@ -1,74 +1,79 @@
-<!-- financials.html -->
-<section id="financials" class="p-8 mt-12 bg-transparent">
-  <div class="max-w-6xl mx-auto">
+<section>
+  <div class="container">
 
-    <h2 class="text-3xl font-bold mb-6 text-[var(--text-light)]">Tài chính & Dự phóng</h2>
+    <h2>Tài chính & Dự phóng</h2>
 
-    <p class="text-[var(--text-dim)] leading-relaxed mb-10">
+    <p style="text-align: center; max-width: 800px; margin-left: auto; margin-right: auto; margin-bottom: 2.5rem;">
       Báo cáo dưới đây được xây dựng theo chuẩn đánh giá của các chương trình hỗ trợ nghiên cứu – phát triển và quỹ nhà nước. Dữ liệu tập trung vào mô hình chi phí minh bạch, cơ cấu đầu tư cho R&D, và lộ trình thương mại hóa công nghệ VFEP trong các ngành hạ tầng trọng yếu. Các biểu đồ và bảng dữ liệu được cập nhật tự động từ Google Sheets nhằm bảo đảm tính chính xác và minh bạch khi thẩm định.
     </p>
 
-    <!-- Revenue Chart -->
-    <div class="chart-container mb-12">
-      <h3 class="text-xl font-semibold text-[var(--highlight-bright)] mb-4">Dự phóng Doanh thu</h3>
-      <canvas id="revenueChart"></canvas>
-    </div>
+    <div class="grid grid-three-col">
+      
+      <div class="card">
+        <h3>Dự phóng Doanh thu</h3>
+        <div style="height: 350px;">
+          <canvas id="revenueChart"></canvas>
+        </div>
+      </div>
 
-    <!-- Profit Chart -->
-    <div class="chart-container mb-12">
-      <h3 class="text-xl font-semibold text-[var(--highlight-soft)] mb-4">Dự phóng Lợi nhuận</h3>
-      <canvas id="profitChart"></canvas>
-    </div>
+      <div class="card">
+        <h3>Dự phóng Lợi nhuận</h3>
+        <div style="height: 350px;">
+          <canvas id="profitChart"></canvas>
+        </div>
+      </div>
 
-    <!-- Cash Flow Chart -->
-    <div class="chart-container mb-12">
-      <h3 class="text-xl font-semibold text-[var(--ocean-accent)] mb-4">Dòng tiền dự phóng</h3>
-      <canvas id="cashflowChart"></canvas>
-    </div>
-
-    <!-- Cost Structure -->
-    <div class="mt-16">
-      <h3 class="text-2xl font-bold text-[var(--text-light)] mb-6">Cơ cấu chi phí vận hành</h3>
-      <p class="text-[var(--text-dim)] leading-relaxed mb-6">
+      <div class="card">
+        <h3>Dòng tiền dự phóng</h3>
+        <div style="height: 350px;">
+          <canvas id="cashflowChart"></canvas>
+        </div>
+      </div>
+      
+    </div> <div style="margin-top: 4rem;">
+      <h3 style="text-align: center; margin-bottom: 1.5rem;">Cơ cấu chi phí vận hành</h3>
+      <p style="text-align: center; max-width: 800px; margin-left: auto; margin-right: auto; margin-bottom: 2rem;">
         Cơ cấu chi phí được phân chia theo nhóm chi phí chính, phù hợp với tiêu chí báo cáo dành cho hồ sơ đầu tư và đề tài khoa học – công nghệ:
       </p>
 
-      <table class="w-full text-left border-collapse">
-        <thead>
-          <tr class="border-b border-[var(--ocean-line)] text-[var(--text-light)]">
-            <th class="py-3">Hạng mục</th>
-            <th class="py-3">Tỷ trọng (%)</th>
-            <th class="py-3">Ghi chú</th>
-          </tr>
-        </thead>
-        <tbody class="text-[var(--text-dim)]">
-          <tr class="border-b border-[var(--ocean-line)]">
-            <td class="py-3">R&D & Kiểm thử</td>
-            <td>40%</td>
-            <td>Tối ưu cartridge VFEP, thử nghiệm trong môi trường công nghiệp.</td>
-          </tr>
-          <tr class="border-b border-[var(--ocean-line)]">
-            <td class="py-3">Sản xuất & vật tư</td>
-            <td>25%</td>
-            <td>Chuẩn bị dây chuyền sản xuất nhỏ và vật liệu thử nghiệm.</td>
-          </tr>
-          <tr class="border-b border-[var(--ocean-line)]">
-            <td class="py-3">Nhân sự kỹ thuật</td>
-            <td>20%</td>
-            <td>Đội ngũ kỹ sư cơ khí, điện tử, và tích hợp hệ thống.</td>
-          </tr>
-          <tr class="border-b border-[var(--ocean-line)]">
-            <td class="py-3">Vận hành & pháp lý</td>
-            <td>10%</td>
-            <td>Bảo hộ sở hữu trí tuệ, thủ tục chứng nhận và chi phí hành chính.</td>
-          </tr>
-          <tr>
-            <td class="py-3">Marketing & hợp tác</td>
-            <td>5%</td>
-            <td>Kết nối đối tác chiến lược và triển khai thử nghiệm.</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Hạng mục</th>
+              <th>Tỷ trọng (%)</th>
+              <th>Ghi chú</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>R&D & Kiểm thử</strong></td>
+              <td>40%</td>
+              <td>Tối ưu cartridge VFEP, thử nghiệm trong môi trường công nghiệp.</td>
+            </tr>
+            <tr>
+              <td><strong>Sản xuất & vật tư</strong></td>
+              <td>25%</td>
+              <td>Chuẩn bị dây chuyền sản xuất nhỏ và vật liệu thử nghiệm.</td>
+            </tr>
+            <tr>
+              <td><strong>Nhân sự kỹ thuật</strong></td>
+              <td>20%</td>
+              <td>Đội ngũ kỹ sư cơ khí, điện tử, và tích hợp hệ thống.</td>
+            </tr>
+            <tr>
+              <td><strong>Vận hành & pháp lý</strong></td>
+              <td>10%</td>
+              <td>Bảo hộ sở hữu trí tuệ, thủ tục chứng nhận và chi phí hành chính.</td>
+            </tr>
+            <tr>
+              <td><strong>Marketing & hợp tác</strong></td>
+              <td>5%</td>
+              <td>Kết nối đối tác chiến lược và triển khai thử nghiệm.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
   </div>
