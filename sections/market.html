@@ -1,57 +1,57 @@
-<!-- market.html -->
-<section id="market" class="p-8 mt-12 bg-transparent">
-  <div class="max-w-5xl mx-auto">
+<section class="section-alt">
+  <div class="container">
 
-    <h2 class="text-3xl font-bold mb-6 text-[var(--text-light)]">Thị trường Mục tiêu</h2>
-    <p class="text-[var(--text-dim)] leading-relaxed mb-10">
+    <h2>Thị trường Mục tiêu</h2>
+
+    <p style="text-align: center; max-width: 800px; margin-left: auto; margin-right: auto; margin-bottom: 2.5rem;">
       Công nghệ VFEP có khả năng mở rộng đa ngành, đặc biệt phù hợp cho các cơ sở hạ tầng có mức độ rủi ro cháy nổ cao và yêu cầu bảo vệ thiết bị điện tử tinh vi.
     </p>
 
-    <!-- Tabs -->
-    <div class="flex space-x-4 mb-8">
-      <button data-tab="mkt-datacenter" class="tab-btn px-4 py-2 rounded-lg">Trung tâm dữ liệu</button>
-      <button data-tab="mkt-ess" class="tab-btn px-4 py-2 rounded-lg">Hệ thống ESS</button>
-      <button data-tab="mkt-factory" class="tab-btn px-4 py-2 rounded-lg">Nhà máy điện tử</button>
-    </div>
+    <div data-tab-group>
 
-    <!-- Tab: Data Center -->
-    <div id="mkt-datacenter" class="tab-content">
-      <h3 class="text-xl font-semibold text-[var(--highlight-bright)] mb-2">Trung tâm dữ liệu</h3>
-      <p class="text-[var(--text-dim)] leading-relaxed mb-4">
-        Rủi ro cháy nổ trong trung tâm dữ liệu đòi hỏi giải pháp dập lửa không ăn mòn và tốc độ phản ứng cực nhanh — đây chính là môi trường lý tưởng cho VFEP.
-      </p>
-      <ul class="list-disc pl-6 text-[var(--text-dim)]">
-        <li>Bảo vệ server và thiết bị mạng</li>
-        <li>Không làm hỏng cáp quang, bảng mạch</li>
-        <li>Khả năng kích hoạt tự động với IoT/AI</li>
-      </ul>
-    </div>
+      <div class="tab-controls">
+        <button class="tab-btn" data-tab="mkt-datacenter">Trung tâm dữ liệu</button>
+        <button class="tab-btn" data-tab="mkt-ess">Hệ thống ESS</button>
+        <button class="tab-btn" data-tab="mkt-factory">Nhà máy điện tử</button>
+      </div>
 
-    <!-- Tab: Energy Storage Systems -->
-    <div id="mkt-ess" class="tab-content">
-      <h3 class="text-xl font-semibold text-[var(--highlight-soft)] mb-2">Hệ thống lưu trữ năng lượng (ESS)</h3>
-      <p class="text-[var(--text-dim)] leading-relaxed mb-4">
-        ESS yêu cầu khả năng xử lý cháy pin lithium-ion với tốc độ cực nhanh để ngăn thermal runaway lan rộng.
-      </p>
-      <ul class="list-disc pl-6 text-[var(--text-dim)]">
-        <li>Ứng phó thermal runaway</li>
-        <li>Không gây hư hại module pin còn lành</li>
-        <li>Tương thích với hệ thống giám sát BMS</li>
-      </ul>
-    </div>
+      <div>
+        <div id="mkt-datacenter" class="tab-content">
+          <h3>Trung tâm dữ liệu</h3>
+          <p>
+            Rủi ro cháy nổ trong trung tâm dữ liệu đòi hỏi giải pháp dập lửa không ăn mòn và tốc độ phản ứng cực nhanh — đây chính là môi trường lý tưởng cho VFEP.
+          </p>
+          <ul style="padding-left: 20px;">
+            <li>Bảo vệ server và thiết bị mạng</li>
+            <li>Không làm hỏng cáp quang, bảng mạch</li>
+            <li>Khả năng kích hoạt tự động với IoT/AI</li>
+          </ul>
+        </div>
 
-    <!-- Tab: Electronic Manufacturing -->
-    <div id="mkt-factory" class="tab-content">
-      <h3 class="text-xl font-semibold text-[var(--ocean-accent)] mb-2">Nhà máy sản xuất điện tử</h3>
-      <p class="text-[var(--text-dim)] leading-relaxed mb-4">
-        Môi trường sản xuất điện tử chứa nhiều thiết bị nhạy cảm; VFEP giúp dập lửa mà không gây thiệt hại vật lý hoặc nhiễm bẩn linh kiện.
-      </p>
-      <ul class="list-disc pl-6 text-[var(--text-dim)]">
-        <li>Không ăn mòn bảng mạch</li>
-        <li>Bảo vệ dây chuyền sản xuất</li>
-        <li>Thời gian phục hồi nhanh sau sự cố</li>
-      </ul>
-    </div>
+        <div id="mkt-ess" class="tab-content">
+          <h3>Hệ thống lưu trữ năng lượng (ESS)</h3>
+          <p>
+            ESS yêu cầu khả năng xử lý cháy pin lithium-ion với tốc độ cực nhanh để ngăn thermal runaway lan rộng.
+          </p>
+          <ul style="padding-left: 20px;">
+            <li>Ứng phó thermal runaway</li>
+            <li>Không gây hư hại module pin còn lành</li>
+            <li>Tương thích với hệ thống giám sát BMS</li>
+          </ul>
+        </div>
 
-  </div>
+        <div id="mkt-factory" class="tab-content">
+          <h3>Nhà máy sản xuất điện tử</h3>
+          <p>
+            Môi trường sản xuất điện tử chứa nhiều thiết bị nhạy cảm; VFEP giúp dập lửa mà không gây thiệt hại vật lý hoặc nhiễm bẩn linh kiện.
+          </p>
+          <ul style="padding-left: 20px;">
+            <li>Không ăn mòn bảng mạch</li>
+            <li>Bảo vệ dây chuyền sản xuất</li>
+            <li>Thời gian phục hồi nhanh sau sự cố</li>
+          </ul>
+        </div>
+      </div>
+
+    </div></div>
 </section>
