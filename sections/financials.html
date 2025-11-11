@@ -1,80 +1,47 @@
-<section>
-  <div class="container">
-
-    <h2>Tài chính & Dự phóng</h2>
-
-    <p style="text-align: center; max-width: 800px; margin-left: auto; margin-right: auto; margin-bottom: 2.5rem;">
-      Báo cáo dưới đây được xây dựng theo chuẩn đánh giá của các chương trình hỗ trợ nghiên cứu – phát triển và quỹ nhà nước. Dữ liệu tập trung vào mô hình chi phí minh bạch, cơ cấu đầu tư cho R&D, và lộ trình thương mại hóa công nghệ VFEP trong các ngành hạ tầng trọng yếu. Các biểu đồ và bảng dữ liệu được cập nhật tự động từ Google Sheets nhằm bảo đảm tính chính xác và minh bạch khi thẩm định.
+<section id="financials" class="bg-white shadow-xl rounded-2xl p-6 md:p-10">
+    <h2 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-4">Dự Báo Tài Chính & Kêu Gọi Vốn</h2>
+    <p class="text-lg text-neutral-600 mb-8">
+        Phần này trình bày chi tiết về dự báo dòng tiền trong 2 năm (8 quý) dựa trên mô hình kinh doanh cấp phép IP và các mốc quan trọng. Dữ liệu được tải trực tiếp từ Google Sheet của chúng tôi.
     </p>
-
-    <div class="grid grid-three-col">
-      
-      <div class="card">
-        <h3>Dự phóng Doanh thu</h3>
-        <div style="height: 350px;">
-          <canvas id="revenueChart"></canvas>
+    
+    <div class="mb-10">
+        <h3 class="text-2xl font-bold text-indigo-800 mb-6 text-center">Biểu Đồ Dòng Tiền 8 Quý (USD)</h3>
+        
+        <div id="financials-loading" class="text-center p-10 text-indigo-700 font-semibold">
+            <p>Đang tải dữ liệu tài chính trực tiếp từ Google Sheet...</p>
         </div>
-      </div>
 
-      <div class="card">
-        <h3>Dự phóng Lợi nhuận</h3>
-        <div style="height: 350px;">
-          <canvas id="profitChart"></canvas>
+        <div class="chart-container-large hidden" id="chart-wrapper">
+            <canvas id="cashFlowChart"></canvas>
         </div>
-      </div>
-
-      <div class="card">
-        <h3>Dòng tiền dự phóng</h3>
-        <div style="height: 350px;">
-          <canvas id="cashflowChart"></canvas>
-        </div>
-      </div>
-      
-    </div> <div style="margin-top: 4rem;">
-      <h3 style="text-align: center; margin-bottom: 1.5rem;">Cơ cấu chi phí vận hành</h3>
-      <p style="text-align: center; max-width: 800px; margin-left: auto; margin-right: auto; margin-bottom: 2rem;">
-        Cơ cấu chi phí được phân chia theo nhóm chi phí chính, phù hợp với tiêu chí báo cáo dành cho hồ sơ đầu tư và đề tài khoa học – công nghệ:
-      </p>
-
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Hạng mục</th>
-              <th>Tỷ trọng (%)</th>
-              <th>Ghi chú</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>R&D & Kiểm thử</strong></td>
-              <td>40%</td>
-              <td>Tối ưu cartridge VFEP, thử nghiệm trong môi trường công nghiệp.</td>
-            </tr>
-            <tr>
-              <td><strong>Sản xuất & vật tư</strong></td>
-              <td>25%</td>
-              <td>Chuẩn bị dây chuyền sản xuất nhỏ và vật liệu thử nghiệm.</td>
-            </tr>
-            <tr>
-              <td><strong>Nhân sự kỹ thuật</strong></td>
-              <td>20%</td>
-              <td>Đội ngũ kỹ sư cơ khí, điện tử, và tích hợp hệ thống.</td>
-            </tr>
-            <tr>
-              <td><strong>Vận hành & pháp lý</strong></td>
-              <td>10%</td>
-              <td>Bảo hộ sở hữu trí tuệ, thủ tục chứng nhận và chi phí hành chính.</td>
-            </tr>
-            <tr>
-              <td><strong>Marketing & hợp tác</strong></td>
-              <td>5%</td>
-              <td>Kết nối đối tác chiến lược và triển khai thử nghiệm.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
 
-  </div>
+    <div id="table-wrapper" class="overflow-x-auto bg-white rounded-lg shadow mt-10 hidden">
+        <h3 class="text-2xl font-bold text-indigo-800 mb-6 text-center pt-6">Chi Tiết Kế Hoạch Tài Chính (USD)</h3>
+        <table class="min-w-full divide-y divide-neutral-300">
+            <thead class="bg-neutral-100" id="financial-table-head">
+                </thead>
+            <tbody class="bg-white divide-y divide-neutral-200" id="financial-table-body">
+                </tbody>
+        </table>
+    </div>
+
+    <div class="mt-12 grid md:grid-cols-3 gap-6 text-center">
+        <div class="bg-indigo-50 p-6 rounded-lg border border-indigo-200">
+            <h3 class="text-lg font-semibold text-neutral-600">Vốn Kêu Gọi (Seed)</h3>
+            <p class="text-4xl font-bold text-indigo-800">$100,000</p>
+            <p class="text-neutral-700 mt-1">(Cho Q1 Năm 1)</p>
+        </div>
+        <div class="bg-green-50 p-6 rounded-lg border border-green-200">
+            <h3 class="text-lg font-semibold text-neutral-600">Vòng VC/Angel (Tiếp theo)</h3>
+            <p class="text-4xl font-bold text-green-800">$250,000</p>
+            <p class="text-neutral-700 mt-1">(Dự kiến Q1 Năm 2)</p>
+        </div>
+        <div class="bg-neutral-50 p-6 rounded-lg border border-neutral-200">
+            <h3 class="text-lg font-semibold text-neutral-600">Tổng Vốn Kêu Gọi (2 Năm)</h3>
+            <p class="text-4xl font-bold text-neutral-800">$350,000</p>
+            <p class="text-neutral-700 mt-1">(Để đạt được các mốc quan trọng)</p>
+        </div>
+    </div>
+
 </section>
