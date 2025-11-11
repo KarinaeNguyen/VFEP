@@ -1,14 +1,19 @@
+// assets/js/main.js
+
 // --- TAB FUNCTIONALITY ---
 function initTabs(tabContainerId, tabButtonClass, tabContentClass) {
     const tabContainer = document.getElementById(tabContainerId);
-    // We check if the container exists *before* trying to find buttons in it
     if (!tabContainer) {
-        // This is not an error, the section just might not have tabs
         // console.warn("Tab container not found:", tabContainerId);
         return; 
     }
     const tabButtons = tabContainer.querySelectorAll(tabButtonClass);
-    const tabContents = tabContainer.querySelectorAll(tabContentClass);
+    
+    // --- SỬA LỖI ---
+    // Chúng ta tìm nội dung trong "phần cha" (parentNode) của khu vực chứa tab,
+    // chứ không phải tìm bên trong nó.
+    const tabContents = tabContainer.parentNode.querySelectorAll(tabContentClass);
+    // --- KẾT THÚC SỬA LỖI ---
 
     tabButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -24,7 +29,11 @@ function initTabs(tabContainerId, tabButtonClass, tabContentClass) {
 
 // --- SMOOTH SCROLL ---
 function initSmoothScroll() {
-    document.querySelectorAll('a.nav-link').forEach(anchor => {
+    // Chỉ tìm nav-link bên trong header
+    const header = document.getElementById('header');
+    if (!header) return;
+    
+    header.querySelectorAll('a.nav-link').forEach(anchor => {
         anchor.addEventListener('click', e => {
             e.preventDefault();
             const target = document.querySelector(anchor.getAttribute('href'));
@@ -90,7 +99,6 @@ function formatCurrency(num) {
 }
 
 async function loadFinancialData() {
-    // Find elements *after* HTML is loaded
     const loadingEl = document.getElementById('financials-loading');
     const chartWrapperEl = document.getElementById('chart-wrapper');
     const tableWrapperEl = document.getElementById('table-wrapper');
@@ -98,9 +106,8 @@ async function loadFinancialData() {
     const tableBodyEl = document.getElementById('financial-table-body');
     const cashFlowChartCanvas = document.getElementById('cashFlowChart')?.getContext('2d');
 
-    // If elements aren't found (e.g., financials.html hasn't loaded), stop.
     if (!loadingEl || !cashFlowChartCanvas) {
-        console.warn("Financials elements not found. Chart will not load.");
+        // console.warn("Financials elements not found. Chart will not load.");
         return;
     }
 
@@ -109,9 +116,8 @@ async function loadFinancialData() {
         const response = await fetch(cacheBustedURL);
         if (!response.ok) throw new Error(`Network response was not ok (${response.status})`);
         const csvText = await response.text();
-        const dataGrid = parseCSV(csvText); // ✅ DÙNG HÀM PARSE MỚI
+        const dataGrid = parseCSV(csvText);
 
-        // --- 1. Tạo Label ---
         const yearRow = dataGrid[1] || [];
         const quarterRow = dataGrid[2] || [];
         const labels = [];
@@ -128,7 +134,6 @@ async function loadFinancialData() {
             }
         }
 
-        // --- 2. Lấy dữ liệu chính ---
         let beginCashRow, receiptsRow, paidOutRow;
         dataGrid.forEach(row => {
             const title = (row[0] || '').replace(/"/g, '').trim();
@@ -154,7 +159,6 @@ async function loadFinancialData() {
             endCashData.push(end);
         }
 
-        // --- 3. Vẽ biểu đồ ---
         if (myCashFlowChart) myCashFlowChart.destroy();
         myCashFlowChart = new Chart(cashFlowChartCanvas, {
             type: 'bar',
@@ -212,7 +216,6 @@ async function loadFinancialData() {
             }
         });
 
-        // --- 4. Tạo bảng ---
         let tableHeaderHTML = '<tr>';
         validColumnIndices.forEach((index, i) => {
             let title = quarterRow[index]?.replace(/"/g, '').trim() || '';
@@ -249,7 +252,6 @@ async function loadFinancialData() {
         });
         tableBodyEl.innerHTML = tableBodyHTML;
 
-        // --- 5. Hiển thị ---
         loadingEl.classList.add('hidden');
         chartWrapperEl.classList.remove('hidden');
         tableWrapperEl.classList.remove('hidden');
@@ -261,7 +263,6 @@ async function loadFinancialData() {
 }
 
 // --- GLOBAL INITIALIZER ---
-// This function will be called by importSections.js *after* all HTML is loaded
 function initializeApp() {
     console.log("Initializing app components...");
     
@@ -278,5 +279,4 @@ function initializeApp() {
 }
 
 // --- EXPORT THE INITIALIZER ---
-// We attach it to the window object so importSections.js can find it.
 window.initializeApp = initializeApp;
