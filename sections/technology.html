@@ -1,57 +1,105 @@
-<section class="section-alt">
-  <div class="container">
-
-    <h2>Giải pháp VFEP</h2>
-    
-    <p style="text-align: center; max-w: 800px; margin-left: auto; margin-right: auto; margin-bottom: 2.5rem;">
-      Hệ thống dập lửa chính xác VFEP (Vicinity Fire Extinguishing Projectile) được thiết kế cho các môi trường công nghệ cao, nơi tốc độ phản ứng và độ tinh khiết của vật liệu dập lửa quyết định mức độ thiệt hại sau sự cố.
+<section id="technology" class="bg-white shadow-xl rounded-2xl p-6 md:p-10">
+    <h2 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-4">Khám Phá Công Nghệ Cốt Lõi</h2>
+    <p class="text-lg text-neutral-600 mb-8">
+        Hệ thống VFEP bao gồm ba thành phần chính hoạt động đồng bộ. Trái tim của hệ thống là <strong class="text-indigo-700">Viên Đạn Chữa Cháy-VFP©</strong> được thiết kế để không gây hư hại. Nhấp vào các tab dưới đây để xem thông số kỹ thuật chi tiết của từng bộ phận.
     </p>
+    
+    <div class="flex flex-wrap gap-2 mb-6" id="technology-tabs">
+        <button class="tab-btn tech-tab-btn active px-5 py-2 rounded-lg text-sm font-medium" data-target="tech-projectile">1. Đạn Phóng VFP© (MVP)</button>
+        <button class="tab-btn tech-tab-btn px-5 py-2 rounded-lg text-sm font-medium" data-target="tech-agent">2. Chất Chữa Cháy (Agent)</button>
+        <button class="tab-btn tech-tab-btn px-5 py-2 rounded-lg text-sm font-medium" data-target="tech-sensor">3. Cảm Biến & AI</button>
+    </div>
 
-    <div data-tab-group>
-
-      <div class="tab-controls">
-        <button class="tab-btn" data-tab="vfep-core">Công nghệ lõi</button>
-        <button class="tab-btn" data-tab="vfep-delivery">Cơ chế phóng</button>
-        <button class="tab-btn" data-tab="vfep-integration">Tích hợp hệ thống</button>
-      </div>
-
-      <div>
-        <div id="vfep-core" class="tab-content">
-          <h3>Công nghệ lõi VFEP</h3>
-          <p>
-            Cartridge VFEP hiệu suất cao chứa vật liệu dập lửa phi ăn mòn, không dẫn điện, phù hợp cho môi trường điện tử nhạy cảm. Thiết kế tối ưu giúp phân tán vật liệu dập lửa đồng đều và nhanh chóng.
-          </p>
-          <ul style="padding-left: 20px;">
-            <li>Không ăn mòn linh kiện</li>
-            <li>Khả năng dập cực nhanh</li>
-            <li>Không gây tổn hại thiết bị nhạy cảm</li>
-          </ul>
+    <div class="bg-neutral-50 border border-neutral-200 rounded-xl p-6 min-h-[300px]">
+        <div id="tech-projectile" class="tab-content tech-tab-content active overflow-x-auto">
+            <h3 class="text-2xl font-bold text-indigo-800 mb-4">Thông Số Kỹ Thuật Chi Tiết: Đạn Phóng VFP©</h3>
+            <p class="text-neutral-700 mb-6">Đạn VFP© là cốt lõi của IP, được thiết kế để cân bằng giữa khả năng tương thích với súng hiện có và hiệu suất phân tán hóa chất khi va chạm.</p>
+            
+            <table class="min-w-full divide-y divide-neutral-300 border border-neutral-300 rounded-lg">
+                <thead class="bg-neutral-100">
+                    <tr>
+                        <th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700">Thuộc Tính</th>
+                        <th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700">Thông Số Thiết Kế</th>
+                        <th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700">Lý Do Kỹ Thuật & Ghi Chú</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-neutral-200 bg-white">
+                    <tr>
+                        <td class="px-4 py-3 text-sm font-medium text-neutral-900">Hình dạng</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700">Hình cầu (Round Ball)</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700">Tương thích với súng paintball 0.68-caliber tiêu chuẩn.</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-3 text-sm font-medium text-neutral-900">Cỡ nòng</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700">0.68 inch (khoảng 17.3 mm)</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700">Cỡ nòng paintball tiêu chuẩn.</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-3 text-sm font-medium text-neutral-900">Vật liệu vỏ</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700">Gelatin giòn hoặc Polymer phân hủy sinh học siêu mỏng</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700">Phải đủ mạnh để bắn, nhưng vỡ tan đáng tin cậy khi va chạm.</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-3 text-sm font-medium text-neutral-900">Hóa chất</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700">Potassium Bicarbonate (Purple K)</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700">Hóa chất khô hiệu quả cao (mỗi đơn vị khối lượng) cho cháy Loại B & C.</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-3 text-sm font-medium text-neutral-900">Trạng thái hóa chất</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700">Bột siêu mịn (Micronized Ultra-Fine)</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700">Cần thiết để phân tán dạng sương mù nhanh, rộng (kể cả trong góc khuất).</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-3 text-sm font-medium text-neutral-900">Tốc độ đạn</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700">250-300 FPS</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700">Giới hạn tiêu chuẩn của súng paintball. Cung cấp động năng để vỡ vỏ.</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-3 text-sm font-medium text-neutral-900">Tầm bay hiệu quả</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700">15-30 mét</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700">Phụ thuộc vào trọng lượng và lực cản không khí; tầm bắn thực tế.</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-3 text-sm font-medium text-neutral-900">Trọng lượng (Tổng)</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700">3.0-4.0 gram</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700">Cân bằng giữa tải trọng hóa chất và tốc độ/tầm bắn.</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-3 text-sm font-medium text-neutral-900">Màu sắc</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700">Màu tím (Purple)</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700">Phù hợp với mã màu công nghiệp của Purple K.</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-3 text-sm font-medium text-neutral-900">Hiệu quả</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700">Cao với cháy Loại B & C (Ngắt chuỗi phản ứng)</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700">Lưu ý: Phụ thuộc vào việc nhắm chính xác vào gốc lửa.</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-3 text-sm font-medium text-neutral-900">Dư lượng</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700">Để lại dư lượng không ăn mòn (non-corrosive)</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700">Tốt hơn bột ABC cho điện tử, nhưng vẫn cần dọn dẹp (không phải "clean agent").</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-
-        <div id="vfep-delivery" class="tab-content">
-          <h3>Cơ chế phóng</h3>
-          <p>
-            Hệ thống phóng chính xác đảm bảo cartridge được đưa đến khu vực cháy với lực tối ưu, giảm thiểu sai số và thời gian phản ứng.
-          </p>
-          <ul style="padding-left: 20px;">
-            <li>Độ chính xác cao trong môi trường phức tạp</li>
-            <li>Thời gian phản ứng nhanh</li>
-            <li>Tối ưu cho không gian hẹp hoặc nhiều vật cản</li>
-          </ul>
+        <div id="tech-agent" class="tab-content tech-tab-content">
+            <h3 class="text-2xl font-bold text-indigo-800 mb-4">Chất Chữa Cháy: Potassium Bicarbonate (Purple K)</h3>
+            <p class="text-neutral-700 mb-6">Sử dụng hóa chất khô hiệu suất cao, không ăn mòn để bảo vệ các thiết bị điện tử nhạy cảm.</p>
+            <ul class="space-y-4 text-neutral-700">
+                <li><strong class="text-indigo-700">Loại:</strong> Hóa chất khô, dạng bột siêu mịn (Micronized).</li>
+                <li><strong class="text-indigo-700">Hiệu quả:</strong> Dập tắt đám cháy Loại B (chất lỏng) và C (điện) bằng cách ngăn chặn chuỗi phản ứng hóa học của đám cháy.</li>
+                <li><strong class="text-indigo-700">Ưu điểm:</strong> Không ăn mòn, không độc hại (so với Halon), an toàn cho thiết bị điện tử và không gây ô nhiễm thứ cấp.</li>
+                <li><strong class="text-indigo-700">Màu sắc:</strong> Màu tím (Purple) - mã màu công nghiệp tiêu chuẩn.</li>
+            </ul>
         </div>
-
-        <div id="vfep-integration" class="tab-content">
-          <h3>Tích hợp hệ thống</h3>
-          <p>
-            VFEP có thể kết nối với cảm biến IoT, hệ thống báo cháy, và dashboard giám sát theo thời gian thực, giúp tự động kích hoạt phóng cartridge khi phát hiện rủi ro.
-          </p>
-          <ul style="padding-left: 20px;">
-            <li>Tương thích IoT</li>
-            <li>Tự động hóa dựa trên dữ liệu</li>
-            <li>Tích hợp phân tích AI</li>
-          </ul>
+        <div id="tech-sensor" class="tab-content tech-tab-content">
+            <h3 class="text-2xl font-bold text-indigo-800 mb-4">Hệ Thống Phát Hiện Tự Động (AI-Driven)</h3>
+            <p class="text-neutral-700 mb-6">Mục tiêu cuối cùng của hệ thống là hoàn toàn tự động, sử dụng AI để phát hiện và phản ứng nhanh hơn con người.</p>
+            <ul class="space-y-4 text-neutral-700">
+                <li><strong class="text-indigo-700">Cảm biến:</strong> Đa phương thức (ví dụ: nhiệt, khói, quang phổ) để giám sát liên tục.</li>
+                <li><strong class="text-indigo-700">Trí tuệ nhân tạo (AI):</strong> Các thuật toán thông minh để phân loại mối đe dọa, định vị đám cháy và kích hoạt hệ thống phóng.</li>
+                <li><strong class="text-indigo-700">Mục tiêu:</strong> Phản ứng tức thì tại các khoang không người lái hoặc ở xa, đảm bảo dập tắt đám cháy "trước khi chúng có thể vượt khỏi tầm kiểm soát."</li>
+            </ul>
         </div>
-      </div>
-
-    </div></div>
+    </div>
 </section>
