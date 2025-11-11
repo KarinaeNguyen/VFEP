@@ -35,7 +35,6 @@ async function loadSection(name) {
   }
 }
 
-// This is the new, correct way to load everything
 document.addEventListener("DOMContentLoaded", async () => {
   
   // 1. Create an array of all the loading promises
@@ -45,8 +44,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   await Promise.all(loadingPromises);
 
   // 3. AFTER all HTML is loaded, initialize dependent scripts.
-  // This fixes the race condition for charts and tabs.
-
+  
   // Initialize tabs (for any tabs INSIDE the loaded sections)
   if (typeof window.initializeTabs === 'function') {
     window.initializeTabs();
