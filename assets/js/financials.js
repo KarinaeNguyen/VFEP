@@ -46,7 +46,7 @@ function renderChart(canvasId, labels, datasets, title) {
 }
 
 async function loadFinancialCharts() {
-  const sheetURL = "YOUR_GOOGLE_SHEET_CSV_LINK_HERE";
+  const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRdnGGLERma9OCgM-Y6hGfFn2RnyjAMZeGT_zHviVrBKdC5h3947vTg66xfwg1RbcrGbgQm1cIAWKhS/pub?output=csv";
 
   const data = await loadGoogleSheetCSV(sheetURL);
   if (!data.length) return;
@@ -78,7 +78,22 @@ async function loadFinancialCharts() {
     ],
     "Profit Projection"
   );
+
+  // Optional future: cashflowChart
+  if (document.getElementById("cashflowChart")) {
+    renderChart(
+      "cashflowChart",
+      labels,
+      [
+        {
+          label: "Cash Flow",
+          data: data.map((row) => row.CashFlow || 0),
+          borderWidth: 2,
+        },
+      ],
+      "Cash Flow Projection"
+    );
+  }
 }
 
 document.addEventListener("DOMContentLoaded", loadFinancialCharts);
-
