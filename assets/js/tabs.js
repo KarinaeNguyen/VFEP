@@ -1,52 +1,47 @@
 // tabs.js
 
 function initializeTabs() {
-  const tabs = document.querySelectorAll(".tab-btn");
-  const contents = document.querySelectorAll(".tab-content");
+  // Find all tab "groups" on the page.
+  // This allows you to have multiple sets of tabs that work independently.
+  const tabGroups = document.querySelectorAll("[data-tab-group]");
 
-  if (!tabs.length || !contents.length) {
-    console.warn("No tabs or tab content found. Tab functionality will not work.");
-    return;
-  }
+  tabGroups.forEach(group => {
+    const tabs = group.querySelectorAll(".tab-btn");
+    const contents = group.querySelectorAll(".tab-content");
 
-  // Activate the first tab and content by default
-  tabs[0]?.classList.add("active");
-  contents[0]?.classList.add("active");
+    if (!tabs.length || !contents.length) {
+      // If a group has no tabs or no content, skip it.
+      return;
+    }
 
-  // Special case: If the first active tab is financials, load its charts
-  const defaultTarget = tabs[0]?.getAttribute("data-tab");
-  if (defaultTarget === 'financials' && typeof window.loadFinancialCharts === 'function') {
-    window.loadFinancialCharts();
-  }
+    // Activate the first tab and content in this group by default
+    tabs[0]?.classList.add("active");
+    contents[0]?.classList.add("active");
 
-  // Add click event listener to all tabs
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const target = tab.getAttribute("data-tab"); // e.g., "financials"
-      if (!target) {
-        console.error("Tab button is missing a 'data-tab' attribute.");
-        return;
-      }
+    // Add click event listener to all tabs *in this group*
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const target = tab.getAttribute("data-tab"); // e.g., "tab-1"
+        if (!target) {
+          console.error("Tab button is missing a 'data-tab' attribute.");
+          return;
+        }
 
-      // Remove active classes from all tabs and content
-      tabs.forEach((t) => t.classList.remove("active"));
-      contents.forEach((c) => c.classList.remove("active"));
+        // Remove active classes from all tabs and content *in this group*
+        tabs.forEach((t) => t.classList.remove("active"));
+        contents.forEach((c) => c.classList.remove("active"));
 
-      // Add active class to the clicked tab and its matching content
-      tab.classList.add("active");
-      const targetContent = document.getElementById(target);
-      
-      if (targetContent) {
-        targetContent.classList.add("active");
-      } else {
-        console.error(`Tab content with ID '${target}' not found.`);
-        return;
-      }
-
-      // ** CRITICAL: Load charts ONLY when financials tab is clicked **
-      if (target === 'financials' && typeof window.loadFinancialCharts === 'function') {
-        window.loadFinancialCharts();
-      }
+        // Add active class to the clicked tab
+        tab.classList.add("active");
+        
+        // Find the matching content *within this group* and activate it
+        const targetContent = group.querySelector(`#${target}`);
+        if (targetContent) {
+          targetContent.classList.add("active");
+        } else {
+          console.error(`Tab content with ID '${target}' not found in this group.`);
+        }
+      });
     });
   });
 }
