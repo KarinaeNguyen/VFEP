@@ -1,104 +1,118 @@
 <section id="technology" class="bg-white shadow-xl rounded-2xl p-6 md:p-10">
-    <h2 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-4">Khám Phá Công Nghệ Cốt Lõi</h2>
-    <p class="text-lg text-neutral-600 mb-8">
-        Hệ thống VFEP bao gồm ba thành phần chính hoạt động đồng bộ. Trái tim của hệ thống là <strong class="text-indigo-700">Viên Đạn Chữa Cháy-VFP©</strong> được thiết kế để không gây hư hại. Nhấp vào các tab dưới đây để xem thông số kỹ thuật chi tiết của từng bộ phận.
+    <h2 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-4" data-key="tech_main_title">Khám Phá Công Nghệ Cốt Lõi</h2>
+    <p class="text-lg text-neutral-600 mb-8" data-key="tech_intro_p">
+        Hệ thống VFEP bao gồm ba thành phần chính hoạt động đồng bộ. Trái tim của hệ thống là <strong class="text-indigo-700" data-key="tech_intro_highlight">Viên Đạn Chữa Cháy-VFP©</strong> được thiết kế để không gây hư hại. Nhấp vào các tab dưới đây để xem thông số kỹ thuật chi tiết của từng bộ phận.
     </p>
     
     <div class="flex flex-wrap gap-2 mb-6" id="technology-tabs">
-        <button class="tab-btn tech-tab-btn active px-5 py-2 rounded-lg text-sm font-medium" data-target="tech-projectile">1. Đạn Phóng VFP© (MVP)</button>
-        <button class="tab-btn tech-tab-btn px-5 py-2 rounded-lg text-sm font-medium" data-target="tech-agent">2. Chất Chữa Cháy (Agent)</button>
-        <button class="tab-btn tech-tab-btn px-5 py-2 rounded-lg text-sm font-medium" data-target="tech-sensor">3. Cảm Biến & AI</button>
+        <button class="tab-btn tech-tab-btn active px-5 py-2 rounded-lg text-sm font-medium" data-target="tech-projectile" data-key="tech_tab1_btn">1. Đạn Phóng VFP© (MVP)</button>
+        <button class="tab-btn tech-tab-btn px-5 py-2 rounded-lg text-sm font-medium" data-target="tech-agent" data-key="tech_tab2_btn">2. Chất Chữa Cháy (Agent)</button>
+        <button class="tab-btn tech-tab-btn px-5 py-2 rounded-lg text-sm font-medium" data-target="tech-sensor" data-key="tech_tab3_btn">3. Cảm Biến & AI</button>
     </div>
 
     <div class="bg-neutral-50 border border-neutral-200 rounded-xl p-6 min-h-[300px]">
         <div id="tech-projectile" class="tab-content tech-tab-content active overflow-x-auto">
-            <h3 class="text-2xl font-bold text-indigo-800 mb-4">Thông Số Kỹ Thuật Chi Tiết: Đạn Phóng VFP©</h3>
-            <p class="text-neutral-700 mb-6">Đạn VFP© là cốt lõi của IP, được thiết kế để cân bằng giữa khả năng tương thích với súng hiện có và hiệu suất phân tán hóa chất khi va chạm.</p>
+            <h3 class="text-2xl font-bold text-indigo-800 mb-4" data-key="tech_proj_h">Thông Số Kỹ Thuật Chi Tiết: Đạn Phóng VFP©</h3>
+            <p class="text-neutral-700 mb-6" data-key="tech_proj_p">Đạn VFP© là cốt lõi của IP, được thiết kế để cân bằng giữa khả năng tương thích với súng hiện có và hiệu suất phân tán hóa chất khi va chạm.</p>
             
             <table class="min-w-full divide-y divide-neutral-300 border border-neutral-300 rounded-lg">
                 <thead class="bg-neutral-100">
                     <tr>
-                        <th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700">Thuộc Tính</th>
-                        <th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700">Thông Số Thiết Kế</th>
-                        <th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700">Lý Do Kỹ Thuật & Ghi Chú</th>
+                        <th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700" data-key="tech_proj_table_h1">Thuộc Tính</th>
+                        <th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700" data-key="tech_proj_table_h2">Thông Số Thiết Kế</th>
+                        <th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700" data-key="tech_proj_table_h3">Lý Do Kỹ Thuật & Ghi Chú</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-neutral-200 bg-white">
-                    <tr>
-                        <td class="px-4 py-3 text-sm font-medium text-neutral-900">Hình dạng</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">Hình cầu (Round Ball)</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">Tương thích với súng paintball 0.68-caliber tiêu chuẩn.</td>
+                    <tr data-key="tech_proj_row1_h">
+                        <td class="px-4 py-3 text-sm font-medium text-neutral-900" data-key="tech_proj_row1_h">Hình dạng</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="tech_proj_row1_p1">Hình cầu (Round Ball)</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="tech_proj_row1_p2">Tương thích với súng paintball 0.68-caliber tiêu chuẩn.</td>
                     </tr>
                     <tr>
-                        <td class="px-4 py-3 text-sm font-medium text-neutral-900">Cỡ nòng</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">0.68 inch (khoảng 17.3 mm)</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">Cỡ nòng paintball tiêu chuẩn.</td>
+                        <td class="px-4 py-3 text-sm font-medium text-neutral-900" data-key="tech_proj_row2_h">Cỡ nòng</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="tech_proj_row2_p1">0.68 inch (khoảng 17.3 mm)</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="tech_proj_row2_p2">Cỡ nòng paintball tiêu chuẩn.</td>
                     </tr>
                     <tr>
-                        <td class="px-4 py-3 text-sm font-medium text-neutral-900">Vật liệu vỏ</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">Gelatin giòn hoặc Polymer phân hủy sinh học siêu mỏng</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">Phải đủ mạnh để bắn, nhưng vỡ tan đáng tin cậy khi va chạm.</td>
+                        <td class="px-4 py-3 text-sm font-medium text-neutral-900" data-key="tech_proj_row3_h">Vật liệu vỏ</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="tech_proj_row3_p1">Gelatin giòn hoặc Polymer phân hủy sinh học siêu mỏng</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="tech_proj_row3_p2">Phải đủ mạnh để bắn, nhưng vỡ tan đáng tin cậy khi va chạm.</td>
                     </tr>
                     <tr>
-                        <td class="px-4 py-3 text-sm font-medium text-neutral-900">Hóa chất</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">Potassium Bicarbonate (Purple K)</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">Hóa chất khô hiệu quả cao (mỗi đơn vị khối lượng) cho cháy Loại B & C.</td>
+                        <td class="px-4 py-3 text-sm font-medium text-neutral-900" data-key="tech_proj_row4_h">Hóa chất</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="tech_proj_row4_p1">Potassium Bicarbonate (Purple K)</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="tech_proj_row4_p2">Hóa chất khô hiệu quả cao (mỗi đơn vị khối lượng) cho cháy Loại B & C.</td>
                     </tr>
                     <tr>
-                        <td class="px-4 py-3 text-sm font-medium text-neutral-900">Trạng thái hóa chất</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">Bột siêu mịn (Micronized Ultra-Fine)</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">Cần thiết để phân tán dạng sương mù nhanh, rộng (kể cả trong góc khuất).</td>
+                        <td class="px-4 py-3 text-sm font-medium text-neutral-900" data-key="tech_proj_row5_h">Trạng thái hóa chất</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="tech_proj_row5_p1">Bột siêu mịn (Micronized Ultra-Fine)</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="tech_proj_row5_p2">Cần thiết để phân tán dạng sương mù nhanh, rộng (kể cả trong góc khuất).</td>
                     </tr>
                     <tr>
-                        <td class="px-4 py-3 text-sm font-medium text-neutral-900">Tốc độ đạn</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">250-300 FPS</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">Giới hạn tiêu chuẩn của súng paintball. Cung cấp động năng để vỡ vỏ.</td>
+                        <td class="px-4 py-3 text-sm font-medium text-neutral-900" data-key="tech_proj_row6_h">Tốc độ đạn</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="tech_proj_row6_p1">250-300 FPS</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="tech_proj_row6_p2">Giới hạn tiêu chuẩn của súng paintball. Cung cấp động năng để vỡ vỏ.</td>
                     </tr>
                     <tr>
-                        <td class="px-4 py-3 text-sm font-medium text-neutral-900">Tầm bay hiệu quả</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">15-30 mét</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">Phụ thuộc vào trọng lượng và lực cản không khí; tầm bắn thực tế.</td>
+                        <td class="px-4 py-3 text-sm font-medium text-neutral-900" data-key="tech_proj_row7_h">Tầm bay hiệu quả</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="tech_proj_row7_p1">15-30 mét</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="tech_proj_row7_p2">Phụ thuộc vào trọng lượng và lực cản không khí; tầm bắn thực tế.</td>
                     </tr>
                     <tr>
-                        <td class="px-4 py-3 text-sm font-medium text-neutral-900">Trọng lượng (Tổng)</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">3.0-4.0 gram</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">Cân bằng giữa tải trọng hóa chất và tốc độ/tầm bắn.</td>
+                        <td class="px-4 py-3 text-sm font-medium text-neutral-900" data-key="tech_proj_row8_h">Trọng lượng (Tổng)</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="tech_proj_row8_p1">3.0-4.0 gram</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="tech_proj_row8_p2">Cân bằng giữa tải trọng hóa chất và tốc độ/tầm bắn.</td>
                     </tr>
                     <tr>
-                        <td class="px-4 py-3 text-sm font-medium text-neutral-900">Màu sắc</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">Màu tím (Purple)</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">Phù hợp với mã màu công nghiệp của Purple K.</td>
+                        <td class="px-4 py-3 text-sm font-medium text-neutral-900" data-key="tech_proj_row9_h">Màu sắc</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="tech_proj_row9_p1">Màu tím (Purple)</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="tech_proj_row9_p2">Phù hợp với mã màu công nghiệp của Purple K.</td>
                     </tr>
                     <tr>
-                        <td class="px-4 py-3 text-sm font-medium text-neutral-900">Hiệu quả</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">Cao với cháy Loại B & C (Ngắt chuỗi phản ứng)</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">Lưu ý: Phụ thuộc vào việc nhắm chính xác vào gốc lửa.</td>
+                        <td class="px-4 py-3 text-sm font-medium text-neutral-900" data-key="tech_proj_row10_h">Hiệu quả</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="tech_proj_row10_p1">Cao với cháy Loại B & C (Ngắt chuỗi phản ứng)</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="tech_proj_row10_p2">Lưu ý: Phụ thuộc vào việc nhắm chính xác vào gốc lửa.</td>
                     </tr>
                     <tr>
-                        <td class="px-4 py-3 text-sm font-medium text-neutral-900">Dư lượng</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">Để lại dư lượng không ăn mòn (non-corrosive)</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">Tốt hơn bột ABC cho điện tử, nhưng vẫn cần dọn dẹp (không phải "clean agent").</td>
+                        <td class="px-4 py-3 text-sm font-medium text-neutral-900" data-key="tech_proj_row11_h">Dư lượng</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="tech_proj_row11_p1">Để lại dư lượng không ăn mòn (non-corrosive)</td>
+                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="tech_proj_row11_p2">Tốt hơn bột ABC cho điện tử, nhưng vẫn cần dọn dẹp (không phải "clean agent").</td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div id="tech-agent" class="tab-content tech-tab-content">
-            <h3 class="text-2xl font-bold text-indigo-800 mb-4">Chất Chữa Cháy: Potassium Bicarbonate (Purple K)</h3>
-            <p class="text-neutral-700 mb-6">Sử dụng hóa chất khô hiệu suất cao, không ăn mòn để bảo vệ các thiết bị điện tử nhạy cảm.</p>
+            <h3 class="text-2xl font-bold text-indigo-800 mb-4" data-key="tech_agent_h">Chất Chữa Cháy: Potassium Bicarbonate (Purple K)</h3>
+            <p class="text-neutral-700 mb-6" data-key="tech_agent_p">Sử dụng hóa chất khô hiệu suất cao, không ăn mòn để bảo vệ các thiết bị điện tử nhạy cảm.</p>
             <ul class="space-y-4 text-neutral-700">
-                <li><strong class="text-indigo-700">Loại:</strong> Hóa chất khô, dạng bột siêu mịn (Micronized).</li>
-                <li><strong class="text-indigo-700">Hiệu quả:</strong> Dập tắt đám cháy Loại B (chất lỏng) và C (điện) bằng cách ngăn chặn chuỗi phản ứng hóa học của đám cháy.</li>
-                <li><strong class="text-indigo-700">Ưu điểm:</strong> Không ăn mòn, không độc hại (so với Halon), an toàn cho thiết bị điện tử và không gây ô nhiễm thứ cấp.</li>
-                <li><strong class="text-indigo-700">Màu sắc:</strong> Màu tím (Purple) - mã màu công nghiệp tiêu chuẩn.</li>
+                <li data-key="tech_agent_l1_item">
+                    <strong class="text-indigo-700" data-key="tech_agent_l1_strong">Loại:</strong> Hóa chất khô, dạng bột siêu mịn (Micronized).
+                </li>
+                <li data-key="tech_agent_l2_item">
+                    <strong class="text-indigo-700" data-key="tech_agent_l2_strong">Hiệu quả:</strong> Dập tắt đám cháy Loại B (chất lỏng) và C (điện) bằng cách ngăn chặn chuỗi phản ứng hóa học của đám cháy.
+                </li>
+                <li data-key="tech_agent_l3_item">
+                    <strong class="text-indigo-700" data-key="tech_agent_l3_strong">Ưu điểm:</strong> Không ăn mòn, không độc hại (so với Halon), an toàn cho thiết bị điện tử và không gây ô nhiễm thứ cấp.
+                </li>
+                <li data-key="tech_agent_l4_item">
+                    <strong class="text-indigo-700" data-key="tech_agent_l4_strong">Màu sắc:</strong> Màu tím (Purple) - mã màu công nghiệp tiêu chuẩn.
+                </li>
             </ul>
         </div>
         <div id="tech-sensor" class="tab-content tech-tab-content">
-            <h3 class="text-2xl font-bold text-indigo-800 mb-4">Hệ Thống Phát Hiện Tự Động (AI-Driven)</h3>
-            <p class="text-neutral-700 mb-6">Mục tiêu cuối cùng của hệ thống là hoàn toàn tự động, sử dụng AI để phát hiện và phản ứng nhanh hơn con người.</p>
+            <h3 class="text-2xl font-bold text-indigo-800 mb-4" data-key="tech_sensor_h">Hệ Thống Phát Hiện Tự Động (AI-Driven)</h3>
+            <p class="text-neutral-700 mb-6" data-key="tech_sensor_p">Mục tiêu cuối cùng của hệ thống là hoàn toàn tự động, sử dụng AI để phát hiện và phản ứng nhanh hơn con người.</p>
             <ul class="space-y-4 text-neutral-700">
-                <li><strong class="text-indigo-700">Cảm biến:</strong> Đa phương thức (ví dụ: nhiệt, khói, quang phổ) để giám sát liên tục.</li>
-                <li><strong class="text-indigo-700">Trí tuệ nhân tạo (AI):</strong> Các thuật toán thông minh để phân loại mối đe dọa, định vị đám cháy và kích hoạt hệ thống phóng.</li>
-                <li><strong class="text-indigo-700">Mục tiêu:</strong> Phản ứng tức thì tại các khoang không người lái hoặc ở xa, đảm bảo dập tắt đám cháy "trước khi chúng có thể vượt khỏi tầm kiểm soát."</li>
+                <li data-key="tech_sensor_l1_item">
+                    <strong class="text-indigo-700" data-key="tech_sensor_l1_strong">Cảm biến:</strong> Đa phương thức (ví dụ: nhiệt, khói, quang phổ) để giám sát liên tục.
+                </li>
+                <li data-key="tech_sensor_l2_item">
+                    <strong class="text-indigo-700" data-key="tech_sensor_l2_strong">Trí tuệ nhân tạo (AI):</strong> Các thuật toán thông minh để phân loại mối đe dọa, định vị đám cháy và kích hoạt hệ thống phóng.
+                </li>
+                <li data-key="tech_sensor_l3_item">
+                    <strong class="text-indigo-700" data-key="tech_sensor_l3_strong">Mục tiêu:</strong> Phản ứng tức thì tại các khoang không người lái hoặc ở xa, đảm bảo dập tắt đám cháy "trước khi chúng có thể vượt khỏi tầm kiểm soát."
+                </li>
             </ul>
         </div>
     </div>
