@@ -1,87 +1,130 @@
-// main.js - CHỨA TẤT CẢ LOGIC KHỞI TẠO, TABS, VÀ GIẢ LẬP TÀI CHÍNH
+// assets/js/importSections.js - Phiên bản Hoàn Chỉnh
 
-/**
- * window.loadFinancialData()
- * Hàm mô phỏng việc tải dữ liệu tài chính (thay thế cho việc tích hợp Google Sheet/Chart.js thực tế).
- * * LƯU Ý QUAN TRỌNG: Nếu triển khai thực tế, logic tải/phân tích CSV/JSON 
- * và khởi tạo Chart.js (từ các file csvParser.js và financials.js cũ) sẽ được đặt ở đây.
- */
-window.loadFinancialData = function() {
-    const loadingMsg = document.getElementById('financials-loading');
-    const chartWrapper = document.getElementById('chart-wrapper');
-    const tableWrapper = document.getElementById('table-wrapper');
-
-    // Bảo vệ: Bỏ qua nếu không tìm thấy các phần tử
-    if (!loadingMsg || !chartWrapper || !tableWrapper) return;
-    
-    // Mô phỏng thời gian tải dữ liệu (1.2 giây)
-    setTimeout(() => {
-        if (loadingMsg) loadingMsg.classList.add('hidden'); 
-        if (chartWrapper) chartWrapper.classList.remove('hidden');
-        if (tableWrapper) tableWrapper.classList.remove('hidden'); 
-        
-        console.log("Financial data loaded successfully and wrappers displayed.");
-    }, 1200); 
-};
-
-
-/**
- * window.setupTabs()
- * Hàm chung để xử lý việc chuyển đổi tab tương tác (Technology, Market, Advantage).
- */
-window.setupTabs = function(containerId, buttonClass, contentClass) {
-    const container = document.getElementById(containerId);
-    if (!container) return; 
-
-    const tabButtons = container.querySelectorAll(`.${buttonClass}`);
-    const tabContents = document.querySelectorAll(`.${contentClass}`);
-
-    // 1. Gán sự kiện Click cho các nút
-    tabButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Xử lý nút: Xóa 'active' khỏi tất cả, thêm vào nút hiện tại
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active'); 
-            
-            // Xử lý nội dung: Ẩn tất cả, hiển thị nội dung mục tiêu
-            tabContents.forEach(content => content.classList.remove('active'));
-            
-            const targetId = this.getAttribute('data-target');
-            const targetContent = document.getElementById(targetId);
-            if (targetContent) {
-                targetContent.classList.add('active');
-            }
-        });
-    });
-    
-    // 2. Thiết lập trạng thái ban đầu (buộc tab đầu tiên hoạt động)
-    tabContents.forEach(content => content.classList.remove('active'));
-
-    const firstButton = container.querySelector(`.${buttonClass}`);
-    if (firstButton) {
-        firstButton.classList.add('active');
-        const targetId = firstButton.getAttribute('data-target');
-        const targetContent = document.getElementById(targetId);
-        if (targetContent) {
-             targetContent.classList.add('active');
-        }
+const LANGUAGE_DATA = {
+    'vi': {
+        // ... (Nội dung dịch tiếng Việt) ...
+        'page_title': 'Vicinity Safety | Công Nghệ Dập Lửa Chính Xác VFEP',
+        'header_title': 'Tài liệu Kế hoạch Kinh doanh',
+        'language_switch': 'English',
+        'language_current': 'VN',
+        'nav_overview': 'Tổng quan',
+        'nav_vision': 'Tầm nhìn & Sứ mệnh',
+        'nav_lean_canvas': 'Mô hình Lean Canvas',
+        'nav_technology': 'Công nghệ',
+        'nav_strategy': 'Chiến lược',
+        'nav_market': 'Phân tích Thị trường',
+        'nav_financials': 'Tài chính',
+        'nav_advantage': 'Lợi thế Cạnh tranh',
+        'footer_text': '© 2024 Vicinity Safety. Bảo lưu mọi quyền.',
+    },
+    'en': {
+        // ... (Nội dung dịch tiếng Anh) ...
+        'page_title': 'Vicinity Safety | Precise Fire Extinguishing Technology VFEP',
+        'header_title': 'Business Plan Document',
+        'language_switch': 'Tiếng Việt',
+        'language_current': 'EN',
+        'nav_overview': 'Overview',
+        'nav_vision': 'Vision & Mission',
+        'nav_lean_canvas': 'Lean Canvas Model',
+        'nav_technology': 'Technology',
+        'nav_strategy': 'Strategy',
+        'nav_market': 'Market Analysis',
+        'nav_financials': 'Financials',
+        'nav_advantage': 'Competitive Advantage',
+        'footer_text': '© 2024 Vicinity Safety. All rights reserved.',
     }
 };
 
+let currentLang = localStorage.getItem('lang') || 'vi';
 
-/**
- * window.initializeApp()
- * Hàm khởi tạo chính. Nó được gọi bởi importSections.js sau khi
- * tất cả các tệp HTML đã được tải và dịch.
- */
-window.initializeApp = function() {
-    console.log("Vicinity Safety Application Initialized.");
+async function importSections() {
+    const sections = [
+        'header', 'overview', 'vision', 'lean-canvas', 'technology', 
+        'strategy', 'market', 'financials', 'advantage', 'footer'
+    ];
 
-    // --- 1. KHỞI TẠO TABS ---
-    window.setupTabs('technology-tabs', 'tech-tab-btn', 'tech-tab-content');
-    window.setupTabs('advantage-tabs', 'advantage-tab-btn', 'advantage-tab-content');
-    window.setupTabs('market-tabs', 'market-tab-btn', 'market-tab-content');
+    for (const section of sections) {
+        const path = `sections/${section}.html`; 
+        try {
+            const response = await fetch(path);
+            if (response.ok) {
+                const html = await response.text();
+                document.getElementById(section).innerHTML = html;
+            } else {
+                console.error(`Failed to load section: ${path}`);
+            }
+        } catch (error) {
+            console.error(`Error fetching section ${section}:`, error);
+        }
+    }
+    
+    // 1. ÁP DỤNG BẢN DỊCH SAU KHI TẢI
+    applyTranslations(currentLang);
+    
+    // 2. GỌI initializeApp() trong main.js sau khi tải và dịch
+    if (typeof window.initializeApp === 'function') {
+        window.initializeApp();
+    } else {
+        console.error('CRITICAL ERROR: initializeApp() not found. main.js not loaded or defined.');
+    }
+}
 
-    // --- 2. TẢI DỮ LIỆU TÀI CHÍNH ---
-    window.loadFinancialData();
+
+window.switchLanguage = function(lang) {
+    if (lang === currentLang) return; 
+
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
+    
+    document.documentElement.lang = lang;
+    
+    // Dùng data-key để đổi tiêu đề trang
+    const titleEl = document.querySelector('title[data-key="page_title"]');
+    if (titleEl) {
+        titleEl.innerHTML = LANGUAGE_DATA[lang]['page_title'];
+    }
+
+    applyTranslations(lang);
 };
+
+function applyTranslations(lang) {
+    // A. Dịch nội dung tĩnh/tải về
+    document.querySelectorAll('[data-key]').forEach(element => {
+        const key = element.getAttribute('data-key');
+        const translation = LANGUAGE_DATA[lang][key];
+        if (translation) {
+            // Dùng innerHTML để giữ định dạng HTML (nếu có)
+            element.innerHTML = translation; 
+        }
+    });
+
+    // B. Cập nhật nút chuyển đổi ngôn ngữ/hiển thị
+    const switchBtn = document.getElementById('language-switch-btn');
+    const displaySpan = document.getElementById('lang-display');
+    
+    if (switchBtn) {
+        const targetLang = lang === 'vi' ? 'en' : 'vi';
+        switchBtn.setAttribute('onclick', `switchLanguage('${targetLang}')`);
+        // Cập nhật text của nút sang ngôn ngữ MỚI
+        switchBtn.textContent = LANGUAGE_DATA[lang]['language_switch'];
+    }
+
+    if (displaySpan) {
+        displaySpan.textContent = LANGUAGE_DATA[lang]['language_current'];
+    }
+
+    // C. Dịch các tiêu đề phần (placeholder cho các div trống)
+    const sectionIds = ['overview', 'vision', 'lean-canvas', 'technology', 'strategy', 'market', 'financials', 'advantage'];
+    sectionIds.forEach(id => {
+        const titleKey = 'nav_' + id.replace('-', '_');
+        const element = document.getElementById(id);
+        // Chỉ chèn placeholder nếu div đó rỗng (chưa tải được .html)
+        if (element && element.tagName === 'DIV' && element.children.length === 0) {
+            element.innerHTML = `<h2 class="text-3xl font-bold mb-6">${LANGUAGE_DATA[lang][titleKey]}</h2><p>Content for this section will be translated inside ${id}.html.</p>`;
+        }
+    });
+}
+
+
+// Chạy hàm import khi DOM sẵn sàng
+document.addEventListener('DOMContentLoaded', importSections);
