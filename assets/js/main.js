@@ -84,7 +84,7 @@ function parseCSV(text) {
  */
 function drawChart(csvData) {
     
-    // --- SỬA LỖI ĐỌC SỐ (RẤT QUAN TRỌNG) ---
+    // --- SỬA LỖI ĐỌC SỐ (V4 - RẤT QUAN TRỌNG) ---
     // Hàm (v4) này đã có thể đọc định dạng số âm ($100,000)
     const cleanNumber = (str) => {
         if (!str) return 0;
