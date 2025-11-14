@@ -1,282 +1,101 @@
-// assets/js/main.js
+<section id="lean-canvas" class="bg-white shadow-xl rounded-2xl p-6 md:p-10">
+    <h2 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-4" data-key="lc_main_title">
+        Mô Hình Lean Canvas
+    </h2>
+    <p class="text-lg text-neutral-600 mb-8" data-key="lc_intro_p">
+        Mô hình kinh doanh của chúng tôi được tóm tắt bằng công cụ Lean Canvas, tập trung vào việc giải quyết các vấn đề tốn kém nhất của khách hàng.
+    </p>
 
-// --- TAB FUNCTIONALITY ---
-function initTabs(tabContainerId, tabButtonClass, tabContentClass) {
-    const tabContainer = document.getElementById(tabContainerId);
-    if (!tabContainer) {
-        // console.warn("Tab container not found:", tabContainerId);
-        return; 
-    }
-    const tabButtons = tabContainer.querySelectorAll(tabButtonClass);
-    
-    // --- SỬA LỖI ---
-    // Chúng ta tìm nội dung trong "phần cha" (parentNode) của khu vực chứa tab,
-    // chứ không phải tìm bên trong nó.
-    const tabContents = tabContainer.parentNode.querySelectorAll(tabContentClass);
-    // --- KẾT THÚC SỬA LỖI ---
+    <!-- Lean Canvas Grid Structure -->
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 text-sm font-semibold text-neutral-700">
+        
+        <!-- Column 1: Problems -->
+        <div class="col-span-1 border border-neutral-300 rounded-lg p-3 h-60 flex flex-col justify-between bg-red-50">
+            <h3 class="font-bold text-lg text-red-800 border-b pb-2 mb-2" data-key="lc_col1_title">1. Vấn Đề (Problems)</h3>
+            <ul class="list-disc list-inside space-y-1 text-neutral-700 flex-grow">
+                <li data-key="lc_col1_item1">Thiệt hại thứ cấp (do nước/khí) lớn hơn thiệt hại ban đầu.</li>
+                <li data-key="lc_col1_item2">Không có giải pháp dập tắt chính xác, cục bộ cho pin Li-ion đang thoát nhiệt.</li>
+                <li data-key="lc_col1_item3">Thời gian dừng hoạt động (Downtime) sau khi chữa cháy quá lâu.</li>
+            </ul>
+        </div>
 
-    tabButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const targetId = button.dataset.target;
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            tabContents.forEach(content => {
-                content.classList.toggle('active', content.id === targetId);
-            });
-        });
-    });
-}
+        <!-- Column 2: Solutions / Key Metrics -->
+        <div class="col-span-1 md:col-span-2 space-y-4">
+            <!-- Row A: Solutions / UVP / Advantage -->
+            <div class="grid grid-cols-2 gap-4">
+                <div class="border border-neutral-300 rounded-lg p-3 h-32 flex flex-col justify-between bg-green-50">
+                    <h3 class="font-bold text-lg text-green-800 border-b pb-1 mb-1" data-key="lc_col2_title">2. Giải Pháp (Solution)</h3>
+                    <ul class="list-disc list-inside space-y-0.5 text-neutral-700 flex-grow">
+                        <li data-key="lc_col2_item1">Hệ thống phóng viên đạn dập lửa không ăn mòn.</li>
+                        <li data-key="lc_col2_item2">Sử dụng hóa chất khô/gel chuyên biệt cho các vụ cháy điện/Li-ion.</li>
+                        <li data-key="lc_col2_item3">Phát hiện và phản ứng bằng AI trong vòng <0.5 giây.</li>
+                    </ul>
+                </div>
+                <div class="border border-neutral-300 rounded-lg p-3 h-32 flex flex-col justify-center bg-blue-50">
+                    <h3 class="font-bold text-lg text-blue-800 mb-1" data-key="lc_col4_title">4. Đề Xuất Giá Trị Độc Nhất (UVP)</h3>
+                    <p class="text-neutral-700" data-key="lc_col4_p1">Chữa cháy chính xác. Không gây hư hại. Không cần dọn dẹp (Tối thiểu).</p>
+                    <p class="text-neutral-700 font-bold" data-key="lc_col4_p2">Bảo vệ thiết bị điện tử tốt hơn 80% so với giải pháp hiện có.</p>
+                </div>
+            </div>
+            
+            <!-- Row B: Key Metrics / Unfair Advantage -->
+            <div class="grid grid-cols-2 gap-4">
+                <div class="border border-neutral-300 rounded-lg p-3 h-24 bg-yellow-50">
+                    <h3 class="font-bold text-lg text-yellow-800 border-b pb-1 mb-1" data-key="lc_col3_title">3. Chỉ Số Chính (Key Metrics)</h3>
+                    <ul class="list-disc list-inside space-y-0.5 text-neutral-700">
+                        <li data-key="lc_col3_item1">Tỷ lệ Giảm Thiệt hại Tài sản.</li>
+                        <li data-key="lc_col3_item2">Thời gian Phản ứng (Time-to-kill).</li>
+                        <li data-key="lc_col3_item3">Doanh thu từ Cấp phép IP & Bản quyền.</li>
+                    </ul>
+                </div>
+                <div class="border border-neutral-300 rounded-lg p-3 h-24 bg-purple-50">
+                    <h3 class="font-bold text-lg text-purple-800 border-b pb-1 mb-1" data-key="lc_col5_title">5. Lợi Thế Không Thể Bắt Chước (Unfair Advantage)</h3>
+                    <ul class="list-disc list-inside space-y-0.5 text-neutral-700">
+                        <li data-key="lc_col5_item1">Cấu trúc IP "Royalty-free" cho Chính phủ.</li>
+                        <li data-key="lc_col5_item2">Tối ưu hóa chi phí R&D tại Việt Nam.</li>
+                        <li data-key="lc_col5_item3">Kiến thức chuyên môn về vật liệu phóng, hóa học khô, và AI.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-// --- SMOOTH SCROLL ---
-function initSmoothScroll() {
-    // Chỉ tìm nav-link bên trong header
-    const header = document.getElementById('header');
-    if (!header) return;
-    
-    header.querySelectorAll('a.nav-link').forEach(anchor => {
-        anchor.addEventListener('click', e => {
-            e.preventDefault();
-            const target = document.querySelector(anchor.getAttribute('href'));
-            if (!target) return;
-            // The -80 offset accounts for the sticky header
-            const offset = target.getBoundingClientRect().top + window.pageYOffset - 80;
-            window.scrollTo({ top: offset, behavior: "smooth" });
-        });
-    });
-}
+        <!-- Column 4: Customer Segments -->
+        <div class="col-span-1 border border-neutral-300 rounded-lg p-3 h-60 flex flex-col justify-between bg-yellow-100">
+            <h3 class="font-bold text-lg text-yellow-900 border-b pb-2 mb-2" data-key="lc_col7_title">7. Phân Khúc Khách Hàng (Customer Segments)</h3>
+            <ul class="list-disc list-inside space-y-1 text-neutral-800 flex-grow">
+                <li data-key="lc_col7_item1">Trung tâm Dữ liệu (Data Centers) và Viễn thông.</li>
+                <li data-key="lc_col7_item2">Sản xuất điện tử và Pin Lithium-ion.</li>
+                <li data-key="lc_col7_item3">Kho chứa vật tư, phòng máy chủ nhỏ.</li>
+            </ul>
+        </div>
+        
+        <!-- Column 5: Channels / Cost / Revenue -->
+        <div class="col-span-2 md:col-span-1 space-y-4">
+            <div class="border border-neutral-300 rounded-lg p-3 h-20 bg-indigo-50">
+                <h3 class="font-bold text-lg text-indigo-800 border-b pb-1 mb-1" data-key="lc_col6_title">6. Kênh (Channels)</h3>
+                <ul class="list-disc list-inside space-y-0.5 text-neutral-700">
+                    <li data-key="lc_col6_item1">Cấp phép trực tiếp cho các OEM và nhà thầu PCCC lớn.</li>
+                    <li data-key="lc_col6_item2">Hợp tác R&D với các công ty Quốc phòng/Hàng không vũ trụ.</li>
+                </ul>
+            </div>
+            
+            <div class="border border-neutral-300 rounded-lg p-3 h-20 bg-red-100">
+                <h3 class="font-bold text-lg text-red-800 border-b pb-1 mb-1" data-key="lc_col8_title">8. Cấu Trúc Chi Phí (Cost Structure)</h3>
+                <ul class="list-disc list-inside space-y-0.5 text-neutral-700">
+                    <li data-key="lc_col8_item1">Chi phí R&D và Tạo mẫu (Prototyping).</li>
+                    <li data-key="lc_col8_item2">Chi phí Đăng ký/Bảo vệ IP toàn cầu.</li>
+                    <li data-key="lc_col8_item3">Chi phí Nhân sự Kỹ thuật.</li>
+                </ul>
+            </div>
 
-// --- CSV PARSER CHUẨN ---
-function parseCSV(text) {
-    const rows = [];
-    let currentRow = [];
-    let currentCell = '';
-    let insideQuotes = false;
-
-    for (let i = 0; i < text.length; i++) {
-        const char = text[i];
-        const nextChar = text[i + 1];
-
-        if (char === '"' && insideQuotes && nextChar === '"') {
-            currentCell += '"';
-            i++;
-        } else if (char === '"') {
-            insideQuotes = !insideQuotes;
-        } else if (char === ',' && !insideQuotes) {
-            currentRow.push(currentCell);
-            currentCell = '';
-        } else if ((char === '\n' || char === '\r') && !insideQuotes) {
-            if (currentCell || currentRow.length > 0) {
-                currentRow.push(currentCell);
-                rows.push(currentRow);
-                currentRow = [];
-                currentCell = '';
-            }
-        } else {
-            currentCell += char;
-        }
-    }
-    if (currentCell || currentRow.length > 0) {
-        currentRow.push(currentCell);
-        rows.push(currentRow);
-    }
-    return rows;
-}
-
-// --- LOGIC TÀI CHÍNH ---
-const googleSheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdnGGLERma9OCgM-Y6hGfFn2RnyjAMZeGT_zHviVrBKdC5h3947vTg66xfwg1RbcrGbgQm1cIAWKhS/pub?output=csv';
-let myCashFlowChart;
-
-function parseFinancialNumber(str) {
-    if (!str || str.trim() === "") return 0;
-    return parseFloat(str.replace(/"/g, '').replace(/,/g, '')) || 0;
-}
-
-function formatCurrency(num) {
-    const isNegative = num < 0;
-    const formattedNum = new Intl.NumberFormat('en-US', { style: 'decimal' }).format(Math.abs(num));
-    if (num === 0) return "0";
-    return (isNegative ? '(' : '') + formattedNum + (isNegative ? ')' : '');
-}
-
-async function loadFinancialData() {
-    const loadingEl = document.getElementById('financials-loading');
-    const chartWrapperEl = document.getElementById('chart-wrapper');
-    const tableWrapperEl = document.getElementById('table-wrapper');
-    const tableHeadEl = document.getElementById('financial-table-head');
-    const tableBodyEl = document.getElementById('financial-table-body');
-    const cashFlowChartCanvas = document.getElementById('cashFlowChart')?.getContext('2d');
-
-    if (!loadingEl || !cashFlowChartCanvas) {
-        // console.warn("Financials elements not found. Chart will not load.");
-        return;
-    }
-
-    try {
-        const cacheBustedURL = googleSheetURL + '&cacheBust=' + new Date().getTime();
-        const response = await fetch(cacheBustedURL);
-        if (!response.ok) throw new Error(`Network response was not ok (${response.status})`);
-        const csvText = await response.text();
-        const dataGrid = parseCSV(csvText);
-
-        const yearRow = dataGrid[1] || [];
-        const quarterRow = dataGrid[2] || [];
-        const labels = [];
-        let currentYear = "";
-        const validColumnIndices = [0];
-
-        for (let i = 1; i < quarterRow.length; i++) {
-            if (yearRow[i] && yearRow[i].trim() !== "") {
-                currentYear = yearRow[i].replace(/"/g, '').trim();
-            }
-            if (quarterRow[i] && quarterRow[i].trim() !== "") {
-                labels.push(quarterRow[i].replace(/"/g, '').trim() + " " + currentYear);
-                validColumnIndices.push(i);
-            }
-        }
-
-        let beginCashRow, receiptsRow, paidOutRow;
-        dataGrid.forEach(row => {
-            const title = (row[0] || '').replace(/"/g, '').trim();
-            if (title.startsWith("CASH IN HAND AT BEGINNING OF PERIOD")) beginCashRow = row;
-            if (title.startsWith("TOTAL CASH RECEIPTS")) receiptsRow = row;
-            if (title.startsWith("TOTAL CASH PAID OUT")) paidOutRow = row;
-        });
-
-        if (!beginCashRow || !receiptsRow || !paidOutRow)
-            throw new Error('Missing key rows in CSV.');
-
-        const dataIndices = validColumnIndices.slice(1);
-        const beginCashData = dataIndices.map(i => parseFinancialNumber(beginCashRow[i]));
-        const receiptsData = dataIndices.map(i => parseFinancialNumber(receiptsRow[i]));
-        const paidOutData = dataIndices.map(i => parseFinancialNumber(paidOutRow[i]));
-
-        const netCashFlowData = [];
-        const endCashData = [];
-        for (let i = 0; i < labels.length; i++) {
-            let net = receiptsData[i] - paidOutData[i];
-            let end = beginCashData[i] + net;
-            netCashFlowData.push(net);
-            endCashData.push(end);
-        }
-
-        if (myCashFlowChart) myCashFlowChart.destroy();
-        myCashFlowChart = new Chart(cashFlowChartCanvas, {
-            type: 'bar',
-            data: {
-                labels,
-                datasets: [
-                    {
-                        label: 'Dòng Tiền Ròng (Net Cash Flow)',
-                        data: netCashFlowData,
-                        type: 'bar',
-                        backgroundColor: netCashFlowData.map(v => v >= 0 ? '#16a34a' : '#dc2626'),
-                        yAxisID: 'y'
-                    },
-                    {
-                        label: 'Tiền Mặt Cuối Kỳ (End of Period Cash)',
-                        data: endCashData,
-                        type: 'line',
-                        borderColor: '#4338ca',
-                        backgroundColor: '#4338ca',
-                        tension: 0.1,
-                        yAxisID: 'y'
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: value => '$' + (value / 1000) + 'k'
-                        },
-                        title: { display: true, text: 'Số tiền (USD)' }
-                    }
-                },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Dự Báo Dòng Tiền (8 Quý)',
-                        font: { size: 18 }
-                    },
-                    tooltip: {
-                        mode: 'index',
-                        intersect: false,
-                        callbacks: {
-                            label: ctx => {
-                                let label = ctx.dataset.label + ': ';
-                                label += '$' + new Intl.NumberFormat('en-US').format(ctx.parsed.y);
-                                return label;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        let tableHeaderHTML = '<tr>';
-        validColumnIndices.forEach((index, i) => {
-            let title = quarterRow[index]?.replace(/"/g, '').trim() || '';
-            let year = "";
-            for (let j = index; j >= 1; j--) {
-                if (yearRow[j] && yearRow[j].trim() !== "") {
-                    year = yearRow[j].replace(/"/g, '').trim();
-                    break;
-                }
-            }
-            tableHeaderHTML += `<th class="px-4 py-3 text-left text-sm font-semibold ${i===0?'text-indigo-700 w-2/5':'text-neutral-700'}">${i===0?title:`${title} ${year}`}</th>`;
-        });
-        tableHeaderHTML += '</tr>';
-        tableHeadEl.innerHTML = tableHeaderHTML;
-
-        let tableBodyHTML = '';
-        dataGrid.slice(3).forEach(row => {
-            if (row.length < 2 || row.every(c => c.trim() === '')) return;
-            const title = (row[0] || '').replace(/"/g, '').trim();
-            if (!title) return;
-
-            const isHeaderRow = ['CASH IN', 'CASH PAID OUT', 'I. IP & Legal Registration', 'II. R&D Technical & MVP Product Development', 'III. G&A (Operations)'].includes(title);
-            const isTotalRow = title.startsWith('TOTAL') || title.startsWith('CASH IN HAND') || title.startsWith('NET CASHFLOW');
-
-            tableBodyHTML += `<tr class="${isHeaderRow?'bg-neutral-100':''} ${isTotalRow?'font-bold':''}">`;
-            validColumnIndices.forEach((colIndex, i) => {
-                const cellVal = (row[colIndex] || '').replace(/"/g, '').trim();
-                if (i === 0)
-                    tableBodyHTML += `<td class="px-4 py-3 text-sm ${isHeaderRow||isTotalRow?'text-indigo-800':'text-neutral-800'}">${title}</td>`;
-                else
-                    tableBodyHTML += `<td class="px-4 py-3 text-sm text-right text-neutral-700">${formatCurrency(parseFinancialNumber(cellVal))}</td>`;
-            });
-            tableBodyHTML += '</tr>';
-        });
-        tableBodyEl.innerHTML = tableBodyHTML;
-
-        loadingEl.classList.add('hidden');
-        chartWrapperEl.classList.remove('hidden');
-        tableWrapperEl.classList.remove('hidden');
-
-    } catch (error) {
-        console.error('Lỗi tải CSV:', error);
-        loadingEl.innerHTML = `<p class="text-red-600 font-bold">Không thể tải dữ liệu tài chính.</p><p class="text-neutral-600">Hãy đảm bảo Google Sheet được "Xuất bản lên web".</p><p class="text-sm text-neutral-500">Chi tiết: ${error.message}</p>`;
-    }
-}
-
-// --- GLOBAL INITIALIZER ---
-function initializeApp() {
-    console.log("Initializing app components...");
-    
-    // 1. Set up all tabs
-    initTabs('technology-tabs', '.tech-tab-btn', '.tech-tab-content');
-    initTabs('market-tabs', '.market-tab-btn', '.market-tab-content');
-    initTabs('advantage-tabs', '.advantage-tab-btn', '.advantage-tab-content');
-    
-    // 2. Set up header navigation
-    initSmoothScroll();
-    
-    // 3. Load financial data
-    loadFinancialData();
-}
-
-// --- EXPORT THE INITIALIZER ---
-window.initializeApp = initializeApp;
+            <div class="border border-neutral-300 rounded-lg p-3 h-20 bg-green-100">
+                <h3 class="font-bold text-lg text-green-800 border-b pb-1 mb-1" data-key="lc_col9_title">9. Dòng Doanh Thu (Revenue Streams)</h3>
+                <ul class="list-disc list-inside space-y-0.5 text-neutral-700">
+                    <li data-key="lc_col9_item1">Phí Cấp phép (Licensing fees - trả trước).</li>
+                    <li data-key="lc_col9_item2">Tiền Bản quyền (Royalties - định kỳ).</li>
+                    <li data-key="lc_col9_item3">Hợp đồng R&D chính phủ (đột xuất).</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
