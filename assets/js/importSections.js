@@ -1,4 +1,4 @@
-// assets/js/importSections.js - Phiên BẢN CUỐI CÙNG (Đã sắp xếp đúng thứ tự)
+// assets/js/importSections.js - Phiên BẢN CUỐI CÙNG (100% HOÀN CHỈNH)
 
 const LANGUAGE_DATA = {
     'vi': {
@@ -173,13 +173,13 @@ const LANGUAGE_DATA = {
         'market_ground_item3_strong': 'Giải pháp VFEP:',
         'market_ground_item3': ' Cung cấp khả năng dập lửa chính xác, không dùng nước, không ăn mòn, ngăn chặn đám cháy lây lan mà không phá hủy toàn bộ hàng rack máy chủ.',
         'market_space_h': 'Tầm Nhìn Tương Lai (Hàng Không & Vũ Trụ)',
-        'market_space_p_intro': 'Đây là thị trường R&D dài hạn. Bằng cách giải quyết các vấn đề trên mặt đất, chúng tôi xây dựng nền tảng (dữ liệu, IP, chứng nhận) để trở thành nhà cung cấp cho NASA, ESA, Boeing... trong tương lai, khi công nghệ đã được chứng minh.',
+        'market_space_p_intro': 'Đây là thị trường R&D dài hạn. Bằng cách giải quyết các vấnM đề trên mặt đất, chúng tôi xây dựng nền tảng (dữ liệu, IP, chứng nhận) để trở thành nhà cung cấp cho NASA, ESA, Boeing... trong tương lai, khi công nghệ đã được chứng minh.',
         'market_space_item1_strong': 'Vấn đề 1: Độ tin cậy Zero-G:',
         'market_space_item1': ' Chất chữa cháy truyền thống phân tán không thể đoán trước trong môi trường vi trọng lực. Hệ thống đạn phóng của VFEP là một giải pháp tiềm năng.',
         'market_space_item2_strong': 'Vấn đề 2: Không Gây Ô nhiễm:',
         'market_space_item2': ' Chất Purple K bảo vệ các hệ thống quang học nhạy cảm và hệ thống hỗ trợ sự sống.',
 
-        // --- FINANCIALS (ĐÃ DI CHUYỂN LÊN TRÊN ADVANTAGE) ---
+        // --- FINANCIALS ---
         'fin_main_title': 'Dự Báo Tài Chính & Kêu Gọi Vốn',
         'fin_intro_p': 'Phần này trình bày chi tiết về dự báo dòng tiền trong 2 năm (8 quý) dựa trên mô hình kinh doanh cấp phép IP và các mốc quan trọng. Dữ liệu được tải trực tiếp từ Google Sheet của chúng tôi.',
         'fin_chart_title': 'Biểu Đồ Dòng Tiền 8 Quý (USD)',
@@ -195,7 +195,7 @@ const LANGUAGE_DATA = {
         'fin_card3_amount': '$350,000',
         'fin_card3_p': '(Để đạt được các mốc quan trọng)',
 
-        // --- ADVANTAGE (ĐÃ DI CHUYỂN XUỐNG DƯỚI FINANCIALS) ---
+        // --- ADVANTAGE ---
         'adv_main_title': 'Lợi Thế Cạnh Tranh & So Sánh',
         'adv_intro_p': 'Lợi thế của Vicinity Safety không chỉ đến từ công nghệ, mà còn từ chiến lược "vi mô" độc đáo, trái ngược hoàn toàn với các giải pháp "vĩ mô" hiện có trên thị trường.',
         'adv_tab1_btn': '1. Phân Tích Đối Thủ',
@@ -435,7 +435,7 @@ const LANGUAGE_DATA = {
         'market_space_item2_strong': 'Problem 2: Non-Contaminating:',
         'market_space_item2': ' Purple K agent protects sensitive optics and life-support systems.',
 
-        // --- FINANCIALS (ĐÃ DI CHUYỂN LÊN TRÊN ADVANTAGE) ---
+        // --- FINANCIALS ---
         'fin_main_title': 'Financial Projections & Funding Ask',
         'fin_intro_p': 'This section details the 2-year (8-quarter) cash flow forecast based on the IP licensing model and key milestones. Data is loaded live from our Google Sheet.',
         'fin_chart_title': '8-Quarter Cash Flow Projection (USD)',
@@ -451,7 +451,7 @@ const LANGUAGE_DATA = {
         'fin_card3_amount': '$350,000',
         'fin_card3_p': '(To achieve milestones)',
 
-        // --- ADVANTAGE (ĐÃ DI CHUYỂN XUỐNG DƯỚI FINANCIALS) ---
+        // --- ADVANTAGE ---
         'adv_main_title': 'Competitive Advantage & Comparison',
         'adv_intro_p': 'Vicinity Safety\'s advantage comes not just from technology, but from its unique "micro" strategy, which is in direct contrast to the "macro" solutions currently on the market.',
         'adv_tab1_btn': '1. Competitor Analysis',
