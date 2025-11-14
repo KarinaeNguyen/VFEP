@@ -1,88 +1,93 @@
 <section id="lean-canvas" class="bg-white shadow-xl rounded-2xl p-6 md:p-10">
-    <h2 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-4">Mô Hình Kinh Doanh Tinh Gọn (Lean Business Canvas)</h2>
-    <p class="text-lg text-neutral-600 mb-8">
-        Mô hình "vốn mỏng" (asset-light) tập trung vào việc giải quyết các vấn đề thực tế, cấp bách tại Việt Nam và khu vực bằng tài sản trí tuệ (IP), không phải bằng nhà máy.
+    <h2 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-4" data-key="lc_main_title">
+        Mô Hình Kinh Doanh Tinh Gọn (Lean Business Canvas)
+    </h2>
+    <p class="text-lg text-neutral-600 mb-8" data-key="lc_intro_p">
+        Mô hình "vốn mỏng" (asset-light) tập trung vào việc giải quyết các vấn đề thực tế, cấp bách bằng tài sản trí tuệ (IP), không phải bằng vốn sản xuất khổng lồ (CAPEX).
     </p>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        
-        <div class="bg-neutral-50 border border-neutral-200 rounded-xl p-5 space-y-3">
-            <h3 class="text-xl font-bold text-indigo-800 border-b pb-2">1. Vấn Đề (Problem)</h3>
-            <ul class="list-disc list-outside pl-5 text-neutral-700 text-sm space-y-2">
-                <li>Cháy nổ tại Trung tâm Dữ liệu: Hệ thống truyền thống (nước, khí) gây hư hỏng server, dẫn đến tổn thất tài chính khổng lồ (thiệt hại thứ cấp).</li>
-                <li>Rủi ro từ Pin Lithium-ion (UPS, ESS): Cháy nổ "thoát nhiệt" (thermal runaway) lan truyền nhanh, không thể kiểm soát bằng phương pháp thông thường.</li>
-                <li>Nguy cơ tại các dây chuyền sản xuất điện tử nhạy cảm, nơi không chấp nhận thiệt hại thứ cấp hoặc thời gian dừng (downtime).</li>
-            </ul>
-        </div>
 
-        <div class="bg-neutral-50 border border-neutral-200 rounded-xl p-5 space-y-3">
-            <h3 class="text-xl font-bold text-indigo-800 border-b pb-2">2. Giải Pháp (Solution - MVP)</h3>
-            <ul class="list-disc list-outside pl-5 text-neutral-700 text-sm space-y-2">
-                <li>Đạn phóng VFP© sử dụng chất Purple K (không ăn mòn) để dập lửa chính xác tại nguồn (ví dụ: một tủ rack riêng lẻ).</li>
-                <li>Phản ứng tức thì, không gây hư hỏng tài sản xung quanh, giảm thiểu thời gian chết (downtime).</li>
-                <li>Hệ thống phát hiện tự động (AI-driven) cho các khu vực không người giám sát 24/7.</li>
-            </ul>
-        </div>
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 text-sm font-semibold text-neutral-700">
 
-        <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-5 space-y-3 row-span-2">
-            <h3 class="text-xl font-bold text-indigo-800 border-b pb-2">3. Lợi Ích Độc Quyền (UVP)</h3>
-            <p class="text-neutral-700 text-sm font-semibold">
-                Vicinity Safety cung cấp giải pháp dập lửa chính xác, không gây hư hại ĐẦU TIÊN, được thiết kế để bảo vệ tức thì các tài sản điện tử và pin giá trị cao, đảm bảo an toàn và giảm thiểu tối đa thời gian gián đoạn hoạt động.
-            </p>
-        </div>
-
-        <div class="bg-neutral-50 border border-neutral-200 rounded-xl p-5 space-y-3">
-            <h3 class="text-xl font-bold text-indigo-800 border-b pb-2">4. Lợi Thế Cạnh Tranh (Unfair Advantage)</h3>
-            <ul class="list-disc list-outside pl-5 text-neutral-700 text-sm space-y-2">
-                <li>IP được cấp bằng sáng chế (đang đăng ký) cho thiết kế đạn VFP© và cơ chế phân tán.</li>
-                <li>Cấu trúc "IP (Singapore) / R&D (Việt Nam)" tối ưu về chi phí và pháp lý.</li>
-                <li>Chiến lược hợp tác sớm với các cơ quan chính phủ (PCCC) và các tập đoàn công nghiệp lớn (FDI, Viettel, FPT).</li>
-            </ul>
-        </div>
-
-        <div class="bg-neutral-50 border border-neutral-200 rounded-xl p-5 space-y-3">
-            <h3 class="text-xl font-bold text-indigo-800 border-b pb-2">5. Phân Khúc Khách Hàng</h3>
-            <ul class="list-disc list-outside pl-5 text-neutral-700 text-sm space-y-2">
-                <li>CTO, Giám đốc Vận hành tại các Trung tâm Dữ liệu.</li>
-                <li>Quản lý nhà máy (FDI, sản xuất điện tử) có dây chuyền tự động hóa.</li>
-                <li>Các đơn vị PCCC & Quốc phòng (ứng dụng đặc thù).</li>
+        <div class="col-span-1 border border-neutral-300 rounded-lg p-3 h-60 flex flex-col justify-between bg-red-50">
+            <h3 class="font-bold text-lg text-red-800 border-b pb-2 mb-2" data-key="lc_col1_title">1. Vấn Đề (Problems)</h3>
+            <ul class="list-disc list-inside space-y-1 text-neutral-700 flex-grow">
+                <li data-key="lc_col1_item1">Thiệt hại thứ cấp (do nước/khí) lớn hơn thiệt hại ban đầu cho thiết bị.</li>
+                <li data-key="lc_col1_item2">Rủi ro từ Pin Lithium-ion: Cháy nổ "thoát nhiệt" (thermal runaway) không thể kiểm soát.</li>
+                <li data-key="lc_col1_item3">Thiết bị PCCC truyền thống chậm và thiếu chính xác.</li>
             </ul>
         </div>
         
-        <div class="bg-neutral-50 border border-neutral-200 rounded-xl p-5 space-y-3">
-            <h3 class="text-xl font-bold text-indigo-800 border-b pb-2">6. Kênh Phân Phối (Channels)</h3>
-            <ul class="list-disc list-outside pl-5 text-neutral-700 text-sm space-y-2">
-                <li>Tiếp cận kỹ thuật trực tiếp (Direct Sales) với các nhà vận hành trung tâm dữ liệu và nhà máy FDI.</li>
-                <li>Quan hệ đối tác chiến lược với các cơ quan (PCCC, Quốc phòng).</li>
-                <li>Công bố Sách trắng Kỹ thuật (White Papers) và trình bày tại các Hội nghị Công nghệ & An toàn.</li>
-            </ul>
-        </div>
-
-        <div class="bg-neutral-50 border border-neutral-200 rounded-xl p-5 space-y-3">
-            <h3 class="text-xl font-bold text-indigo-800 border-b pb-2">7. Chỉ Số Then Chốt (Key Metrics)</h3>
-            <ul class="list-disc list-outside pl-5 text-neutral-700 text-sm space-y-2">
-                <li>Số lượng IP mới được nộp/cấp hằng năm.</li>
-                <li>Tổng giá trị các hợp đồng JDA (Hợp tác Phát triển) / Cấp phép đã ký.</li>
-                <li>Số lượng các hệ thống MVP được triển khai thử nghiệm (Pilot) thành công.</li>
+        <div class="col-span-1 border border-neutral-300 rounded-lg p-3 h-60 flex flex-col justify-between bg-blue-50">
+            <h3 class="font-bold text-lg text-blue-800 border-b pb-2 mb-2" data-key="lc_col2_title">2. Giải Pháp (Solution)</h3>
+            <ul class="list-disc list-inside space-y-1 text-neutral-700 flex-grow">
+                <li data-key="lc_col2_item1">Hệ thống Phóng đạn Firefighting Bullet-VFEV©.</li>
+                <li data-key="lc_col2_item2">Chất chữa cháy Potassium Bicarbonate (Purple K) siêu mịn, không ăn mòn.</li>
+                <li data-key="lc_col2_item3">Phần mềm định vị mục tiêu chính xác (AI-driven).</li>
             </ul>
         </div>
         
-        <div class="bg-neutral-50 border border-neutral-200 rounded-xl p-5 space-y-3 md:col-span-2">
-            <h3 class="text-xl font-bold text-indigo-800 border-b pb-2">8. Cấu Trúc Chi Phí (Cost Structure)</h3>
-            <ul class="list-disc list-outside pl-5 text-neutral-700 text-sm space-y-2">
-                <li><strong class="text-indigo-600">Chi phí cố định (Chính):</strong> Lương cho Kỹ sư R&D (Việt Nam) và Chi phí Bảo trì & Nộp hồ sơ IP (Singapore).</li>
-                <li><strong class="text-indigo-600">Chi phí biến đổi:</strong> Phí Chứng nhận/Kiểm toán (ví dụ: TCVN, UL) và Chi phí Vật liệu Tạo mẫu (Prototyping).</li>
+        <div class="col-span-1 border border-neutral-300 rounded-lg p-3 h-60 flex flex-col justify-between bg-yellow-50">
+            <h3 class="font-bold text-lg text-yellow-800 border-b pb-2 mb-2" data-key="lc_col3_title">3. Giá Trị Độc Quyền (UVP)</h3>
+            <ul class="list-disc list-inside space-y-1 text-neutral-700 flex-grow">
+                <li data-key="lc_col3_item1">Dập lửa "vi mô": Chỉ ảnh hưởng đến vị trí cháy, không cần sơ tán/ngừng hoạt động.</li>
+                <li data-key="lc_col3_item2">Không gây hư hại (Non-corrosive) cho các thiết bị điện tử.</li>
+                <li data-key="lc_col3_item3">Giấy phép miễn phí cho Chính phủ, tạo thị trường cho đối tác OEM.</li>
+            </ul>
+        </div>
+        
+        <div class="col-span-1 border border-neutral-300 rounded-lg p-3 h-60 flex flex-col justify-between bg-purple-50">
+            <h3 class="font-bold text-lg text-purple-800 border-b pb-2 mb-2" data-key="lc_col4_title">4. Lợi Thế Không Thể Bắt Chước</h3>
+            <ul class="list-disc list-inside space-y-1 text-neutral-700 flex-grow">
+                <li data-key="lc_col4_item1">Bằng sáng chế thiết kế và quy trình sản xuất (IP House).</li>
+                <li data-key="lc_col4_item2">Chất chữa cháy độc quyền với hiệu quả tối ưu.</li>
+                <li data-key="lc_col4_item3">Mô hình kinh doanh 'Vốn Mỏng' tạo biên lợi nhuận cao.</li>
             </ul>
         </div>
 
-        <div class="bg-neutral-50 border border-neutral-200 rounded-xl p-5 space-y-3 md:col-span-3">
-            <h3 class="text-xl font-bold text-indigo-800 border-b pb-2">9. Dòng Doanh Thu (Revenue Streams)</h3>
-            <ul class="list-disc list-outside pl-5 text-neutral-700 text-sm space-y-2 md:columns-2">
-                <li>Phí Cấp phép Công nghệ (Technology Licensing Fees): Thanh toán trả trước (NRE) cho việc chuyển giao IP.</li>
-                <li>Tiền bản quyền (Royalty Payments): % trên mỗi đơn vị/hệ thống được sản xuất bởi đối tác.</li>
-                <li>Hợp đồng Phát triển Chung (JDAs): Thanh toán theo hợp đồng để đồng phát triển/tùy chỉnh công nghệ.</li>
-                <li>Dịch vụ tư vấn, kiểm toán an toàn PCCC cho các hệ thống chuyên biệt.</li>
+        <div class="col-span-1 border border-neutral-300 rounded-lg p-3 h-60 flex flex-col justify-between bg-orange-50">
+            <h3 class="font-bold text-lg text-orange-800 border-b pb-2 mb-2" data-key="lc_col5_title">5. Phân Khúc Khách Hàng</h3>
+            <ul class="list-disc list-inside space-y-1 text-neutral-700 flex-grow">
+                <li data-key="lc_col5_item1">OEM/Nhà cung cấp Hệ thống PCCC Công nghiệp lớn (Đối tác Cấp phép).</li>
+                <li data-key="lc_col5_item2">Chính phủ/Quốc phòng (Miễn phí bản quyền, Người tạo nhu cầu thị trường).</li>
+                <li data-key="lc_col5_item3">Chủ sở hữu Trung tâm Dữ liệu và Kho Pin (UPS/ESS).</li>
+            </ul>
+        </div>
+        
+        <div class="col-span-2 border border-neutral-300 rounded-lg p-3 h-48 flex flex-col justify-between bg-green-50">
+            <h3 class="font-bold text-lg text-green-800 border-b pb-2 mb-2" data-key="lc_col6_title">6. Kênh (Channels)</h3>
+            <ul class="list-disc list-inside space-y-1 text-neutral-700 flex-grow">
+                <li data-key="lc_col6_item1">Cấp phép trực tiếp cho các OEM và nhà thầu PCCC lớn.</li>
+                <li data-key="lc_col6_item2">Hợp tác R&D với các công ty Quốc phòng/Hàng không vũ trụ.</li>
+                <li data-key="lc_col6_item3">Các sự kiện và triển lãm công nghệ an toàn cháy nổ quốc tế.</li>
+            </ul>
+        </div>
+        
+        <div class="col-span-3 border border-neutral-300 rounded-lg p-3 h-48 flex flex-col justify-between bg-teal-50">
+            <h3 class="font-bold text-lg text-teal-800 border-b pb-2 mb-2" data-key="lc_col7_title">7. Các Chỉ Số Chính (Key Metrics)</h3>
+            <ul class="list-disc list-inside space-y-1 text-neutral-700 flex-grow">
+                <li data-key="lc_col7_item1">Số lượng Bằng sáng chế và IP được nộp/cấp.</li>
+                <li data-key="lc_col7_item2">Số lượng hợp đồng Cấp phép IP đang hoạt động (Active Licensing Deals).</li>
+                <li data-key="lc_col7_item3">Tỷ suất lợi nhuận gộp (Gross Margin) > 70%.</li>
+                <li data-key="lc_col7_item4">Đạt chứng nhận (Ví dụ: TCVN, UL) cho sản phẩm MVP.</li>
             </ul>
         </div>
 
+        <div class="col-span-2 border border-neutral-300 rounded-lg p-3 h-48 flex flex-col justify-between bg-red-100">
+            <h3 class="font-bold text-lg text-red-800 border-b pb-2 mb-2" data-key="lc_col8_title">8. Cấu Trúc Chi Phí (Cost Structure)</h3>
+            <ul class="list-disc list-inside space-y-1 text-neutral-700 flex-grow">
+                <li data-key="lc_col8_item1">Chi phí R&D và Tạo mẫu (Prototyping) tại Việt Nam.</li>
+                <li data-key="lc_col8_item2">Chi phí Đăng ký/Bảo vệ IP toàn cầu (Singapore).</li>
+                <li data-key="lc_col8_item3">Chi phí Nhân sự Kỹ thuật cao.</li>
+            </ul>
+        </div>
+
+        <div class="col-span-3 border border-neutral-300 rounded-lg p-3 h-48 flex flex-col justify-between bg-green-100">
+            <h3 class="font-bold text-lg text-green-800 border-b pb-2 mb-2" data-key="lc_col9_title">9. Dòng Doanh Thu (Revenue Streams)</h3>
+            <ul class="list-disc list-inside space-y-1 text-neutral-700 flex-grow md:columns-2">
+                <li data-key="lc_col9_item1">Phí Cấp phép Công nghệ (Licensing Fees): Thanh toán trả trước (NRE).</li>
+                <li data-key="lc_col9_item2">Tiền bản quyền (Royalty Payments): Phần trăm định kỳ trên mỗi đơn vị hệ thống được bán ra bởi đối tác.</li>
+                <li data-key="lc_col9_item3">Hợp đồng Hỗ trợ/Tư vấn Kỹ thuật.</li>
+            </ul>
+        </div>
     </div>
 </section>
