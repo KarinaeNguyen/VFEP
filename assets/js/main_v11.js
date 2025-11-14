@@ -1,136 +1,148 @@
 /**
- * window.loadFinancialData()
- * Hàm này tải và xử lý dữ liệu từ Google Sheet.
+ * ===============================
+ * Load Google Sheet Financial Data
+ * ===============================
  */
-window.loadFinancialData = function() {
+window.loadFinancialData = function () {
     const loadingMsg = document.getElementById('financials-loading');
     const chartWrapper = document.getElementById('chart-wrapper');
     const tableWrapper = document.getElementById('table-wrapper');
 
     if (!loadingMsg || !chartWrapper || !tableWrapper) {
-        console.error("Financial elements not found. Skipping data load.");
+        console.error("Financial UI elements missing!");
         return;
     }
 
-    const GOOGLE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdnGGLERma9OCgM-Y6hGfFn2RnyjAMZeGT_zHviVrBKdC5h3947vTg66xfwg1RbcrGbgQm1cIAWKhS/pub?output=csv';
+    const GOOGLE_SHEET_URL =
+        'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdnGGLERma9OCgM-Y6hGfFn2RnyjAMZeGT_zHviVrBKdC5h3947vTg66xfwg1RbcrGbgQm1cIAWKhS/pub?output=csv';
 
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(fetchAndDraw);
+    google.charts.load('current', { packages: ['corechart'] });
+    google.charts.setOnLoadCallback(fetchAndRender);
 
-    async function fetchAndDraw() {
+    async function fetchAndRender() {
         try {
             const response = await fetch(GOOGLE_SHEET_URL);
-            if (!response.ok) throw new Error('Network response was not ok');
+            if (!response.ok) throw new Error("Failed to fetch Google Sheet");
 
             const csvText = await response.text();
             const data = parseCSV(csvText);
 
-            console.log("--- DEBUG: Parsed CSV Data ---");
+            console.log("--- PARSED CSV DATA ---");
             console.log(data);
 
+            // Hiện UI
             loadingMsg.classList.add('hidden');
             chartWrapper.classList.remove('hidden');
             tableWrapper.classList.remove('hidden');
 
-            drawChart(data);
-            createTable(data);
+            // Đợi layout render xong (vì wrapper ban đầu hidden)
+            setTimeout(() => {
+                drawChart(data);
+                createTable(data);
+            }, 80);
 
-            console.log("Google Sheet data loaded and rendered successfully.");
-        } catch (error) {
-            console.error('Error loading or parsing Google Sheet data:', error);
-            loadingMsg.innerHTML = '<p class="text-red-600">Lỗi: Không thể tải dữ liệu tài chính.</p>';
+        } catch (err) {
+            console.error("Financial data load error:", err);
+            loadingMsg.innerHTML =
+                `<p class="text-red-600">Lỗi: Không thể tải dữ liệu tài chính.</p>`;
         }
     }
 };
 
 
-/* -------------------- CSV PARSER -------------------- */
+/**
+ * ===============================
+ * CSV PARSER
+ * ===============================
+ */
 function parseCSV(text) {
-    const lines = text.split('\n').map(line => line.trim());
+    const lines = text.split('\n').map(l => l.trim());
     const data = [];
 
     for (const line of lines) {
         if (!line) continue;
-        const row = [];
-        let currentVal = '';
-        let inQuote = false;
+        let row = [], current = '', inQuotes = false;
 
         for (let i = 0; i < line.length; i++) {
-            const char = line[i];
-            if (char === '"') {
-                if (line[i+1] === '"') { currentVal += '"'; i++; }
-                else inQuote = !inQuote;
-            } else if (char === ',' && !inQuote) {
-                row.push(currentVal.trim());
-                currentVal = '';
-            } else currentVal += char;
+            const ch = line[i];
+            if (ch === '"') {
+                if (line[i + 1] === '"') { current += '"'; i++; }
+                else inQuotes = !inQuotes;
+            } else if (ch === ',' && !inQuotes) {
+                row.push(current.trim()); current = '';
+            } else current += ch;
         }
-        row.push(currentVal.trim());
+        row.push(current.trim());
         data.push(row);
     }
     return data;
 }
 
-
-const cleanNumber = (str) => {
-    if (!str) return 0;
-    let isNegative = false;
-    if (str.startsWith('(') && str.endsWith(')')) isNegative = true;
-    let num = parseFloat(str.replace(/[\$,\(\),]/g, '')) || 0;
-    return isNegative ? -num : num;
+const cleanNumber = (value) => {
+    if (!value) return 0;
+    let neg = value.startsWith("(") && value.endsWith(")");
+    let num = parseFloat(value.replace(/[$,()]/g, "")) || 0;
+    return neg ? -num : num;
 };
 
 
-/* -------------------- DRAW CHART -------------------- */
+/**
+ * ===============================
+ * DRAW CHART
+ * ===============================
+ */
 function drawChart(csvData) {
     try {
-        const headers = csvData[2]; 
-        console.log("--- DEBUG Headers:", headers);
+        const headers = csvData[2];
+        console.log("HEADERS:", headers);
 
         let revenueRow, costRow, netRow, cumulativeRow;
         for (const row of csvData) {
-            const category = row[0]?.trim().toUpperCase() || "";
-            if (category === "TOTAL CASH RECEIPTS") revenueRow = row;
-            if (category === "TOTAL CASH PAID OUT") costRow = row;
-            if (category === "NET CASHFLOW FOR PERIOD") netRow = row;
-            if (category === "CASH BALANCE") cumulativeRow = row;
+            const cat = row[0]?.trim().toUpperCase();
+            if (cat === "TOTAL CASH RECEIPTS") revenueRow = row;
+            if (cat === "TOTAL CASH PAID OUT") costRow = row;
+            if (cat === "NET CASHFLOW FOR PERIOD") netRow = row;
+            if (cat === "CASH BALANCE") cumulativeRow = row;
         }
 
         if (!revenueRow || !costRow || !netRow || !cumulativeRow) {
             document.getElementById('chart-wrapper').innerHTML =
-                '<p class="text-red-600 p-4">Lỗi: Thiếu hàng dữ liệu cần thiết trong bảng.</p>';
+                `<p class="text-red-600 p-4">Lỗi: Thiếu dữ liệu cần thiết trong Google Sheet.</p>`;
             return;
         }
 
         const dataTable = new google.visualization.DataTable();
-        dataTable.addColumn('string', 'Quarter');
-        dataTable.addColumn('number', 'Total Revenue');
-        dataTable.addColumn('number', 'Total Cost');
-        dataTable.addColumn('number', 'Net Cashflow');
-        dataTable.addColumn('number', 'Cumulative Cash');
+        dataTable.addColumn("string", "Quarter");
+        dataTable.addColumn("number", "Total Revenue");
+        dataTable.addColumn("number", "Total Cost");
+        dataTable.addColumn("number", "Net Cashflow");
+        dataTable.addColumn("number", "Cumulative Cash");
 
         for (let i = 1; i < headers.length; i++) {
-            const quarter = headers[i];
-            if (!quarter) continue;
             dataTable.addRow([
-                quarter,
+                headers[i],
                 cleanNumber(revenueRow[i]),
                 cleanNumber(costRow[i]),
                 cleanNumber(netRow[i]),
-                cleanNumber(cumulativeRow[i])
+                cleanNumber(cumulativeRow[i]),
             ]);
         }
 
-        const chart = new google.visualization.ComboChart(document.getElementById('cashFlowChart'));
-
-        chart.draw(dataTable, {
-            title: 'Dòng Tiền Lũy Kế & Dòng Tiền Ròng (USD)',
-            seriesType: 'bars',
+        const options = {
+            title: "Dòng Tiền Lũy Kế & Dòng Tiền Ròng (USD)",
+            seriesType: "bars",
             series: {
-                2: { type: 'line' },
-                3: { type: 'line' }
-            }
-        });
+                2: { type: "line", lineWidth: 3 },
+                3: { type: "line", lineWidth: 3 }
+            },
+            chartArea: { width: "85%", height: "70%" },
+            legend: { position: "bottom" }
+        };
+
+        const chart = new google.visualization.ComboChart(
+            document.getElementById("cashFlowChart")
+        );
+        chart.draw(dataTable, options);
 
     } catch (e) {
         console.error("Chart draw failed:", e);
@@ -138,31 +150,39 @@ function drawChart(csvData) {
 }
 
 
-/* -------------------- CREATE TABLE -------------------- */
+/**
+ * ===============================
+ * TABLE BUILDER
+ * ===============================
+ */
 function createTable(csvData) {
-    const tableHead = document.getElementById('financial-table-head');
-    const tableBody = document.getElementById('financial-table-body');
-
     const headers = csvData[2];
-    let headHtml = '<tr>';
-    headers.forEach(h => headHtml += `<th class="px-4 py-3 font-semibold">${h}</th>`);
-    headHtml += '</tr>';
-    tableHead.innerHTML = headHtml;
+    const tableHead = document.getElementById("financial-table-head");
+    const tableBody = document.getElementById("financial-table-body");
 
-    let bodyHtml = '';
+    let headHTML = "<tr>";
+    headers.forEach(h => headHTML += `<th class="px-4 py-3 font-semibold">${h}</th>`);
+    headHTML += "</tr>";
+    tableHead.innerHTML = headHTML;
+
+    let bodyHTML = "";
     for (let i = 3; i < csvData.length; i++) {
-        bodyHtml += '<tr>';
-        csvData[i].forEach((cell, index) => {
-            bodyHtml += `<td class="px-4 py-3">${cell}</td>`;
+        bodyHTML += "<tr>";
+        csvData[i].forEach(cell => {
+            bodyHTML += `<td class="px-4 py-3">${cell}</td>`;
         });
-        bodyHtml += '</tr>';
+        bodyHTML += "</tr>";
     }
-    tableBody.innerHTML = bodyHtml;
+    tableBody.innerHTML = bodyHTML;
 }
 
 
-/* -------------------- INITIALIZE APP -------------------- */
-window.initializeApp = function() {
+/**
+ * ===============================
+ * INITIALIZE APP
+ * ===============================
+ */
+window.initializeApp = function () {
     console.log("Vicinity Safety Application Initialized.");
     window.loadFinancialData();
 };
