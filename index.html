@@ -1,34 +1,159 @@
-<!DOCTYPE html>
-<html lang="vi" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale-1.0">
-    <title>Vicinity Safety | Công Nghệ Dập Lửa Chính Xác VFEP</title>
+// assets/js/importSections.js
+
+/**
+ * 🇻🇳 VIETNAMESE TO 🇬🇧 ENGLISH TRANSLATION DICTIONARY
+ * * Centralized dictionary for translating static text, section titles,
+ * and the page title. Content for individual sections (e.g., overview.html) 
+ * should be handled by giving translated elements a 'data-key' attribute
+ * inside their respective HTML files, which will be processed by applyTranslations.
+ */
+const LANGUAGE_DATA = {
+    'vi': {
+        // Global/Header
+        'page_title': 'Vicinity Safety | Công Nghệ Dập Lửa Chính Xác VFEP',
+        'header_title': 'Tài liệu Kế hoạch Kinh doanh',
+        'language_switch': 'English', // Text *on* the button
+        'language_current': 'VN', // Displayed language
+
+        // Section Titles (Used for Navigation/Headings)
+        'nav_overview': 'Tổng quan',
+        'nav_vision': 'Tầm nhìn & Sứ mệnh',
+        'nav_lean_canvas': 'Mô hình Lean Canvas',
+        'nav_technology': 'Công nghệ',
+        'nav_strategy': 'Chiến lược',
+        'nav_market': 'Phân tích Thị trường',
+        'nav_financials': 'Tài chính',
+        'nav_advantage': 'Lợi thế Cạnh tranh',
+        
+        // Footer
+        'footer_text': '© 2024 Vicinity Safety. Bảo lưu mọi quyền.',
+    },
+    'en': {
+        // Global/Header
+        'page_title': 'Vicinity Safety | Precise Fire Extinguishing Technology VFEP',
+        'header_title': 'Business Plan Document',
+        'language_switch': 'Tiếng Việt', // Text *on* the button
+        'language_current': 'EN', // Displayed language
+
+        // Section Titles (Used for Navigation/Headings)
+        'nav_overview': 'Overview',
+        'nav_vision': 'Vision & Mission',
+        'nav_lean_canvas': 'Lean Canvas Model',
+        'nav_technology': 'Technology',
+        'nav_strategy': 'Strategy',
+        'nav_market': 'Market Analysis',
+        'nav_financials': 'Financials',
+        'nav_advantage': 'Competitive Advantage',
+
+        // Footer
+        'footer_text': '© 2024 Vicinity Safety. All rights reserved.',
+    }
+};
+
+let currentLang = localStorage.getItem('lang') || 'vi';
+
+/**
+ * Loads content from HTML files into the corresponding container IDs.
+ * (Original logic for section importing)
+ */
+async function importSections() {
+    const sections = [
+        'header', 'overview', 'vision', 'lean-canvas', 'technology', 
+        'strategy', 'market', 'financials', 'advantage', 'footer'
+    ];
+
+    for (const section of sections) {
+        // Use a placeholder path for header/footer and sections
+        const path = section === 'header' || section === 'footer' 
+            ? `sections/${section}.html` 
+            : `sections/${section}.html`;
+
+        try {
+            const response = await fetch(path);
+            if (response.ok) {
+                const html = await response.text();
+                document.getElementById(section).innerHTML = html;
+            } else {
+                console.error(`Failed to load section: ${path}`);
+            }
+        } catch (error) {
+            console.error(`Error fetching section ${section}:`, error);
+        }
+    }
     
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    // AFTER sections are loaded, apply the current language
+    applyTranslations(currentLang);
+}
+
+
+/**
+ * Core function to switch the active language.
+ * @param {string} lang - The target language ('vi' or 'en').
+ */
+window.switchLanguage = function(lang) {
+    if (lang === currentLang) return; // Prevent unnecessary reloads
+
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
     
-    <link rel="stylesheet" href="assets/css/style.css" />
-</head>
-<body class="bg-neutral-100 text-neutral-800">
+    // 1. Update global HTML attributes
+    document.documentElement.lang = lang;
+    document.title = LANGUAGE_DATA[lang]['page_title'];
 
-    <div id="header"></div>
+    // 2. Apply translations to all loaded content
+    applyTranslations(lang);
+    
+    // Optional: Reload the current view/tab if needed (not implemented here)
+};
 
-    <main class="max-w-6xl mx-auto p-4 sm:p-8 space-y-16" id="content">
-        <div id="overview"></div>
-        <div id="vision"></div>
-        <div id="lean-canvas"></div>
-        <div id="technology"></div>
-        <div id="strategy"></div>
-        <div id="market"></div>
-        <div id="financials"></div>
-        <div id="advantage"></div>
-    </main>
+/**
+ * Finds all translatable elements and updates their content.
+ * Looks for: 
+ * 1. Elements with 'data-key' attribute (for content loaded via fetch)
+ * 2. Elements with 'data-lang-title' attribute (for dynamic elements like button text)
+ * 3. Updates the language switch button text/display.
+ * @param {string} lang - The target language ('vi' or 'en').
+ */
+function applyTranslations(lang) {
+    // A. Translate static/fetched content using data-key
+    document.querySelectorAll('[data-key]').forEach(element => {
+        const key = element.getAttribute('data-key');
+        const translation = LANGUAGE_DATA[lang][key];
+        if (translation) {
+            element.textContent = translation;
+        }
+    });
 
-    <div id="footer"></div>
+    // B. Update Language Switch Button/Display
+    const switchBtn = document.getElementById('language-switch-btn');
+    const displaySpan = document.getElementById('lang-display');
+    
+    if (switchBtn) {
+        // Set the target language for the button click
+        const targetLang = lang === 'vi' ? 'en' : 'vi';
+        switchBtn.setAttribute('onclick', `switchLanguage('${targetLang}')`);
+        
+        // Update the button's text to show what language it *switches to*
+        switchBtn.textContent = LANGUAGE_DATA[targetLang]['language_switch'];
+    }
 
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/importSections.js"></script>
-</body>
-</html>
+    if (displaySpan) {
+        // Update the visible language display (e.g., 'VN' or 'EN')
+        displaySpan.textContent = LANGUAGE_DATA[lang]['language_current'];
+    }
+
+    // C. Translate the section titles for the main index (since they are empty divs)
+    const sectionIds = ['overview', 'vision', 'lean-canvas', 'technology', 'strategy', 'market', 'financials', 'advantage'];
+    sectionIds.forEach(id => {
+        const titleKey = 'nav_' + id.replace('-', '_');
+        const element = document.getElementById(id);
+        if (element && element.tagName === 'DIV' && element.children.length === 0) {
+            // Placeholder content for the empty divs in index.html, showing the translated title
+            element.innerHTML = `<h2 class="text-3xl font-bold mb-6">${LANGUAGE_DATA[lang][titleKey]}</h2><p>Content for this section will be translated inside ${id}.html.</p>`;
+        }
+    });
+}
+
+
+// Run the import function when the DOM is ready
+document.addEventListener('DOMContentLoaded', importSections);
