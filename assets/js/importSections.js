@@ -1,11 +1,15 @@
-// assets/js/importSections.js - Phiên bản Hoàn Chỉnh
+// assets/js/importSections.js - Phiên bản Đã Sửa Lỗi (Hoàn Chỉnh)
 
 const LANGUAGE_DATA = {
     'vi': {
-        // ... (Nội dung dịch tiếng Việt) ...
         'page_title': 'Vicinity Safety | Công Nghệ Dập Lửa Chính Xác VFEP',
-        'header_title': 'Tài liệu Kế hoạch Kinh doanh',
-        'language_switch': 'English',
+        
+        // --- SỬA LỖI DỮ LIỆU ---
+        // (Cập nhật key để khớp với data-key trong header.html của bạn)
+        'header_main_title': 'Thông Tin Dự Án',
+        'header_subtitle': '| Công Nghệ VFEP',
+        
+        'language_switch': 'English', // Văn bản trên nút khi ở Tiếng Việt
         'language_current': 'VN',
         'nav_overview': 'Tổng quan',
         'nav_vision': 'Tầm nhìn & Sứ mệnh',
@@ -18,10 +22,14 @@ const LANGUAGE_DATA = {
         'footer_text': '© 2024 Vicinity Safety. Bảo lưu mọi quyền.',
     },
     'en': {
-        // ... (Nội dung dịch tiếng Anh) ...
         'page_title': 'Vicinity Safety | Precise Fire Extinguishing Technology VFEP',
-        'header_title': 'Business Plan Document',
-        'language_switch': 'Tiếng Việt',
+        
+        // --- SỬA LỖI DỮ LIỆU ---
+        // (Cập nhật key để khớp với data-key trong header.html của bạn)
+        'header_main_title': 'Project Information',
+        'header_subtitle': '| VFEP Technology',
+        
+        'language_switch': 'Tiếng Việt', // Văn bản trên nút khi ở Tiếng Anh
         'language_current': 'EN',
         'nav_overview': 'Overview',
         'nav_vision': 'Vision & Mission',
@@ -78,22 +86,19 @@ window.switchLanguage = function(lang) {
     
     document.documentElement.lang = lang;
     
-    // Dùng data-key để đổi tiêu đề trang
-    const titleEl = document.querySelector('title[data-key="page_title"]');
-    if (titleEl) {
-        titleEl.innerHTML = LANGUAGE_DATA[lang]['page_title'];
-    }
-
+    // --- SỬA LỖI LOGIC 1 ---
+    // (Xóa dòng document.title cũ. Hàm applyTranslations sẽ tự động cập nhật
+    // tiêu đề qua thẻ <title data-key="page_title"> trong index.html)
+    
     applyTranslations(lang);
 };
 
 function applyTranslations(lang) {
-    // A. Dịch nội dung tĩnh/tải về
+    // A. Dịch nội dung tĩnh/tải về (bao gồm cả tiêu đề trang)
     document.querySelectorAll('[data-key]').forEach(element => {
         const key = element.getAttribute('data-key');
         const translation = LANGUAGE_DATA[lang][key];
         if (translation) {
-            // Dùng innerHTML để giữ định dạng HTML (nếu có)
             element.innerHTML = translation; 
         }
     });
@@ -105,7 +110,10 @@ function applyTranslations(lang) {
     if (switchBtn) {
         const targetLang = lang === 'vi' ? 'en' : 'vi';
         switchBtn.setAttribute('onclick', `switchLanguage('${targetLang}')`);
-        // Cập nhật text của nút sang ngôn ngữ MỚI
+        
+        // --- SỬA LỖI LOGIC 2 ---
+        // (Văn bản của nút phải lấy từ ngôn ngữ HIỆN TẠI (lang),
+        // không phải ngôn ngữ MỤC TIÊU (targetLang))
         switchBtn.textContent = LANGUAGE_DATA[lang]['language_switch'];
     }
 
@@ -118,7 +126,6 @@ function applyTranslations(lang) {
     sectionIds.forEach(id => {
         const titleKey = 'nav_' + id.replace('-', '_');
         const element = document.getElementById(id);
-        // Chỉ chèn placeholder nếu div đó rỗng (chưa tải được .html)
         if (element && element.tagName === 'DIV' && element.children.length === 0) {
             element.innerHTML = `<h2 class="text-3xl font-bold mb-6">${LANGUAGE_DATA[lang][titleKey]}</h2><p>Content for this section will be translated inside ${id}.html.</p>`;
         }
