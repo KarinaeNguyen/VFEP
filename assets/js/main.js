@@ -1,4 +1,4 @@
-// assets/js/main.js - Phiên bản Hoàn Chỉnh (Tích hợp Google Sheet)
+// assets/js/main.js - Phiên bản Hoàn Chỉnh (Sửa lỗi đọc số USD)
 
 /**
  * window.loadFinancialData()
@@ -57,15 +57,14 @@ window.loadFinancialData = function() {
 
 /**
  * parseCSV()
- * Hàm đơn giản để chuyển đổi văn bản CSV thành mảng 2D.
+ * Chuyển đổi văn bản CSV thành mảng 2D.
  */
 function parseCSV(text) {
-    // Tách CSV thành các dòng, loại bỏ khoảng trắng thừa
     const lines = text.split('\n').map(line => line.trim());
     const data = [];
     
     for (const line of lines) {
-        if (!line) continue; // Bỏ qua dòng trống
+        if (!line) continue; 
 
         const row = [];
         let currentVal = '';
@@ -75,18 +74,15 @@ function parseCSV(text) {
             const char = line[i];
             
             if (char === '"') {
-                // Xử lý dấu ngoặc kép
                 inQuote = !inQuote;
             } else if (char === ',' && !inQuote) {
-                // Nếu là dấu phẩy và không nằm trong ngoặc kép, đây là cuối 1 ô
-                row.push(currentVal.trim());
+                row.push(currentVal.trim().replace(/"/g, '')); // Xóa dấu " thừa
                 currentVal = '';
             } else {
-                // Thêm ký tự vào giá trị ô hiện tại
                 currentVal += char;
             }
         }
-        row.push(currentVal.trim()); // Đẩy giá trị cuối cùng vào
+        row.push(currentVal.trim().replace(/"/g, '')); // Xóa dấu " thừa
         data.push(row);
     }
     return data;
@@ -99,21 +95,16 @@ function parseCSV(text) {
 function drawChart(csvData) {
     
     // --- SỬA LỖI ĐỌC SỐ (RẤT QUAN TRỌNG) ---
-    // Hàm helper để xóa tất cả các ký tự không phải số ($, ,, .)
-    // Biến "100.000" (VND) -> 100000
-    // Biến "$100,000" (USD) -> 100000
+    // Hàm helper này giả định định dạng số là USD (ví dụ: $1,200.50)
     const cleanNumber = (str) => {
         if (!str) return 0;
         
-        // 1. Xóa dấu $, dấu phẩy (ngăn cách hàng nghìn USD), và dấu chấm (ngăn cách hàng nghìn VND)
-        // Ví dụ: "$1.200.000" -> "1200000"
-        let numStr = str.replace(/[\$\.]/g, ''); 
+        // 1. Xóa dấu $ và dấu , (ngăn cách hàng nghìn USD)
+        // Ví dụ: "$1,200.50" -> "1200.50"
+        // (Nó sẽ không xóa dấu . thập phân)
+        let numStr = str.replace(/[\$,]/g, ''); 
 
-        // 2. Xử lý trường hợp số thập phân (nếu có, ví dụ: "100,50")
-        // JavaScript dùng dấu chấm cho số thập phân, nên ta thay thế
-        // Ví dụ: "100,50" -> "100.50"
-        numStr = numStr.replace(/,/g, '.'); 
-
+        // 2. parseFloat bây giờ có thể đọc "1200.50" một cách chính xác
         return parseFloat(numStr) || 0;
     };
     // ------------------------------------
@@ -123,11 +114,11 @@ function drawChart(csvData) {
     const headers = csvData[0]; // Dòng đầu tiên là header
     
     // Thêm các cột (Header)
-    dataTable.addColumn('string', headers[0]); // Quý (string)
-    dataTable.addColumn('number', headers[1]); // Doanh thu (số)
-    dataTable.addColumn('number', headers[2]); // Chi phí (số)
-    dataTable.addColumn('number', headers[3]); // Dòng tiền ròng (số)
-    dataTable.addColumn('number', headers[4]); // Dòng tiền lũy kế (số)
+    dataTable.addColumn('string', headers[0]); // Quý
+    dataTable.addColumn('number', headers[1]); // Doanh thu
+    dataTable.addColumn('number', headers[2]); // Chi phí
+    dataTable.addColumn('number', headers[3]); // Dòng tiền ròng
+    dataTable.addColumn('number', headers[4]); // Dòng tiền lũy kế
 
     // Thêm các hàng (Data)
     for (let i = 1; i < csvData.length; i++) {
@@ -135,11 +126,11 @@ function drawChart(csvData) {
         if (row.length < headers.length) continue; // Bỏ qua hàng trống
 
         dataTable.addRow([
-            row[0], // Quý
-            cleanNumber(row[1]), // Doanh thu
-            cleanNumber(row[2]), // Chi phí
-            cleanNumber(row[3]), // Dòng tiền ròng
-            cleanNumber(row[4])  // Dòng tiền lũy kế
+            row[0], 
+            cleanNumber(row[1]), // Áp dụng hàm cleanNumber
+            cleanNumber(row[2]), // Áp dụng hàm cleanNumber
+            cleanNumber(row[3]), // Áp dụng hàm cleanNumber
+            cleanNumber(row[4])  // Áp dụng hàm cleanNumber
         ]);
     }
 
@@ -149,15 +140,15 @@ function drawChart(csvData) {
         vAxis: {
             title: 'Số Tiền (USD)', 
             gridlines: {color: '#e5e7eb'},
-            format: 'short' // Hiển thị số lớn dạng rút gọn (ví dụ: 100K thay vì 100,000)
+            format: 'short' // Hiển thị 100K thay vì 100,000
         },
         hAxis: {title: 'Quý'},
         seriesType: 'bars', // Biểu đồ cột làm mặc định
         series: {
             // Cột 2 (Dòng tiền ròng) là đường màu đỏ
-            2: { type: 'line', color: '#ef4444', lineWidth: 3, pointSize: 6 }, 
+            2: { type: 'line', color: '#ef4444', lineWidth: 3, pointSize: 6 }, // Dòng tiền ròng
             // Cột 3 (Dòng tiền lũy kế) là đường màu xanh
-            3: { type: 'line', color: '#10b981', lineWidth: 3, pointSize: 6 }  
+            3: { type: 'line', color: '#10b981', lineWidth: 3, pointSize: 6 }  // Dòng tiền lũy kế
         },
         colors: ['#4338ca', '#a5b4fc'], // Màu cho 2 cột: Doanh thu (Đậm), Chi phí (Nhạt)
         legend: { position: 'bottom' }, // Chú thích ở dưới
@@ -201,7 +192,7 @@ function createTable(csvData) {
         
         bodyHtml += '<tr>';
         row.forEach((cell, index) => {
-            // Hiển thị văn bản gốc từ CSV (ví dụ: "100.000")
+            // Hiển thị văn bản gốc từ CSV
             if (index === 0) { // Cột đầu tiên (Tên)
                 bodyHtml += `<td class="px-4 py-3 text-sm font-medium text-neutral-900">${cell}</td>`;
             } else { // Các cột số
@@ -216,16 +207,14 @@ function createTable(csvData) {
 
 /**
  * window.setupTabs()
- * Hàm chung để xử lý việc chuyển đổi tab tương tác (Technology, Market, Advantage).
+ * Hàm chung để xử lý việc chuyển đổi tab tương tác.
  */
 window.setupTabs = function(containerId, buttonClass, contentClass) {
     const container = document.getElementById(containerId);
     if (!container) return; // Bảo vệ: Bỏ qua nếu không tìm thấy container
 
     const tabButtons = container.querySelectorAll(`.${buttonClass}`);
-    const tabContents = document.querySelectorAll(`.${contentClass}`);
-
-    // 1. Gán sự kiện Click cho các nút
+    
     tabButtons.forEach(button => {
         button.addEventListener('click', function() {
             // Xử lý nút: Xóa 'active' khỏi tất cả, thêm vào nút hiện tại
@@ -244,8 +233,8 @@ window.setupTabs = function(containerId, buttonClass, contentClass) {
         });
     });
     
-    // 2. Thiết lập trạng thái ban đầu (buộc tab đầu tiên hoạt động)
-    tabContents.forEach(content => content.classList.remove('active'));
+    // Thiết lập trạng thái ban đầu (buộc tab đầu tiên hoạt động)
+    document.querySelectorAll(`.${contentClass}`).forEach(content => content.classList.remove('active'));
     tabButtons.forEach(btn => btn.classList.remove('active'));
 
     const firstButton = container.querySelector(`.${buttonClass}`);
@@ -262,8 +251,7 @@ window.setupTabs = function(containerId, buttonClass, contentClass) {
 
 /**
  * window.initializeApp()
- * Hàm khởi tạo chính. Nó được gọi bởi importSections.js sau khi
- * tất cả các tệp HTML đã được tải và dịch.
+ * Hàm khởi tạo chính.
  */
 window.initializeApp = function() {
     console.log("Vicinity Safety Application Initialized.");
@@ -274,6 +262,5 @@ window.initializeApp = function() {
     window.setupTabs('market-tabs', 'market-tab-btn', 'market-tab-content');
 
     // --- 2. TẢI DỮ LIỆU TÀI CHÍNH ---
-    // (Bây giờ nó sẽ tải từ Google Sheet)
     window.loadFinancialData();
 };
