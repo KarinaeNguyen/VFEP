@@ -1,30 +1,66 @@
 <section id="market" class="bg-white shadow-xl rounded-2xl p-6 md:p-10">
-    <h2 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-4">Thị Trường & Tầm Nhìn</h2>
-    <p class="text-lg text-neutral-600 mb-8">
-        Chiến lược của chúng tôi là tập trung vào các thị trường <strong class="text-indigo-700">thiết thực, có nhu cầu ngay lập tức</strong> tại Việt Nam và khu vực, sau đó mở rộng ra các ứng dụng tương lai có giá trị cao.
+    <h2 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-4" data-key="market_main_title">
+        Thị Trường & Tầm Nhìn
+    </h2>
+    <p class="text-lg text-neutral-600 mb-8" data-key="market_intro_p">
+        Chiến lược của chúng tôi là tập trung vào các thị trường <strong class="text-indigo-700" data-key="market_highlight">thiết thực, có nhu cầu ngay lập tức</strong> tại Việt Nam và khu vực, sau đó mở rộng ra các ứng dụng tương lai có giá trị cao.
     </p>
     
     <div class="flex flex-wrap gap-2 mb-6" id="market-tabs">
-        <button class="tab-btn market-tab-btn active px-5 py-2 rounded-lg text-sm font-medium" data-target="market-ground">1. Thị Trường Trọng Tâm (Mặt Đất)</button>
-        <button class="tab-btn market-tab-btn px-5 py-2 rounded-lg text-sm font-medium" data-target="market-space">2. Tầm Nhìn Tương Lai (Hàng Không & Vũ Trụ)</button>
+        <!-- Tab Button 1 -->
+        <button 
+            class="tab-btn market-tab-btn active px-5 py-2 rounded-lg text-sm font-medium" 
+            data-target="market-ground" 
+            data-key="market_tab_ground_btn"
+        >
+            1. Thị Trường Trọng Tâm (Mặt Đất)
+        </button>
+        <!-- Tab Button 2 -->
+        <button 
+            class="tab-btn market-tab-btn px-5 py-2 rounded-lg text-sm font-medium" 
+            data-target="market-space"
+            data-key="market_tab_space_btn"
+        >
+            2. Tầm Nhìn Tương Lai (Hàng Không & Vũ Trụ)
+        </button>
     </div>
 
     <div class="bg-neutral-50 border border-neutral-200 rounded-xl p-6 min-h-[300px]">
+        <!-- TAB CONTENT 1: GROUND MARKET -->
         <div id="market-ground" class="tab-content market-tab-content active">
-            <h3 class="text-2xl font-bold text-indigo-800 mb-4">Thị Trường Trọng Tâm (Trung Tâm Dữ Liệu, Nhà máy, Pin Li-ion)</h3>
-            <p class="text-neutral-700 mb-6">Bảo vệ cơ sở hạ tầng quan trọng nơi mà thiệt hại thứ cấp (secondary damage) còn tốn kém hơn cả đám cháy.</p>
+            <h3 class="text-2xl font-bold text-indigo-800 mb-4" data-key="market_ground_h">
+                Thị Trường Trọng Tâm (Trung Tâm Dữ Liệu, Nhà máy, Pin Li-ion)
+            </h3>
+            <p class="text-neutral-700 mb-6" data-key="market_ground_p_intro">
+                Bảo vệ cơ sở hạ tầng quan trọng nơi mà thiệt hại thứ cấp (secondary damage) còn tốn kém hơn cả đám cháy.
+            </p>
             <ul class="list-disc list-outside space-y-3 pl-5 text-neutral-700">
-                <li><strong class="text-indigo-700">Mục tiêu:</strong> Trung tâm dữ liệu (Data Centers) (Viettel, FPT, VNG, CMC) và các nhà máy sản xuất điện tử FDI (Samsung, LG, Foxconn).</li>
-                <li><strong class="text-indigo-700">Vấn đề:</strong> Cháy pin Lithium-ion (trong hệ thống UPS) có thể gây ra hiện tượng "thoát nhiệt" (thermal runaway) cực kỳ nguy hiểm.</li>
-                <li><strong class="text-indigo-700">Giải pháp VFEP:</strong> Cung cấp khả năng dập lửa chính xác, không dùng nước, không ăn mòn, ngăn chặn đám cháy lây lan mà không phá hủy toàn bộ hàng rack máy chủ.</li>
+                <li data-key="market_ground_item1">
+                    <strong class="text-indigo-700" data-key="market_ground_item1_strong">Mục tiêu:</strong> Trung tâm dữ liệu (Data Centers) (Viettel, FPT, VNG, CMC) và các nhà máy sản xuất điện tử FDI (Samsung, LG, Foxconn).
+                </li>
+                <li data-key="market_ground_item2">
+                    <strong class="text-indigo-700" data-key="market_ground_item2_strong">Vấn đề:</strong> Cháy pin Lithium-ion (trong hệ thống UPS) có thể gây ra hiện tượng "thoát nhiệt" (thermal runaway) cực kỳ nguy hiểm.
+                </li>
+                <li data-key="market_ground_item3">
+                    <strong class="text-indigo-700" data-key="market_ground_item3_strong">Giải pháp VFEP:</strong> Cung cấp khả năng dập lửa chính xác, không dùng nước, không ăn mòn, ngăn chặn đám cháy lây lan mà không phá hủy toàn bộ hàng rack máy chủ.
+                </li>
             </ul>
         </div>
+        <!-- TAB CONTENT 2: SPACE MARKET -->
         <div id="market-space" class="tab-content market-tab-content">
-            <h3 class="text-2xl font-bold text-indigo-800 mb-4">Tầm Nhìn Tương Lai (Hàng Không & Vũ Trụ)</h3>
-            <p class="text-neutral-700 mb-6">Đây là thị trường R&D dài hạn. Bằng cách giải quyết các vấn đề trên mặt đất, chúng tôi xây dựng nền tảng (dữ liệu, IP, chứng nhận) để trở thành nhà cung cấp cho NASA, ESA, Boeing... trong tương lai, khi công nghệ đã được chứng minh.</p>
+            <h3 class="text-2xl font-bold text-indigo-800 mb-4" data-key="market_space_h">
+                Tầm Nhìn Tương Lai (Hàng Không & Vũ Trụ)
+            </h3>
+            <p class="text-neutral-700 mb-6" data-key="market_space_p_intro">
+                Đây là thị trường R&D dài hạn. Bằng cách giải quyết các vấn đề trên mặt đất, chúng tôi xây dựng nền tảng (dữ liệu, IP, chứng nhận) để trở thành nhà cung cấp cho NASA, ESA, Boeing... trong tương lai, khi công nghệ đã được chứng minh.
+            </p>
             <ul class="list-disc list-outside space-y-3 pl-5 text-neutral-700">
-                <li><strong class="text-indigo-700">Vấn đề 1: Độ tin cậy Zero-G:</strong> Chất chữa cháy truyền thống phân tán không thể đoán trước trong môi trường vi trọng lực. Hệ thống đạn phóng của VFEP là một giải pháp tiềm năng.</li>
-                <li><strong class="text-indigo-700">Vấn đề 2: Không Gây Ô nhiễm:</strong> Chất Purple K bảo vệ các hệ thống quang học nhạy cảm và hệ thống hỗ trợ sự sống.</li>
+                <li data-key="market_space_item1">
+                    <strong class="text-indigo-700" data-key="market_space_item1_strong">Vấn đề 1: Độ tin cậy Zero-G:</strong> Chất chữa cháy truyền thống phân tán không thể đoán trước trong môi trường vi trọng lực. Hệ thống đạn phóng của VFEP là một giải pháp tiềm năng.
+                </li>
+                <li data-key="market_space_item2">
+                    <strong class="text-indigo-700" data-key="market_space_item2_strong">Vấn đề 2: Không Gây Ô nhiễm:</strong> Chất Purple K bảo vệ các hệ thống quang học nhạy cảm và hệ thống hỗ trợ sự sống.
+                </li>
             </ul>
         </div>
     </div>
