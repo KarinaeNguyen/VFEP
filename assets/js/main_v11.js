@@ -1,5 +1,3 @@
-// assets/js/main_v11.js - Phiên bản 10 (Sửa lỗi đọc số có dấu phẩy ,)
-
 /**
  * window.loadFinancialData()
  * Hàm này tải và xử lý dữ liệu từ Google Sheet.
@@ -167,10 +165,10 @@ function drawChart(csvData) {
         // 4. Xây dựng DataTable (Bảng dữ liệu) theo đúng định dạng
         const dataTable = new google.visualization.DataTable();
         dataTable.addColumn('string', 'Quarter');
-        dataTable.addColumn('number', 'Total Revenue');    // (Từ TOTAL CASH RECEIPTS)
-        dataTable.addColumn('number', 'Total Cost');        // (Từ TOTAL CASH PAID OUT)
-        dataTable.addColumn('number', 'Net Cashflow');      // (Từ NET CASHFLOW FOR PERIOD)
-        dataTable.addColumn('number', 'Cumulative Cash');   // (Từ CASH BALANCE)
+        dataTable.addColumn('number', 'Total Revenue'); // (Từ TOTAL CASH RECEIPTS)
+        dataTable.addColumn('number', 'Total Cost'); // (Từ TOTAL CASH PAID OUT)
+        dataTable.addColumn('number', 'Net Cashflow'); // (Từ NET CASHFLOW FOR PERIOD)
+        dataTable.addColumn('number', 'Cumulative Cash'); // (Từ CASH BALANCE)
 
         // 5. Lặp qua các cột (Q1, Q2,...) để thêm vào hàng
         for (let i = 1; i < headers.length; i++) {
@@ -199,7 +197,7 @@ function drawChart(csvData) {
             seriesType: 'bars', 
             series: {
                 2: { type: 'line', color: '#ef4444', lineWidth: 3, pointSize: 6 }, // Dòng tiền ròng (Đỏ)
-                3: { type: 'line', color: '#10b981', lineWidth: 3, pointSize: 6 }  // Dòng tiền lũy kế (Xanh)
+                3: { type: 'line', color: '#10b981', lineWidth: 3, pointSize: 6 } // Dòng tiền lũy kế (Xanh)
             },
             colors: ['#4338ca', '#a5b4fc'], // Doanh thu (Đậm), Chi phí (Nhạt)
             legend: { position: 'bottom' }, 
