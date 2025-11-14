@@ -1,4 +1,4 @@
-// assets/js/main.js - Phiên bản 9 (Sửa lỗi "TOTAL CASH INFLOWS" -> "TOTAL CASH RECEIPTS")
+// assets/js/main.js - Phiên bản 10 (Sửa lỗi tên hàng Google Sheet)
 
 /**
  * window.loadFinancialData()
@@ -27,10 +27,10 @@ window.loadFinancialData = function() {
             }
             const csvText = await response.text();
             
-            // 1. Phân tích CSV (Hàm v8 đã sửa lỗi)
+            // 1. Phân tích CSV (Hàm v8)
             const data = parseCSV(csvText);
             
-            // 2. (DEBUG) In dữ liệu đã phân tích ra Console (F12)
+            // 2. (DEBUG)
             console.log("--- DEBUG: Dữ liệu đã phân tích (Parsed CSV Data) ---");
             console.log(data);
             console.log("-------------------------------------------------");
@@ -39,7 +39,7 @@ window.loadFinancialData = function() {
             chartWrapper.classList.remove('hidden');
             tableWrapper.classList.remove('hidden');
 
-            // 3. Chạy hàm vẽ biểu đồ và bảng (phiên bản 9)
+            // 3. Chạy hàm vẽ biểu đồ và bảng (phiên bản 10)
             drawChart(data);
             createTable(data);
 
@@ -54,8 +54,7 @@ window.loadFinancialData = function() {
 
 /**
  * parseCSV()
- * VIẾT LẠI (V8)
- * Hàm này đã sửa lỗi xử lý dấu ngoặc kép (").
+ * (V8 - Đã sửa lỗi dấu ngoặc kép)
  */
 function parseCSV(text) {
     const lines = text.split('\n').map(line => line.trim());
@@ -114,8 +113,8 @@ const cleanNumber = (str) => {
 
 /**
  * drawChart()
- * VIẾT LẠI (V9)
- * Đọc dữ liệu dạng "ngang" (pivot) và "lật" (transpose) lại để vẽ.
+ * VIẾT LẠI (V10)
+ * Sửa lại 3 tên hàng cho khớp với Google Sheet
  */
 function drawChart(csvData) {
     try {
@@ -132,23 +131,22 @@ function drawChart(csvData) {
             // (DEBUG) In ra MỌI Category mà nó đang kiểm tra
             console.log(`Checking category: '${category}'`); 
 
-            // --- SỬA LỖI TÊN HÀNG (V9) ---
-            // Đổi "TOTAL CASH INFLOWS" -> "TOTAL CASH RECEIPTS"
-            if (category === "TOTAL CASH RECEIPTS") {
+            // --- SỬA LỖI TÊN HÀNG (V10) ---
+            if (category === "TOTAL CASH RECEIPTS") { // (Tên này đã đúng)
                 revenueRow = row;
                 console.log(">>> TÌM THẤY: TOTAL CASH RECEIPTS (Doanh thu)");
             }
-            if (category === "TOTAL CASH OUTFLOWS") {
+            if (category === "TOTAL CASH PAID OUT") { // Sửa "OUTFLOWS" -> "PAID OUT"
                 costRow = row;
-                console.log(">>> TÌM THẤY: TOTAL CASH OUTFLOWS (Chi phí)");
+                console.log(">>> TÌM THẤY: TOTAL CASH PAID OUT (Chi phí)");
             }
-            if (category === "NET CASHFLOW") {
+            if (category === "NET CASHFLOW FOR PERIOD") { // Sửa "NET CASHFLOW" -> "NET CASHFLOW FOR PERIOD"
                 netRow = row;
-                console.log(">>> TÌM THẤY: NET CASHFLOW (Dòng tiền ròng)");
+                console.log(">>> TÌM THẤY: NET CASHFLOW FOR PERIOD (Dòng tiền ròng)");
             }
-            if (category === "CASH IN HAND AT END OF PERIOD") {
+            if (category === "CASH BALANCE") { // Sửa "CASH IN HAND..." -> "CASH BALANCE"
                 cumulativeRow = row;
-                console.log(">>> TÌM THẤY: CASH IN HAND AT END OF PERIOD (Dòng tiền lũy kế)");
+                console.log(">>> TÌM THẤY: CASH BALANCE (Dòng tiền lũy kế)");
             }
         }
         
@@ -158,7 +156,7 @@ function drawChart(csvData) {
         if (!revenueRow || !costRow || !netRow || !cumulativeRow) {
             console.error("Could not find all required financial rows in CSV. Check Google Sheet names.");
             document.getElementById('chart-wrapper').innerHTML = 
-                '<p class="text-red-600 p-4">Lỗi: Dữ liệu Google Sheet bị thiếu hoặc sai định dạng. Không tìm thấy các hàng "TOTAL CASH RECEIPTS", "TOTAL CASH OUTFLOWS", "NET CASHFLOW", v.v.</p>';
+                '<p class="text-red-600 p-4">Lỗi: Dữ liệu Google Sheet bị thiếu hoặc sai định dạng. (Không tìm thấy đủ 4 hàng: TOTAL CASH RECEIPTS, TOTAL CASH PAID OUT, NET CASHFLOW FOR PERIOD, CASH BALANCE)</p>';
             return;
         }
 
@@ -166,9 +164,9 @@ function drawChart(csvData) {
         const dataTable = new google.visualization.DataTable();
         dataTable.addColumn('string', 'Quarter');
         dataTable.addColumn('number', 'Total Revenue');    // (Từ TOTAL CASH RECEIPTS)
-        dataTable.addColumn('number', 'Total Cost');        // (Từ TOTAL CASH OUTFLOWS)
-        dataTable.addColumn('number', 'Net Cashflow');      // (Từ NET CASHFLOW)
-        dataTable.addColumn('number', 'Cumulative Cash');   // (Từ CASH IN HAND AT END OF PERIOD)
+        dataTable.addColumn('number', 'Total Cost');        // (Từ TOTAL CASH PAID OUT)
+        dataTable.addColumn('number', 'Net Cashflow');      // (Từ NET CASHFLOW FOR PERIOD)
+        dataTable.addColumn('number', 'Cumulative Cash');   // (Từ CASH BALANCE)
 
         // 5. Lặp qua các cột (Q1, Q2,...) để thêm vào hàng
         for (let i = 1; i < headers.length; i++) {
