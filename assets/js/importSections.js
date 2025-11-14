@@ -222,7 +222,7 @@ const LANGUAGE_DATA = {
         'adv_usp_r5_c2': 'Đòn bẩy Tài chính Cao',
         'adv_usp_r5_c3': 'Cung cấp biên lợi nhuận đặc biệt và khả năng mở rộng, giảm vốn sản xuất trong khi vẫn đảm bảo doanh thu cao, định kỳ.',
         'adv_usp_r6_c1': '',
-        'adv_usp_r6_c2': 'Cấu trúc IP (Sing) / R&D (ĐNÁ)',
+        'adv_usp_r6_c2': 'IP (Sing) / R&D (ĐNÁ)',
         'adv_usp_r6_c3': 'Giảm thiểu rủi ro bằng cách bảo vệ tài sản cốt lõi theo khung pháp lý tốt nhất thế giới, đồng thời tối đa hóa hiệu quả chi phí phát triển.',
         
         // --- Content Keys for sections/lean-canvas.html ---
@@ -456,32 +456,32 @@ const LANGUAGE_DATA = {
         'adv_direct_r2_c4': 'Costly, requires sealed systems, potential for secondary damage.',
         'adv_direct_r3_c1': 'Launch System (VN Defense)',
         'adv_direct_r3_c2_strong': 'Macro Strategy:',
-        'adv_direct_r3_c2_p': 'Uses extremely high kinetic energy to transport massive volume (250m range).',
-        'adv_direct_r3_c3': 'Suppresses large, inaccessible fires (e.g., forest fires, buildings).',
-        'adv_direct_r3_c4': 'Complete destruction of target; unusable indoors/near equipment.',
-        'adv_usp_h': 'Core Value (USP)',
-        'adv_usp_p': 'These are the values we commit to our customers, categorized.',
-        'adv_usp_table_h1': 'Category',
-        'adv_usp_table_h2': 'Benefit (USP)',
-        'adv_usp_table_h3': 'Customer Value',
-        'adv_usp_r1_c1': 'I. Technology (Product)',
-        'adv_usp_r1_c2': 'Precise, Non-Corrosive Suppression',
-        'adv_usp_r1_c3': 'Guarantees suppression of Class C (electrical) and B (liquid) fires with minimal asset damage (servers, robots).',
+        'adv_direct_r3_c2_p': 'Dùng động năng cực cao để vận chuyển khối lượng lớn (tầm bắn 250m).',
+        'adv_direct_r3_c3': 'Dập tắt các đám cháy lớn, không thể tiếp cận (ví dụ: cháy rừng, tòa nhà).',
+        'adv_direct_r3_c4': 'Phá hủy hoàn toàn mục tiêu; không thể sử dụng trong nhà/gần thiết bị.',
+        'adv_usp_h': 'Giá Trị Cốt Lõi (USP)',
+        'adv_usp_p': 'Đây là những giá trị mà chúng tôi cam kết với khách hàng, chia theo danh mục.',
+        'adv_usp_table_h1': 'Danh Mục',
+        'adv_usp_table_h2': 'Lợi Ích (USP)',
+        'adv_usp_table_h3': 'Giá Trị cho Khách Hàng',
+        'adv_usp_r1_c1': 'I. Công nghệ (Sản phẩm)',
+        'adv_usp_r1_c2': 'Dập tắt chính xác, không ăn mòn',
+        'adv_usp_r1_c3': 'Đảm bảo dập tắt cháy Loại C (điện) và B (chất lỏng) với thiệt hại tài sản (máy chủ, robot) ở mức tối thiểu.',
         'adv_usp_r2_c1': '',
-        'adv_usp_r2_c2': 'Customizable for Lithium-ion Batteries',
-        'adv_usp_r2_c3': 'Provides a specialized extinguishing and cooling option (with gel core) to handle "thermal runaway."',
+        'adv_usp_r2_c2': 'Tùy biến cho Pin Lithium-ion',
+        'adv_usp_r2_c3': 'Cung cấp một lựa chọn dập lửa và làm mát chuyên biệt (với lõi gel) để xử lý "thoát nhiệt" (thermal runaway).',
         'adv_usp_r3_c1': '',
-        'adv_usp_r3_c2': 'Launch Mechanism (Caliber 0.68)',
-        'adv_usp_r3_c3': 'Ensures rapid deployment, simple training, and immediate access to a mass-producible launching platform (not a gun).',
-        'adv_usp_r4_c1': 'II. Strategy (Model)',
-        'adv_usp_r4_c2': '"Open Source" Licensing for Government',
-        'adv_usp_r4_c3': 'Creates a global market moat; governments become loyal partners, guaranteeing a market for the licensed manufacturer (who pays royalties).',
+        'adv_usp_r3_c2': 'Cơ chế phóng (Cỡ 0.68)',
+        'adv_usp_r3_c3': 'Đảm bảo triển khai nhanh, đào tạo đơn giản, và tiếp cận ngay lập tức với nền tảng phóng có thể sản xuất hàng loạt (không phải súng).',
+        'adv_usp_r4_c1': 'II. Chiến lược (Mô hình)',
+        'adv_usp_r4_c2': 'Giấy phép "Mã Nguồn Mở" cho Chính Phủ',
+        'adv_usp_r4_c3': 'Tạo ra một con hào thị trường (market moat) toàn cầu; các chính phủ trở thành đối tác trung thành, đảm bảo thị trường cho nhà sản xuất (người trả tiền bản quyền).',
         'adv_usp_r5_c1': '',
-        'adv_usp_r5_c2': 'High Financial Leverage',
-        'adv_usp_r5_c3': 'Provides exceptional margins and scalability, reducing manufacturing capital while ensuring high, recurring revenue.',
+        'adv_usp_r5_c2': 'Đòn bẩy Tài chính Cao',
+        'adv_usp_r5_c3': 'Cung cấp biên lợi nhuận đặc biệt và khả năng mở rộng, giảm vốn sản xuất trong khi vẫn đảm bảo doanh thu cao, định kỳ.',
         'adv_usp_r6_c1': '',
-        'adv_usp_r6_c2': 'IP (Sing) / R&D (SEA) Structure',
-        'adv_usp_r6_c3': 'Minimizes risk by protecting core assets under the best legal framework while maximizing development cost efficiency.',
+        'adv_usp_r6_c2': 'IP (Sing) / R&D (ĐNÁ)',
+        'adv_usp_r6_c3': 'Giảm thiểu rủi ro bằng cách bảo vệ tài sản cốt lõi theo khung pháp lý tốt nhất thế giới, đồng thời tối đa hóa hiệu quả chi phí phát triển.',
         
         // --- Content Keys for sections/lean-canvas.html ---
         'lc_main_title': 'Lean Canvas Model',
@@ -590,7 +590,9 @@ window.applyTranslations = function(lang) {
         const key = element.getAttribute('data-key');
         const translation = LANGUAGE_DATA[lang][key];
         if (translation !== undefined) {
-            element.textContent = translation;
+            // ĐIỂM SỬA CHỮA LỖI: Thay thế element.textContent bằng element.innerHTML 
+            // để bảo toàn các thẻ HTML lồng (ví dụ: <strong>)
+            element.innerHTML = translation; 
         } else {
             // Optional: Log missing key for debugging
             // console.warn(`Missing translation key: ${key} for language ${lang}`);
