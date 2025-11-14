@@ -1,124 +1,33 @@
-// assets/js/importSections.js - Phiên bản Đã Sửa Lỗi
-
-// ... (Các đối tượng LANGUAGE_DATA và biến currentLang được giữ nguyên) ...
-const LANGUAGE_DATA = {
-    'vi': {
-        // ... (Nội dung dịch tiếng Việt) ...
-        'page_title': 'Vicinity Safety | Công Nghệ Dập Lửa Chính Xác VFEP',
-        'header_title': 'Tài liệu Kế hoạch Kinh doanh',
-        'language_switch': 'English',
-        'language_current': 'VN',
-        'nav_overview': 'Tổng quan',
-        'nav_vision': 'Tầm nhìn & Sứ mệnh',
-        'nav_lean_canvas': 'Mô hình Lean Canvas',
-        'nav_technology': 'Công nghệ',
-        'nav_strategy': 'Chiến lược',
-        'nav_market': 'Phân tích Thị trường',
-        'nav_financials': 'Tài chính',
-        'nav_advantage': 'Lợi thế Cạnh tranh',
-        'footer_text': '© 2024 Vicinity Safety. Bảo lưu mọi quyền.',
-    },
-    'en': {
-        // ... (Nội dung dịch tiếng Anh) ...
-        'page_title': 'Vicinity Safety | Precise Fire Extinguishing Technology VFEP',
-        'header_title': 'Business Plan Document',
-        'language_switch': 'Tiếng Việt',
-        'language_current': 'EN',
-        'nav_overview': 'Overview',
-        'nav_vision': 'Vision & Mission',
-        'nav_lean_canvas': 'Lean Canvas Model',
-        'nav_technology': 'Technology',
-        'nav_strategy': 'Strategy',
-        'nav_market': 'Market Analysis',
-        'nav_financials': 'Financials',
-        'nav_advantage': 'Competitive Advantage',
-        'footer_text': '© 2024 Vicinity Safety. All rights reserved.',
-    }
-};
-
-let currentLang = localStorage.getItem('lang') || 'vi';
-
-async function importSections() {
-    const sections = [
-        'header', 'overview', 'vision', 'lean-canvas', 'technology', 
-        'strategy', 'market', 'financials', 'advantage', 'footer'
-    ];
-
-    for (const section of sections) {
-        const path = `sections/${section}.html`; 
-        try {
-            const response = await fetch(path);
-            if (response.ok) {
-                const html = await response.text();
-                document.getElementById(section).innerHTML = html;
-            } else {
-                console.error(`Failed to load section: ${path}`);
-            }
-        } catch (error) {
-            console.error(`Error fetching section ${section}:`, error);
-        }
-    }
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    // 1. ÁP DỤNG BẢN DỊCH SAU KHI TẢI
-    applyTranslations(currentLang);
+    <title data-key="page_title">Vicinity Safety</title>
     
-    // 🔥 FIX LỖI SỐ 1: GỌI initializeApp() trong main.js sau khi tải và dịch
-    if (typeof window.initializeApp === 'function') {
-        window.initializeApp();
-    } else {
-        console.error('CRITICAL ERROR: initializeApp() not found. main.js not loaded or defined.');
-    }
-}
-
-
-window.switchLanguage = function(lang) {
-    if (lang === currentLang) return; 
-
-    currentLang = lang;
-    localStorage.setItem('lang', lang);
+    <script src="https://cdn.tailwindcss.com"></script>
     
-    document.documentElement.lang = lang;
-    document.title = LANGUAGE_DATA[lang]['page_title'];
+    </head>
+<body class="bg-gray-100">
 
-    applyTranslations(lang);
-};
+    <header id="header"></header>
 
-function applyTranslations(lang) {
-    // A. Dịch nội dung tĩnh/tải về
-    document.querySelectorAll('[data-key]').forEach(element => {
-        const key = element.getAttribute('data-key');
-        const translation = LANGUAGE_DATA[lang][key];
-        if (translation) {
-            // 🔥 FIX LỖI SỐ 2: Dùng innerHTML thay cho textContent để giữ định dạng HTML
-            element.innerHTML = translation; 
-        }
-    });
+    <main class="container mx-auto p-4">
+        <section id="overview"></section>
+        <section id="vision"></section>
+        <section id="lean-canvas"></section>
+        <section id="technology"></section>
+        <section id="strategy"></section>
+        <section id="market"></section>
+        <section id="financials"></section>
+        <section id="advantage"></section>
+    </main>
 
-    // B. Cập nhật nút chuyển đổi ngôn ngữ/hiển thị
-    const switchBtn = document.getElementById('language-switch-btn');
-    const displaySpan = document.getElementById('lang-display');
-    
-    if (switchBtn) {
-        const targetLang = lang === 'vi' ? 'en' : 'vi';
-        switchBtn.setAttribute('onclick', `switchLanguage('${targetLang}')`);
-        switchBtn.textContent = LANGUAGE_DATA[targetLang]['language_switch'];
-    }
+    <footer id="footer"></footer>
 
-    if (displaySpan) {
-        displaySpan.textContent = LANGUAGE_DATA[lang]['language_current'];
-    }
+    <script src="assets/js/importSections.js"></script>
+    <script src="assets/js/main.js"></script>
 
-    // C. Dịch các tiêu đề phần (placeholder cho các div trống)
-    const sectionIds = ['overview', 'vision', 'lean-canvas', 'technology', 'strategy', 'market', 'financials', 'advantage'];
-    sectionIds.forEach(id => {
-        const titleKey = 'nav_' + id.replace('-', '_');
-        const element = document.getElementById(id);
-        if (element && element.tagName === 'DIV' && element.children.length === 0) {
-            element.innerHTML = `<h2 class="text-3xl font-bold mb-6">${LANGUAGE_DATA[lang][titleKey]}</h2><p>Content for this section will be translated inside ${id}.html.</p>`;
-        }
-    });
-}
-
-
-// Chạy hàm import khi DOM sẵn sàng
-document.addEventListener('DOMContentLoaded', importSections);
+</body>
+</html>
