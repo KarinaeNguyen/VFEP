@@ -173,7 +173,7 @@ const LANGUAGE_DATA = {
         'market_ground_item3_strong': 'Giải pháp VFEP:',
         'market_ground_item3': ' Cung cấp khả năng dập lửa chính xác, không dùng nước, không ăn mòn, ngăn chặn đám cháy lây lan mà không phá hủy toàn bộ hàng rack máy chủ.',
         'market_space_h': 'Tầm Nhìn Tương Lai (Hàng Không & Vũ Trụ)',
-        'market_space_p_intro': 'Đây là thị trường R&D dài hạn. Bằng cách giải quyết các vấnM đề trên mặt đất, chúng tôi xây dựng nền tảng (dữ liệu, IP, chứng nhận) để trở thành nhà cung cấp cho NASA, ESA, Boeing... trong tương lai, khi công nghệ đã được chứng minh.',
+        'market_space_p_intro': 'Đây là thị trường R&D dài hạn. Bằng cách giải quyết các vấn đề trên mặt đất, chúng tôi xây dựng nền tảng (dữ liệu, IP, chứng nhận) để trở thành nhà cung cấp cho NASA, ESA, Boeing... trong tương lai, khi công nghệ đã được chứng minh.',
         'market_space_item1_strong': 'Vấn đề 1: Độ tin cậy Zero-G:',
         'market_space_item1': ' Chất chữa cháy truyền thống phân tán không thể đoán trước trong môi trường vi trọng lực. Hệ thống đạn phóng của VFEP là một giải pháp tiềm năng.',
         'market_space_item2_strong': 'Vấn đề 2: Không Gây Ô nhiễm:',
@@ -522,6 +522,7 @@ const LANGUAGE_DATA = {
 let currentLang = localStorage.getItem('lang') || 'vi';
 
 async function importSections() {
+    // Thứ tự này khớp với index.html
     const sections = [
         'header', 'overview', 'vision', 'lean-canvas', 'technology', 
         'strategy', 'market', 'financials', 'advantage', 'footer'
@@ -533,6 +534,7 @@ async function importSections() {
             const response = await fetch(path);
             if (response.ok) {
                 const html = await response.text();
+                // Tải HTML vào đúng thẻ <section id="...">
                 document.getElementById(section).innerHTML = html;
             } else {
                 console.error(`Failed to load section: ${path}`);
@@ -543,9 +545,11 @@ async function importSections() {
     }
     
     // 1. ÁP DỤNG BẢN DỊCH SAU KHI TẢI
+    // (Bây giờ tất cả data-key đã có mặt trên trang)
     applyTranslations(currentLang);
     
-    // 2. GỌI initializeApp() trong main.js sau khi tải và dịch
+    // 2. GỌI initializeApp() (từ main.js)
+    // (Bây giờ tất cả các nút tab và biểu đồ đã có mặt trên trang)
     if (typeof window.initializeApp === 'function') {
         window.initializeApp();
     } else {
@@ -562,7 +566,7 @@ window.switchLanguage = function(lang) {
     
     document.documentElement.lang = lang;
     
-    // Hàm applyTranslations sẽ tự động cập nhật tiêu đề trang
+    // Hàm applyTranslations sẽ tự động cập nhật mọi thứ
     applyTranslations(lang);
 };
 
@@ -571,11 +575,15 @@ function applyTranslations(lang) {
     document.querySelectorAll('[data-key]').forEach(element => {
         const key = element.getAttribute('data-key');
         const translation = LANGUAGE_DATA[lang][key];
-        if (translation) {
-            element.innerHTML = translation; 
-        } else if (translation === "") { 
-            // Xử lý các trường hợp key rỗng (như trong bảng)
-            element.innerHTML = "";
+        
+        // Chỉ dịch nếu tìm thấy key
+        if (translation !== undefined) {
+            if (translation === "") { 
+                // Xử lý các trường hợp key rỗng (như trong bảng)
+                element.innerHTML = "";
+            } else {
+                element.innerHTML = translation;
+            }
         }
     });
 
@@ -596,10 +604,12 @@ function applyTranslations(lang) {
     }
 
     // C. Dịch các tiêu đề phần (placeholder cho các div trống)
+    // (Phần này chỉ chạy nếu tệp .html bị lỗi 404 không tải được)
     const sectionIds = ['overview', 'vision', 'lean-canvas', 'technology', 'strategy', 'market', 'financials', 'advantage'];
     sectionIds.forEach(id => {
         const titleKey = 'nav_' + id.replace('-', '_');
         const element = document.getElementById(id);
+        // Chỉ chèn placeholder nếu div đó rỗng
         if (element && element.tagName === 'DIV' && element.children.length === 0) {
             element.innerHTML = `<h2 class="text-3xl font-bold mb-6">${LANGUAGE_DATA[lang][titleKey]}</h2><p>Content for this section will be translated inside ${id}.html.</p>`;
         }
