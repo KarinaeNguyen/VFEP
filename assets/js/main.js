@@ -1,4 +1,4 @@
-// assets/js/main.js - Phiên bản 6 (Sửa lỗi tìm kiếm không phân biệt chữ hoa/thường)
+// assets/js/main.js - Phiên bản 7 (Sửa lỗi parseCSV và thêm Debug)
 
 /**
  * window.loadFinancialData()
@@ -27,13 +27,19 @@ window.loadFinancialData = function() {
             }
             const csvText = await response.text();
             
+            // 1. Phân tích CSV (Hàm v7 đã sửa lỗi)
             const data = parseCSV(csvText);
+            
+            // 2. (DEBUG) In dữ liệu đã phân tích ra Console (F12)
+            console.log("--- DEBUG: Dữ liệu đã phân tích (Parsed CSV Data) ---");
+            console.log(data);
+            console.log("-------------------------------------------------");
             
             loadingMsg.classList.add('hidden');
             chartWrapper.classList.remove('hidden');
             tableWrapper.classList.remove('hidden');
 
-            // Chạy hàm vẽ biểu đồ và bảng (phiên bản 6)
+            // 3. Chạy hàm vẽ biểu đồ và bảng (phiên bản 7)
             drawChart(data);
             createTable(data);
 
@@ -48,7 +54,8 @@ window.loadFinancialData = function() {
 
 /**
  * parseCSV()
- * Chuyển đổi văn bản CSV thành mảng 2D (Sửa lỗi dấu ngoặc kép)
+ * VIẾT LẠI (V7)
+ * Hàm này đã sửa lỗi xử lý dấu ngoặc kép (").
  */
 function parseCSV(text) {
     const lines = text.split('\n').map(line => line.trim());
@@ -64,9 +71,15 @@ function parseCSV(text) {
         for (let i = 0; i < line.length; i++) {
             const char = line[i];
             
-            // Xử lý dấu ngoặc kép (")
             if (char === '"') {
-                inQuote = !inQuote;
+                // Nếu ký tự tiếp theo cũng là ", đây là dấu " escape
+                if (line[i+1] === '"') {
+                    currentVal += '"';
+                    i++; // Bỏ qua dấu " tiếp theo
+                } else {
+                    // Nếu không, đây là dấu " bắt đầu/kết thúc
+                    inQuote = !inQuote;
+                }
             } 
             // Nếu là dấu phẩy (,) VÀ không nằm trong ngoặc kép
             else if (char === ',' && !inQuote) {
@@ -86,7 +99,7 @@ function parseCSV(text) {
 
 /**
  * cleanNumber()
- * Hàm helper để đọc số USD, bao gồm cả số âm ($100,000)
+ * Hàm helper để đọc số USD, bao gồm cả số âm ($100,000) (Giữ nguyên)
  */
 const cleanNumber = (str) => {
     if (!str) return 0;
@@ -105,27 +118,47 @@ const cleanNumber = (str) => {
 
 /**
  * drawChart()
- * VIẾT LẠI (V6)
+ * VIẾT LẠI (V7)
  * Đọc dữ liệu dạng "ngang" (pivot) và "lật" (transpose) lại để vẽ.
  */
 function drawChart(csvData) {
     try {
         // 1. Tìm hàng Tiêu đề (Quý) - Nằm ở hàng index 3
+        // (Chúng ta giả định hàng 3 luôn là tiêu đề)
         const headers = csvData[3]; // ["Category", "Q1", "Q2", ...]
+        
+        console.log("--- DEBUG: Bắt đầu tìm kiếm các hàng tài chính ---");
 
         // 2. Tìm các hàng dữ liệu chúng ta cần
         let revenueRow, costRow, netRow, cumulativeRow;
         for (const row of csvData) {
             // Lấy category, dọn dẹp và chuyển sang CHỮ HOA
             const category = row[0] ? row[0].trim().toUpperCase() : '';
+            
+            // (DEBUG) In ra Category mà nó đang kiểm tra
+            // console.log(`Checking category: '${category}'`); 
 
-            // --- SỬA LỖI TÌM KIẾM ---
+            // --- SỬA LỖI TÌM KIẾM (V6) ---
             // Bây giờ nó sẽ tìm "TOTAL CASH INFLOWS" không phân biệt hoa/thường
-            if (category === "TOTAL CASH INFLOWS") revenueRow = row;
-            if (category === "TOTAL CASH OUTFLOWS") costRow = row;
-            if (category === "NET CASHFLOW") netRow = row;
-            if (category === "CASH IN HAND AT END OF PERIOD") cumulativeRow = row;
+            if (category === "TOTAL CASH INFLOWS") {
+                revenueRow = row;
+                console.log("Tìm thấy: TOTAL CASH INFLOWS");
+            }
+            if (category === "TOTAL CASH OUTFLOWS") {
+                costRow = row;
+                console.log("Tìm thấy: TOTAL CASH OUTFLOWS");
+            }
+            if (category === "NET CASHFLOW") {
+                netRow = row;
+                console.log("Tìm thấy: NET CASHFLOW");
+            }
+            if (category === "CASH IN HAND AT END OF PERIOD") {
+                cumulativeRow = row;
+                console.log("Tìm thấy: CASH IN HAND AT END OF PERIOD");
+            }
         }
+        
+        console.log("--- DEBUG: Kết thúc tìm kiếm ---");
 
         // 3. Bảo vệ: Dừng lại nếu không tìm thấy dữ liệu
         if (!revenueRow || !costRow || !netRow || !cumulativeRow) {
