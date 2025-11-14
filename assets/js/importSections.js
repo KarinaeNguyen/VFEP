@@ -1,4 +1,4 @@
-// assets/js/importSections.js - Phiên BẢN CUỐI CÙNG (100% HOÀN CHỈNH)
+// assets/js/importSections.js - Phiên bản 8 (Sửa lỗi thứ tự tải - Promise.all)
 
 const LANGUAGE_DATA = {
     'vi': {
@@ -516,44 +516,75 @@ const LANGUAGE_DATA = {
 };
 
 // =========================================================================
-// PHẦN LOGIC DƯỚI ĐÂY GIỮ NGUYÊN (Không cần thay đổi)
+// PHẦN LOGIC (ĐÃ SỬA LỖI THỨ TỰ TẢI)
 // =========================================================================
 
 let currentLang = localStorage.getItem('lang') || 'vi';
 
+/**
+ * VIẾT LẠI (V8)
+ * Hàm này dùng Promise.all để ĐỢI tất cả HTML tải xong
+ * TRƯỚC KHI gọi hàm dịch và hàm khởi tạo.
+ */
 async function importSections() {
-    // Thứ tự này khớp với index.html
+    console.log("Bắt đầu tải các section HTML...");
+    
     const sections = [
         'header', 'overview', 'vision', 'lean-canvas', 'technology', 
         'strategy', 'market', 'financials', 'advantage', 'footer'
     ];
 
-    for (const section of sections) {
+    // 1. Tạo một mảng các "lời hứa" (promises) để tải tệp
+    const fetchPromises = sections.map(section => {
         const path = `sections/${section}.html`; 
-        try {
-            const response = await fetch(path);
-            if (response.ok) {
-                const html = await response.text();
-                // Tải HTML vào đúng thẻ <section id="...">
-                document.getElementById(section).innerHTML = html;
-            } else {
+        return fetch(path)
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                }
+                // Nếu lỗi 404, trả về một thông báo lỗi thay vì crash
                 console.error(`Failed to load section: ${path}`);
+                return `<p class="text-red-600 text-center">Lỗi: Không thể tải section '${section}'.</p>`;
+            })
+            .catch(error => {
+                console.error(`Error fetching section ${section}:`, error);
+                return `<p class="text-red-600 text-center">Lỗi nghiêm trọng khi tải '${section}'.</p>`;
+            });
+    });
+
+    try {
+        // 2. Đợi TẤT CẢ các tệp tải xong
+        const htmlContents = await Promise.all(fetchPromises);
+        
+        console.log("Tất cả section HTML đã tải xong. Bắt đầu đưa vào trang...");
+
+        // 3. Bây giờ, đưa HTML vào trang
+        for (let i = 0; i < sections.length; i++) {
+            const sectionId = sections[i];
+            const html = htmlContents[i];
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.innerHTML = html;
             }
-        } catch (error) {
-            console.error(`Error fetching section ${section}:`, error);
         }
-    }
-    
-    // 1. ÁP DỤNG BẢN DỊCH SAU KHI TẢI
-    // (Bây giờ tất cả data-key đã có mặt trên trang)
-    applyTranslations(currentLang);
-    
-    // 2. GỌI initializeApp() (từ main.js)
-    // (Bây giờ tất cả các nút tab và biểu đồ đã có mặt trên trang)
-    if (typeof window.initializeApp === 'function') {
-        window.initializeApp();
-    } else {
-        console.error('CRITICAL ERROR: initializeApp() not found. main.js not loaded or defined.');
+        
+        console.log("Tất cả HTML đã ở trên trang. Bắt đầu Dịch và Khởi tạo.");
+
+        // 4. CHỈ SAU KHI MỌI THỨ ĐÃ XONG, gọi hàm dịch
+        // (Bây giờ nó sẽ tìm thấy tất cả data-key)
+        applyTranslations(currentLang);
+        
+        // 5. CHỈ SAU KHI MỌI THỨ ĐÃ XONG, gọi hàm khởi tạo
+        // (Bây giờ nó sẽ tìm thấy 'financials-loading', 'chart-wrapper', v.v.)
+        if (typeof window.initializeApp === 'function') {
+            window.initializeApp();
+        } else {
+            console.error('CRITICAL ERROR: initializeApp() not found. main.js not loaded or defined.');
+        }
+
+    } catch (error) {
+        console.error("Lỗi nghiêm trọng trong Promise.all:", error);
+        // Xử lý lỗi nếu một trong các fetch thất bại (mặc dù chúng ta đã .catch ở trên)
     }
 }
 
