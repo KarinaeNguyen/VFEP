@@ -2,9 +2,27 @@
     <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
             <div class="flex-shrink-0 flex items-center">
-                <span class="text-2xl font-bold text-indigo-700">Thông Tin Dự Án</span>
-                <span class="text-xl font-light text-neutral-600 ml-2">| Công Nghệ VFEP</span>
+                <span class="text-2xl font-bold text-indigo-700" data-key="header_main_title">
+                    Thông Tin Dự Án
+                </span>
+                <span class="text-xl font-light text-neutral-600 ml-2" data-key="header_subtitle">
+                    | Công Nghệ VFEP
+                </span>
             </div>
+
+            <div class="flex items-center space-x-4">
+                <button 
+                    id="language-switch-btn"
+                    onclick="switchLanguage('en')" 
+                    class="px-3 py-1 bg-neutral-200 text-neutral-700 rounded-full text-sm font-semibold hover:bg-neutral-300 transition-colors duration-200 focus:outline-none"
+                >
+                    English
+                </button>
+                
+                <span id="lang-display" class="px-3 py-1 bg-indigo-700 text-white rounded-full text-sm font-bold">
+                    VN
+                </span>
             </div>
+        </div>
     </nav>
 </header>
