@@ -1,55 +1,70 @@
 <!DOCTYPE html>
-<!-- Ngôn ngữ ban đầu là 'vi', JS sẽ cập nhật sau -->
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- 1. Tiêu đề (JS sẽ dịch) -->
-    <title data-key="page_title">Vicinity Safety</title>
-    
-    <!-- 2. Tải Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- 3. Tải font 'Inter' (cho style.css) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vicinity Safety</title>
 
-    <!-- 4. Tải tệp style.css (cho Tabs) -->
-    <link rel="stylesheet" href="assets/css/style.css">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- 5. Tải thư viện Google Charts (cho Financials) -->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <!-- Font Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
+  <!-- Google Charts -->
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 font-inter">
 
-    <!-- Vùng chứa header.html -->
-    <header id="header"></header>
+  <!-- Header -->
+  <header id="header"></header>
 
-    <!-- Thêm 'space-y-8' để tạo khoảng cách giữa các section -->
-    <main class="container mx-auto p-4 space-y-8 md:space-y-12">
-        <!-- Thứ tự các section đã được xác nhận -->
-        <section id="overview"></section>
-        <section id="vision"></section>
-        <section id="lean-canvas"></section>
-        <section id="technology"></section>
-        <section id="strategy"></section>
-        <section id="market"></section>
-        <section id="financials"></section>
-        <section id="advantage"></section>
-    </main>
+  <!-- Main Content -->
+  <main class="container mx-auto p-4 space-y-8 md:space-y-12">
+    <section id="overview"></section>
+    <section id="vision"></section>
+    <section id="lean-canvas"></section>
+    <section id="technology"></section>
+    <section id="strategy"></section>
+    <section id="market"></section>
 
-    <!-- Vùng chứa footer.html -->
-    <footer id="footer"></footer>
+    <!-- ✅ Financial Section (Đã thêm đầy đủ phần tử) -->
+    <section id="financials" class="space-y-6">
+      <h2 class="text-2xl font-bold text-indigo-700">📊 Dự Báo Tài Chính</h2>
 
-    <!-- 
-      TẢI SCRIPT (SỬA LỖI CACHE)
-      Đổi tên tệp thành 'main_v11.js'
-    -->
-    <script src="assets/js/main_v11.js"></script>
-    <script src="assets/js/importSections.js"></script>
+      <!-- Loading Message -->
+      <div id="financials-loading" class="text-gray-600">Đang tải dữ liệu tài chính từ Google Sheet...</div>
 
+      <!-- Chart -->
+      <div id="chart-wrapper" class="hidden">
+        <h3 class="text-xl font-semibold text-indigo-600 mb-2">Biểu Đồ Dòng Tiền</h3>
+        <div id="cashFlowChart" style="width: 100%; height: 500px;"></div>
+      </div>
+
+      <!-- Table -->
+      <div id="table-wrapper" class="hidden">
+        <h3 class="text-xl font-semibold text-indigo-600 mb-2">Chi Tiết Kế Hoạch Tài Chính</h3>
+        <table class="min-w-full border border-gray-300 bg-white rounded shadow">
+          <thead id="financial-table-head" class="bg-indigo-50"></thead>
+          <tbody id="financial-table-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="advantage"></section>
+  </main>
+
+  <!-- Footer -->
+  <footer id="footer"></footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/main_v11.js"></script>
+  <script src="assets/js/importSections.js"></script>
+  <script>
+    window.initializeApp();
+  </script>
 </body>
 </html>
