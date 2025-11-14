@@ -1,4 +1,4 @@
-// assets/js/main.js - Phiên bản 4 (Sửa lỗi đọc số âm '($100,000)')
+// assets/js/main.js - Phiên bản 5 (Sửa lỗi đọc cấu trúc Google Sheet)
 
 /**
  * window.loadFinancialData()
@@ -33,6 +33,7 @@ window.loadFinancialData = function() {
             chartWrapper.classList.remove('hidden');
             tableWrapper.classList.remove('hidden');
 
+            // Chạy hàm vẽ biểu đồ và bảng (phiên bản 5)
             drawChart(data);
             createTable(data);
 
@@ -47,7 +48,7 @@ window.loadFinancialData = function() {
 
 /**
  * parseCSV()
- * Chuyển đổi văn bản CSV thành mảng 2D.
+ * Chuyển đổi văn bản CSV thành mảng 2D (Giữ nguyên, code này đúng)
  */
 function parseCSV(text) {
     const lines = text.split('\n').map(line => line.trim());
@@ -79,92 +80,114 @@ function parseCSV(text) {
 }
 
 /**
+ * cleanNumber()
+ * Hàm helper để đọc số USD, bao gồm cả số âm ($100,000)
+ */
+const cleanNumber = (str) => {
+    if (!str) return 0;
+    let isNegative = false;
+    if (str.startsWith('(') && str.endsWith(')')) {
+        isNegative = true;
+    }
+    let numStr = str.replace(/[\$,\(\)]/g, ''); 
+    let num = parseFloat(numStr) || 0;
+    if (isNegative) {
+        num = num * -1;
+    }
+    return num;
+};
+
+
+/**
  * drawChart()
- * Vẽ biểu đồ cột và đường bằng Google Charts.
+ * VIẾT LẠI (V5)
+ * Đọc dữ liệu dạng "ngang" (pivot) và "lật" (transpose) lại để vẽ.
  */
 function drawChart(csvData) {
-    
-    // --- SỬA LỖI ĐỌC SỐ (V4 - RẤT QUAN TRỌNG) ---
-    // Hàm (v4) này đã có thể đọc định dạng số âm ($100,000)
-    const cleanNumber = (str) => {
-        if (!str) return 0;
+    try {
+        // 1. Tìm hàng Tiêu đề (Quý) - Nằm ở hàng index 3
+        const headers = csvData[3]; // ["Category", "Q1", "Q2", ...]
 
-        let isNegative = false;
-        // 1. Kiểm tra xem có phải là số âm (dạng ngoặc đơn) không
-        if (str.startsWith('(') && str.endsWith(')')) {
-            isNegative = true;
+        // 2. Tìm các hàng dữ liệu chúng ta cần bằng tên Category (cột 0)
+        let revenueRow, costRow, netRow, cumulativeRow;
+        for (const row of csvData) {
+            const category = row[0] ? row[0].trim() : '';
+            if (category === "TOTAL CASH INFLOWS") revenueRow = row;
+            if (category === "TOTAL CASH OUTFLOWS") costRow = row;
+            if (category === "NET CASHFLOW") netRow = row;
+            if (category === "CASH IN HAND AT END OF PERIOD") cumulativeRow = row;
+        }
+
+        // 3. Bảo vệ: Dừng lại nếu không tìm thấy dữ liệu
+        if (!revenueRow || !costRow || !netRow || !cumulativeRow) {
+            console.error("Could not find all required financial rows in CSV (e.g., 'TOTAL CASH INFLOWS'). Check Google Sheet.");
+            document.getElementById('chart-wrapper').innerHTML = 
+                '<p class="text-red-600 p-4">Lỗi: Dữ liệu Google Sheet bị thiếu hoặc sai định dạng. Không tìm thấy các hàng "TOTAL CASH INFLOWS", "NET CASHFLOW", v.v.</p>';
+            return;
+        }
+
+        // 4. Xây dựng DataTable (Bảng dữ liệu) theo đúng định dạng
+        const dataTable = new google.visualization.DataTable();
+        dataTable.addColumn('string', 'Quarter');
+        dataTable.addColumn('number', 'Total Revenue');    // (Từ TOTAL CASH INFLOWS)
+        dataTable.addColumn('number', 'Total Cost');        // (Từ TOTAL CASH OUTFLOWS)
+        dataTable.addColumn('number', 'Net Cashflow');      // (Từ NET CASHFLOW)
+        dataTable.addColumn('number', 'Cumulative Cash');   // (Từ CASH IN HAND AT END OF PERIOD)
+
+        // 5. Lặp qua các cột (Q1, Q2,...) để thêm vào hàng
+        // Bắt đầu từ i = 1 để bỏ qua cột "Category"
+        for (let i = 1; i < headers.length; i++) {
+            const quarter = headers[i];
+            if (!quarter) continue; // Bỏ qua các cột tiêu đề trống
+
+            dataTable.addRow([
+                quarter,
+                cleanNumber(revenueRow[i]),
+                cleanNumber(costRow[i]),
+                cleanNumber(netRow[i]),
+                cleanNumber(cumulativeRow[i])
+            ]);
         }
         
-        // 2. Xóa tất cả các ký tự $, ,, (, )
-        // Ví dụ: "($100,000)" -> "100000"
-        let numStr = str.replace(/[\$,\(\)]/g, ''); 
+        // 6. Cấu hình và Vẽ (Giữ nguyên)
+        const options = {
+            title: 'Dòng Tiền Lũy Kế & Dòng Tiền Ròng (USD)',
+            fontName: 'Inter', 
+            vAxis: {
+                title: 'Số Tiền (USD)', 
+                gridlines: {color: '#e5e7eb'},
+                format: 'short' 
+            },
+            hAxis: {title: 'Quý'},
+            seriesType: 'bars', 
+            series: {
+                2: { type: 'line', color: '#ef4444', lineWidth: 3, pointSize: 6 }, // Dòng tiền ròng (Đỏ)
+                3: { type: 'line', color: '#10b981', lineWidth: 3, pointSize: 6 }  // Dòng tiền lũy kế (Xanh)
+            },
+            colors: ['#4338ca', '#a5b4fc'], // Doanh thu (Đậm), Chi phí (Nhạt)
+            legend: { position: 'bottom' }, 
+            chartArea: {width: '85%', height: '70%'}, 
+            animation: {
+                startup: true,
+                duration: 1000,
+                easing: 'out',
+            },
+        };
 
-        // 3. Chuyển đổi thành số
-        let num = parseFloat(numStr) || 0;
+        const chart = new google.visualization.ComboChart(document.getElementById('cashFlowChart'));
+        chart.draw(dataTable, options);
 
-        // 4. Áp dụng dấu âm nếu có
-        if (isNegative) {
-            num = num * -1;
-        }
-
-        return num;
-    };
-    // ------------------------------------
-
-    const dataTable = new google.visualization.DataTable();
-    const headers = csvData[0]; 
-    
-    dataTable.addColumn('string', headers[0]); // Quý
-    dataTable.addColumn('number', headers[1]); // Doanh thu
-    dataTable.addColumn('number', headers[2]); // Chi phí
-    dataTable.addColumn('number', headers[3]); // Dòng tiền ròng
-    dataTable.addColumn('number', headers[4]); // Dòng tiền lũy kế
-
-    // Thêm các hàng (Data)
-    for (let i = 1; i < csvData.length; i++) {
-        const row = csvData[i];
-        if (row.length < headers.length) continue; 
-
-        dataTable.addRow([
-            row[0], 
-            cleanNumber(row[1]), // Áp dụng hàm cleanNumber (v4)
-            cleanNumber(row[2]), // Áp dụng hàm cleanNumber (v4)
-            cleanNumber(row[3]), // Áp dụng hàm cleanNumber (v4)
-            cleanNumber(row[4])  // Áp dụng hàm cleanNumber (v4)
-        ]);
+    } catch (e) {
+        console.error("Failed to draw chart:", e);
+        document.getElementById('chart-wrapper').innerHTML = 
+            '<p class="text-red-600 p-4">Đã xảy ra lỗi khi vẽ biểu đồ. Vui lòng kiểm tra Console (F12).</p>';
     }
-
-    const options = {
-        title: 'Dòng Tiền Lũy Kế & Dòng Tiền Ròng (USD)',
-        fontName: 'Inter', 
-        vAxis: {
-            title: 'Số Tiền (USD)', 
-            gridlines: {color: '#e5e7eb'},
-            format: 'short' 
-        },
-        hAxis: {title: 'Quý'},
-        seriesType: 'bars', 
-        series: {
-            2: { type: 'line', color: '#ef4444', lineWidth: 3, pointSize: 6 }, // Dòng tiền ròng (Đỏ)
-            3: { type: 'line', color: '#10b981', lineWidth: 3, pointSize: 6 }  // Dòng tiền lũy kế (Xanh)
-        },
-        colors: ['#4338ca', '#a5b4fc'], // Doanh thu (Đậm), Chi phí (Nhạt)
-        legend: { position: 'bottom' }, 
-        chartArea: {width: '85%', height: '70%'}, 
-        animation: {
-            startup: true,
-            duration: 1000,
-            easing: 'out',
-        },
-    };
-
-    const chart = new google.visualization.ComboChart(document.getElementById('cashFlowChart'));
-    chart.draw(dataTable, options);
 }
 
 /**
  * createTable()
- * Tạo bảng HTML từ dữ liệu CSV (Dữ liệu thô).
+ * VIẾT LẠI (V5)
+ * Tạo bảng, bỏ qua 3 hàng rác đầu tiên trong CSV.
  */
 function createTable(csvData) {
     const tableHead = document.getElementById('financial-table-head');
@@ -172,26 +195,26 @@ function createTable(csvData) {
     
     if (!tableHead || !tableBody) return;
 
-    // Tạo Header
+    // Hàng tiêu đề (Header) là hàng thứ 4 (index 3)
+    const headers = csvData[3];
     let headHtml = '<tr>';
-    const headers = csvData[0];
     headers.forEach(header => {
         headHtml += `<th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700">${header}</th>`;
     });
     headHtml += '</tr>';
     tableHead.innerHTML = headHtml;
 
-    // Tạo Body
+    // Nội dung (Body) bắt đầu từ hàng thứ 5 (index 4)
     let bodyHtml = '';
-    for (let i = 1; i < csvData.length; i++) {
+    for (let i = 4; i < csvData.length; i++) {
         const row = csvData[i];
-        if (row.length < headers.length) continue; 
+        if (row.length < headers.length || !row[0]) continue; // Bỏ qua hàng trống
         
         bodyHtml += '<tr>';
         row.forEach((cell, index) => {
-            if (index === 0) { 
+            if (index === 0) { // Cột đầu tiên (Category) -> In đậm
                 bodyHtml += `<td class="px-4 py-3 text-sm font-medium text-neutral-900">${cell}</td>`;
-            } else { 
+            } else { // Các cột số
                 bodyHtml += `<td class="px-4 py-3 text-sm text-neutral-700">${cell}</td>`;
             }
         });
@@ -203,7 +226,7 @@ function createTable(csvData) {
 
 /**
  * window.setupTabs()
- * Hàm chung để xử lý việc chuyển đổi tab tương tác.
+ * Hàm chung để xử lý việc chuyển đổi tab tương tác (Giữ nguyên)
  */
 window.setupTabs = function(containerId, buttonClass, contentClass) {
     const container = document.getElementById(containerId);
@@ -243,7 +266,7 @@ window.setupTabs = function(containerId, buttonClass, contentClass) {
 
 /**
  * window.initializeApp()
- * Hàm khởi tạo chính.
+ * Hàm khởi tạo chính (Giữ nguyên)
  */
 window.initializeApp = function() {
     console.log("Vicinity Safety Application Initialized.");
