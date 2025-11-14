@@ -93,23 +93,26 @@ const cleanNumber = (value) => {
  */
 function drawChart(csvData) {
     try {
-        const headers = csvData[2];
-        console.log("HEADERS:", headers);
-
-        let revenueRow, costRow, netRow, cumulativeRow;
-        for (const row of csvData) {
-            const cat = row[0]?.trim().toUpperCase();
-            if (cat === "TOTAL CASH RECEIPTS") revenueRow = row;
-            if (cat === "TOTAL CASH PAID OUT") costRow = row;
-            if (cat === "NET CASHFLOW FOR PERIOD") netRow = row;
-            if (cat === "CASH BALANCE") cumulativeRow = row;
-        }
-
-        if (!revenueRow || !costRow || !netRow || !cumulativeRow) {
+        // Find header row dynamically (first row with more than 1 column)
+        const headersRow = csvData.find(r => r.length > 1);
+        if (!headersRow) {
             document.getElementById('chart-wrapper').innerHTML =
-                `<p class="text-red-600 p-4">Lỗi: Thiếu dữ liệu cần thiết trong Google Sheet.</p>`;
+                `<p class="text-red-600 p-4">Lỗi: Không tìm thấy tiêu đề trong Google Sheet.</p>`;
             return;
         }
+        const headers = headersRow;
+
+        // Find rows by category name
+        const findRow = (keyword) =>
+            csvData.find(r => r[0]?.trim().toUpperCase() === keyword) || [];
+
+        const revenueRow = findRow("TOTAL CASH RECEIPTS");
+        const costRow = findRow("TOTAL CASH PAID OUT");
+        const netRow = findRow("NET CASHFLOW FOR PERIOD");
+        const cumulativeRow = findRow("CASH BALANCE");
+
+        // If any row missing, fill with zeros
+        const safeRow = (row) => row.length ? row : headers.map(() => "0");
 
         const dataTable = new google.visualization.DataTable();
         dataTable.addColumn("string", "Quarter");
@@ -118,14 +121,22 @@ function drawChart(csvData) {
         dataTable.addColumn("number", "Net Cashflow");
         dataTable.addColumn("number", "Cumulative Cash");
 
+        let rowsAdded = 0;
         for (let i = 1; i < headers.length; i++) {
             dataTable.addRow([
-                headers[i],
-                cleanNumber(revenueRow[i]),
-                cleanNumber(costRow[i]),
-                cleanNumber(netRow[i]),
-                cleanNumber(cumulativeRow[i]),
+                headers[i] || `Q${i}`,
+                cleanNumber(safeRow(revenueRow)[i]),
+                cleanNumber(safeRow(costRow)[i]),
+                cleanNumber(safeRow(netRow)[i]),
+                cleanNumber(safeRow(cumulativeRow)[i]),
             ]);
+            rowsAdded++;
+        }
+
+        if (rowsAdded === 0) {
+            document.getElementById('chart-wrapper').innerHTML =
+                `<p class="text-red-600 p-4">Không có dữ liệu để hiển thị biểu đồ.</p>`;
+            return;
         }
 
         const options = {
@@ -146,6 +157,8 @@ function drawChart(csvData) {
 
     } catch (e) {
         console.error("Chart draw failed:", e);
+        document.getElementById('chart-wrapper').innerHTML =
+            `<p class="text-red-600 p-4">Lỗi: Không thể vẽ biểu đồ.</p>`;
     }
 }
 
