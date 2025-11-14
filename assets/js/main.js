@@ -1,4 +1,4 @@
-// assets/js/main.js - Phiên bản 5 (Sửa lỗi đọc cấu trúc Google Sheet)
+// assets/js/main.js - Phiên bản 6 (Sửa lỗi tìm kiếm không phân biệt chữ hoa/thường)
 
 /**
  * window.loadFinancialData()
@@ -33,7 +33,7 @@ window.loadFinancialData = function() {
             chartWrapper.classList.remove('hidden');
             tableWrapper.classList.remove('hidden');
 
-            // Chạy hàm vẽ biểu đồ và bảng (phiên bản 5)
+            // Chạy hàm vẽ biểu đồ và bảng (phiên bản 6)
             drawChart(data);
             createTable(data);
 
@@ -48,7 +48,7 @@ window.loadFinancialData = function() {
 
 /**
  * parseCSV()
- * Chuyển đổi văn bản CSV thành mảng 2D (Giữ nguyên, code này đúng)
+ * Chuyển đổi văn bản CSV thành mảng 2D (Sửa lỗi dấu ngoặc kép)
  */
 function parseCSV(text) {
     const lines = text.split('\n').map(line => line.trim());
@@ -64,16 +64,21 @@ function parseCSV(text) {
         for (let i = 0; i < line.length; i++) {
             const char = line[i];
             
+            // Xử lý dấu ngoặc kép (")
             if (char === '"') {
                 inQuote = !inQuote;
-            } else if (char === ',' && !inQuote) {
-                row.push(currentVal.trim().replace(/"/g, '')); 
-                currentVal = '';
-            } else {
+            } 
+            // Nếu là dấu phẩy (,) VÀ không nằm trong ngoặc kép
+            else if (char === ',' && !inQuote) {
+                row.push(currentVal.trim()); // Thêm giá trị vào hàng
+                currentVal = ''; // Reset giá trị
+            } 
+            // Ký tự bình thường
+            else {
                 currentVal += char;
             }
         }
-        row.push(currentVal.trim().replace(/"/g, '')); 
+        row.push(currentVal.trim()); // Thêm giá trị cuối cùng
         data.push(row);
     }
     return data;
@@ -100,7 +105,7 @@ const cleanNumber = (str) => {
 
 /**
  * drawChart()
- * VIẾT LẠI (V5)
+ * VIẾT LẠI (V6)
  * Đọc dữ liệu dạng "ngang" (pivot) và "lật" (transpose) lại để vẽ.
  */
 function drawChart(csvData) {
@@ -108,10 +113,14 @@ function drawChart(csvData) {
         // 1. Tìm hàng Tiêu đề (Quý) - Nằm ở hàng index 3
         const headers = csvData[3]; // ["Category", "Q1", "Q2", ...]
 
-        // 2. Tìm các hàng dữ liệu chúng ta cần bằng tên Category (cột 0)
+        // 2. Tìm các hàng dữ liệu chúng ta cần
         let revenueRow, costRow, netRow, cumulativeRow;
         for (const row of csvData) {
-            const category = row[0] ? row[0].trim() : '';
+            // Lấy category, dọn dẹp và chuyển sang CHỮ HOA
+            const category = row[0] ? row[0].trim().toUpperCase() : '';
+
+            // --- SỬA LỖI TÌM KIẾM ---
+            // Bây giờ nó sẽ tìm "TOTAL CASH INFLOWS" không phân biệt hoa/thường
             if (category === "TOTAL CASH INFLOWS") revenueRow = row;
             if (category === "TOTAL CASH OUTFLOWS") costRow = row;
             if (category === "NET CASHFLOW") netRow = row;
