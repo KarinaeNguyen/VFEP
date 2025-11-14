@@ -1,4 +1,4 @@
-// assets/js/main.js - Phiên bản 10 (Sửa lỗi tên hàng Google Sheet)
+// assets/js/main.js - Phiên bản 10 (Sửa lỗi đọc số có dấu phẩy ,)
 
 /**
  * window.loadFinancialData()
@@ -94,7 +94,7 @@ function parseCSV(text) {
 
 /**
  * cleanNumber()
- * Hàm helper để đọc số USD, bao gồm cả số âm ($100,000) (Giữ nguyên)
+ * Hàm helper (V10 - Sửa lỗi dấu phẩy)
  */
 const cleanNumber = (str) => {
     if (!str) return 0;
@@ -102,7 +102,12 @@ const cleanNumber = (str) => {
     if (str.startsWith('(') && str.endsWith(')')) {
         isNegative = true;
     }
-    let numStr = str.replace(/[\$,\(\)]/g, ''); 
+    
+    // --- SỬA LỖI V10 ---
+    // Xóa tất cả các ký tự $, ,, ( và )
+    // Ví dụ: "($71,500)" -> "71500"
+    let numStr = str.replace(/[\$,\(\),]/g, ''); // <--- ĐÃ THÊM DẤU PHẨY VÀO ĐÂY
+
     let num = parseFloat(numStr) || 0;
     if (isNegative) {
         num = num * -1;
@@ -127,12 +132,10 @@ function drawChart(csvData) {
         let revenueRow, costRow, netRow, cumulativeRow;
         for (const row of csvData) {
             const category = row[0] ? row[0].trim().toUpperCase() : '';
-            
-            // (DEBUG) In ra MỌI Category mà nó đang kiểm tra
             console.log(`Checking category: '${category}'`); 
 
             // --- SỬA LỖI TÊN HÀNG (V10) ---
-            if (category === "TOTAL CASH RECEIPTS") { // (Tên này đã đúng)
+            if (category === "TOTAL CASH RECEIPTS") { 
                 revenueRow = row;
                 console.log(">>> TÌM THẤY: TOTAL CASH RECEIPTS (Doanh thu)");
             }
@@ -155,6 +158,7 @@ function drawChart(csvData) {
         // 3. Bảo vệ: Dừng lại nếu không tìm thấy dữ liệu
         if (!revenueRow || !costRow || !netRow || !cumulativeRow) {
             console.error("Could not find all required financial rows in CSV. Check Google Sheet names.");
+            // Sửa thông báo lỗi V10
             document.getElementById('chart-wrapper').innerHTML = 
                 '<p class="text-red-600 p-4">Lỗi: Dữ liệu Google Sheet bị thiếu hoặc sai định dạng. (Không tìm thấy đủ 4 hàng: TOTAL CASH RECEIPTS, TOTAL CASH PAID OUT, NET CASHFLOW FOR PERIOD, CASH BALANCE)</p>';
             return;
