@@ -1,4 +1,73 @@
-// main.js - Chứa logic khởi tạo sau khi tất cả nội dung HTML đã được tải (qua importSections.js).
+// assets/js/main.js - Phiên bản Hoàn Chỉnh (Đã Sửa Lỗi)
+
+/**
+ * window.loadFinancialData()
+ * Hàm mô phỏng việc tải dữ liệu tài chính (thay thế cho việc tích hợp Google Sheet/Chart.js thực tế).
+ * * LƯU Ý QUAN TRỌNG: Nếu triển khai thực tế, logic tải/phân tích CSV/JSON 
+ * và khởi tạo Chart.js (từ các file csvParser.js và financials.js cũ) sẽ được đặt ở đây.
+ */
+window.loadFinancialData = function() {
+    const loadingMsg = document.getElementById('financials-loading');
+    const chartWrapper = document.getElementById('chart-wrapper');
+    const tableWrapper = document.getElementById('table-wrapper');
+
+    // Bảo vệ: Bỏ qua nếu không tìm thấy các phần tử
+    if (!loadingMsg || !chartWrapper || !tableWrapper) return;
+    
+    // Mô phỏng thời gian tải dữ liệu (1.2 giây)
+    setTimeout(() => {
+        if (loadingMsg) loadingMsg.classList.add('hidden'); 
+        if (chartWrapper) chartWrapper.classList.remove('hidden');
+        if (tableWrapper) tableWrapper.classList.remove('hidden'); 
+        
+        console.log("Financial data loaded successfully and wrappers displayed.");
+    }, 1200); 
+};
+
+
+/**
+ * window.setupTabs()
+ * Hàm chung để xử lý việc chuyển đổi tab tương tác (Technology, Market, Advantage).
+ */
+window.setupTabs = function(containerId, buttonClass, contentClass) {
+    const container = document.getElementById(containerId);
+    if (!container) return; 
+
+    const tabButtons = container.querySelectorAll(`.${buttonClass}`);
+    const tabContents = document.querySelectorAll(`.${contentClass}`);
+
+    // 1. Gán sự kiện Click cho các nút
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Xử lý nút: Xóa 'active' khỏi tất cả, thêm vào nút hiện tại
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active'); 
+            
+            // Xử lý nội dung: Ẩn tất cả, hiển thị nội dung mục tiêu
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            const targetId = this.getAttribute('data-target');
+            const targetContent = document.getElementById(targetId);
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+        });
+    });
+    
+    // 2. Thiết lập trạng thái ban đầu (buộc tab đầu tiên hoạt động)
+    tabContents.forEach(content => content.classList.remove('active'));
+
+    const firstButton = container.querySelector(`.${buttonClass}`);
+    if (firstButton) {
+        firstButton.classList.add('active');
+        const targetId = firstButton.getAttribute('data-target');
+        const targetContent = document.getElementById(targetId);
+        if (targetContent) {
+             targetContent.classList.add('active');
+        }
+    }
+};
+
 
 /**
  * window.initializeApp()
@@ -8,76 +77,11 @@
 window.initializeApp = function() {
     console.log("Vicinity Safety Application Initialized.");
 
-    // --- LOGIC CHUNG CHO CÁC TAB TƯƠNG TÁC (Technology, Market, Advantage) ---
-    
-    // Hàm chung để xử lý việc chuyển đổi tab (dựa trên cấu trúc HTML đã cung cấp)
-    function setupTabs(containerId, buttonClass, contentClass) {
-        const container = document.getElementById(containerId);
-        if (!container) return; // Bảo vệ: Bỏ qua nếu không tìm thấy container
+    // --- 1. KHỞI TẠO TABS ---
+    window.setupTabs('technology-tabs', 'tech-tab-btn', 'tech-tab-content');
+    window.setupTabs('advantage-tabs', 'advantage-tab-btn', 'advantage-tab-content');
+    window.setupTabs('market-tabs', 'market-tab-btn', 'market-tab-content');
 
-        container.querySelectorAll(`.${buttonClass}`).forEach(button => {
-            button.addEventListener('click', function() {
-                // Xử lý nút: Xóa 'active' khỏi tất cả, thêm vào nút hiện tại
-                container.querySelectorAll(`.${buttonClass}`).forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active'); 
-                
-                // Xử lý nội dung: Ẩn tất cả, hiển thị nội dung mục tiêu
-                document.querySelectorAll(`.${contentClass}`).forEach(content => content.classList.remove('active'));
-                
-                const targetId = this.getAttribute('data-target');
-                const targetContent = document.getElementById(targetId);
-                if (targetContent) {
-                    targetContent.classList.add('active');
-                }
-            });
-        });
-        
-        // 🔥 Cải tiến: Thiết lập trạng thái ban đầu bằng cách giả lập một click
-        // Điều này đảm bảo trạng thái nút và nội dung luôn đồng bộ thông qua cùng một logic.
-        const firstButton = container.querySelector(`.${buttonClass}`);
-        if (firstButton) {
-            firstButton.click();
-        } else {
-             // Đảm bảo ẩn tất cả nội dung nếu không có nút nào được tìm thấy
-             document.querySelectorAll(`.${contentClass}`).forEach(content => content.classList.remove('active'));
-        }
-    }
-
-    // 1. Thiết lập Tabs Công nghệ (technology.html)
-    // containerId: 'technology-tabs', buttonClass: 'tech-tab-btn', contentClass: 'tech-tab-content'
-    setupTabs('technology-tabs', 'tech-tab-btn', 'tech-tab-content');
-
-    // 2. Thiết lập Tabs Lợi thế Cạnh tranh (advantage.html)
-    // containerId: 'advantage-tabs', buttonClass: 'advantage-tab-btn', contentClass: 'advantage-tab-content'
-    setupTabs('advantage-tabs', 'advantage-tab-btn', 'advantage-tab-content');
-
-    // 3. Thiết lập Tabs Thị trường (market.html)
-    // containerId: 'market-tabs', buttonClass: 'market-tab-btn', contentClass: 'market-tab-content'
-    setupTabs('market-tabs', 'market-tab-btn', 'market-tab-content');
-
-    // --- LOGIC TẢI DỮ LIỆU TÀI CHÍNH (financials.html) ---
-    
-    // Hàm mô phỏng việc tải dữ liệu tài chính (thay thế cho việc tích hợp Google Sheet/Chart.js thực tế)
-    window.loadFinancialData = function() {
-        const loadingMsg = document.getElementById('financials-loading');
-        const chartWrapper = document.getElementById('chart-wrapper');
-        const tableWrapper = document.getElementById('table-wrapper');
-
-        // Bỏ qua nếu không tìm thấy các phần tử
-        if (!loadingMsg || !chartWrapper || !tableWrapper) return;
-        
-        // Mô phỏng thời gian tải dữ liệu
-        setTimeout(() => {
-            loadingMsg.classList.add('hidden'); // Ẩn thông báo đang tải
-            chartWrapper.classList.remove('hidden'); // Hiển thị khung biểu đồ
-            tableWrapper.classList.remove('hidden'); // Hiển thị khung bảng chi tiết
-            
-            // LƯU Ý: Nếu sử dụng Chart.js, mã khởi tạo biểu đồ sẽ nằm ở đây.
-            
-            console.log("Financial data loaded successfully and wrappers displayed.");
-        }, 1200); // Giả lập độ trễ 1.2 giây
-    };
-
-    // Gọi hàm tải dữ liệu tài chính ngay khi ứng dụng khởi tạo
+    // --- 2. TẢI DỮ LIỆU TÀI CHÍNH ---
     window.loadFinancialData();
 };
