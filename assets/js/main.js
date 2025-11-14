@@ -32,19 +32,14 @@ window.initializeApp = function() {
             });
         });
         
-        // Đảm bảo chỉ tab đầu tiên được hiển thị khi khởi tạo (do HTML có thể đã đặt 'active' cho nhiều tab)
-        const allContents = document.querySelectorAll(`.${contentClass}`);
-        allContents.forEach((content, index) => {
-            content.classList.remove('active');
-            if (index === 0) {
-                content.classList.add('active'); // Kích hoạt tab đầu tiên
-            }
-        });
-
-        // Kích hoạt nút đầu tiên
+        // 🔥 Cải tiến: Thiết lập trạng thái ban đầu bằng cách giả lập một click
+        // Điều này đảm bảo trạng thái nút và nội dung luôn đồng bộ thông qua cùng một logic.
         const firstButton = container.querySelector(`.${buttonClass}`);
         if (firstButton) {
-            firstButton.classList.add('active');
+            firstButton.click();
+        } else {
+             // Đảm bảo ẩn tất cả nội dung nếu không có nút nào được tìm thấy
+             document.querySelectorAll(`.${contentClass}`).forEach(content => content.classList.remove('active'));
         }
     }
 
@@ -68,7 +63,7 @@ window.initializeApp = function() {
         const chartWrapper = document.getElementById('chart-wrapper');
         const tableWrapper = document.getElementById('table-wrapper');
 
-        // Bỏ qua nếu không tìm thấy các phần tử (chẳng hạn khi chỉ tải một phần trang)
+        // Bỏ qua nếu không tìm thấy các phần tử
         if (!loadingMsg || !chartWrapper || !tableWrapper) return;
         
         // Mô phỏng thời gian tải dữ liệu
