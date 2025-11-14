@@ -25,7 +25,7 @@ window.loadFinancialData = function() {
             }
             const csvText = await response.text();
             
-            // 1. Phân tích CSV (Hàm v8)
+            // 1. Phân tích CSV
             const data = parseCSV(csvText);
             
             // 2. (DEBUG)
@@ -37,7 +37,7 @@ window.loadFinancialData = function() {
             chartWrapper.classList.remove('hidden');
             tableWrapper.classList.remove('hidden');
 
-            // 3. Chạy hàm vẽ biểu đồ và bảng (phiên bản 10)
+            // 3. Chạy hàm vẽ biểu đồ và bảng
             drawChart(data);
             createTable(data);
 
@@ -52,7 +52,6 @@ window.loadFinancialData = function() {
 
 /**
  * parseCSV()
- * (V8 - Đã sửa lỗi dấu ngoặc kép)
  */
 function parseCSV(text) {
     const lines = text.split('\n').map(line => line.trim());
@@ -92,7 +91,6 @@ function parseCSV(text) {
 
 /**
  * cleanNumber()
- * Hàm helper (V10 - Sửa lỗi dấu phẩy)
  */
 const cleanNumber = (str) => {
     if (!str) return 0;
@@ -113,15 +111,12 @@ const cleanNumber = (str) => {
 
 /**
  * drawChart()
- * VIẾT LẠI (V10)
- * Sửa lại 3 tên hàng cho khớp với Google Sheet
  */
 function drawChart(csvData) {
     try {
-        // 1. Tìm hàng Tiêu đề (Quý) - Nằm ở hàng index 3
-        const headers = csvData[3]; // ["Category", "Q1", "Q2", ...]
+        // ✅ SỬA 1: Hàng tiêu đề là index 2 (hàng thứ 3)
+        const headers = csvData[2]; // ["Category", "Q1", "Q2", ...]
         
-        // ✅ BƯỚC GỠ LỖI 1: KIỂM TRA HÀNG TIÊU ĐỀ
         console.log("--- DEBUG: Hàng tiêu đề (Headers) đang đọc là:", headers);
 
         console.log("--- DEBUG: Bắt đầu tìm kiếm các hàng tài chính ---");
@@ -130,8 +125,6 @@ function drawChart(csvData) {
         let revenueRow, costRow, netRow, cumulativeRow;
         for (const row of csvData) {
             const category = row[0] ? row[0].trim().toUpperCase() : '';
-            // Tạm thời tắt log này để đỡ rối console
-            // console.log(`Checking category: '${category}'`); 
 
             if (category === "TOTAL CASH RECEIPTS") { 
                 revenueRow = row;
@@ -161,7 +154,7 @@ function drawChart(csvData) {
             return;
         }
 
-        // 4. Xây dựng DataTable (Bảng dữ liệu) theo đúng định dạng
+        // 4. Xây dựng DataTable
         const dataTable = new google.visualization.DataTable();
         dataTable.addColumn('string', 'Quarter');
         dataTable.addColumn('number', 'Total Revenue'); 
@@ -183,15 +176,15 @@ function drawChart(csvData) {
             ]);
         }
         
-        // ✅ BƯỚC GỠ LỖI 2: KIỂM TRA XEM DATATABLE CÓ RỖNG KHÔNG
+        // Bảo vệ: Kiểm tra xem dataTable có rỗng không
         if (dataTable.getNumberOfRows() === 0) {
-            console.error("LỖI: dataTable không có hàng nào (getNumberOfRows() === 0). Điều này có thể do 'headers' bị sai hoặc rỗng.");
+            console.error("LỖI: dataTable không có hàng nào. 'headers' có thể bị sai.");
             document.getElementById('chart-wrapper').innerHTML = 
                 '<p class="text-red-600 p-4">Lỗi: Không thể tạo dữ liệu biểu đồ. Hàng tiêu đề (headers) có thể bị sai (không tìm thấy Q1, Q2...).</p>';
             return;
         }
 
-        // 6. Cấu hình và Vẽ (Giữ nguyên)
+        // 6. Cấu hình và Vẽ
         const options = {
             title: 'Dòng Tiền Lũy Kế & Dòng Tiền Ròng (USD)',
             fontName: 'Inter', 
@@ -218,8 +211,6 @@ function drawChart(csvData) {
 
         const chart = new google.visualization.ComboChart(document.getElementById('cashFlowChart'));
         
-        // ✅ BƯỚC GỠ LỖI 3: KIỂM TRA DỮ LIỆU CUỐI CÙNG TRƯỚC KHI VẼ
-        // Chúng ta dùng .toJSON() để xem log cho dễ
         console.log("--- DEBUG: Dữ liệu cuối cùng gửi cho Google Chart (dataTable.toJSON()):", dataTable.toJSON());
         
         chart.draw(dataTable, options);
@@ -233,8 +224,6 @@ function drawChart(csvData) {
 
 /**
  * createTable()
- * VIẾT LẠI (V5)
- * Tạo bảng, bỏ qua 3 hàng rác đầu tiên trong CSV.
  */
 function createTable(csvData) {
     const tableHead = document.getElementById('financial-table-head');
@@ -242,11 +231,10 @@ function createTable(csvData) {
     
     if (!tableHead || !tableBody) return;
 
-    // Hàng tiêu đề (Header) là hàng thứ 4 (index 3)
-    const headers = csvData[3];
-    // Bảo vệ: Nếu headers không tồn tại thì không làm gì cả
+    // ✅ SỬA 2: Hàng tiêu đề (Header) là hàng thứ 3 (index 2)
+    const headers = csvData[2];
     if (!headers) {
-        console.error("Lỗi createTable: Không tìm thấy hàng tiêu đề (headers) tại csvData[3].");
+        console.error("Lỗi createTable: Không tìm thấy hàng tiêu đề (headers) tại csvData[2].");
         return;
     }
 
@@ -257,9 +245,9 @@ function createTable(csvData) {
     headHtml += '</tr>';
     tableHead.innerHTML = headHtml;
 
-    // Nội dung (Body) bắt đầu từ hàng thứ 5 (index 4)
+    // ✅ SỬA 3: Nội dung (Body) bắt đầu từ hàng thứ 4 (index 3)
     let bodyHtml = '';
-    for (let i = 4; i < csvData.length; i++) {
+    for (let i = 3; i < csvData.length; i++) {
         const row = csvData[i];
         if (row.length < headers.length || !row[0]) continue; // Bỏ qua hàng trống
         
@@ -279,7 +267,6 @@ function createTable(csvData) {
 
 /**
  * window.setupTabs()
- * Hàm chung để xử lý việc chuyển đổi tab tương tác (Giữ nguyên)
  */
 window.setupTabs = function(containerId, buttonClass, contentClass) {
     const container = document.getElementById(containerId);
@@ -319,7 +306,6 @@ window.setupTabs = function(containerId, buttonClass, contentClass) {
 
 /**
  * window.initializeApp()
- * Hàm khởi tạo chính (Giữ nguyên)
  */
 window.initializeApp = function() {
     console.log("Vicinity Safety Application Initialized.");
