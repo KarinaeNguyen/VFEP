@@ -1,29 +1,25 @@
 (() => {
   function activateTab(group, targetId) {
-    // Correct button selector
     const buttons = document.querySelectorAll(
-      `[data-tab-group="${group}"][data-tab-target]`
+      `button[data-tab-group="${group}"][data-tab-target]`
     );
 
-    // Correct panel selector
     const panels = document.querySelectorAll(
       `.tab-content[data-tab-group="${group}"]`
     );
 
     buttons.forEach((btn) => {
-      const active = btn.dataset.tabTarget === targetId;
-      btn.classList.toggle("active", active);
+      btn.classList.toggle("active", btn.dataset.tabTarget === targetId);
     });
 
     panels.forEach((panel) => {
-      const active = panel.id === targetId;
-      panel.classList.toggle("active", active);
+      panel.classList.toggle("active", panel.id === targetId);
     });
   }
 
   function initialize() {
-    // Attach click handlers
-    document.querySelectorAll("[data-tab-target]").forEach((button) => {
+    // Handle clicks
+    document.querySelectorAll("button[data-tab-target]").forEach((button) => {
       button.addEventListener("click", () => {
         const { tabGroup, tabTarget } = button.dataset;
         if (!tabGroup || !tabTarget) return;
@@ -32,24 +28,23 @@
       });
     });
 
-    // Auto activate first tab per group
+    // Auto-activate first tab PER GROUP
     const groups = new Set(
-      [...document.querySelectorAll("[data-tab-group]")].map(
+      [...document.querySelectorAll("button[data-tab-group]")].map(
         (el) => el.dataset.tabGroup
       )
     );
 
     groups.forEach((group) => {
       const firstButton = document.querySelector(
-        `[data-tab-group="${group}"][data-tab-target]`
+        `button[data-tab-group="${group}"][data-tab-target]`
       );
       if (firstButton) firstButton.click();
     });
   }
 
-  // Delay init until ALL imported sections are loaded
+  // Wait until imported sections finish loading
   window.addEventListener("DOMContentLoaded", () => {
-    // importSections.js finishes dynamically → wait for it
     setTimeout(initialize, 100);
   });
 })();
