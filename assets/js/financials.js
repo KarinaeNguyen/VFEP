@@ -12,7 +12,7 @@
 window.loadFinancialData = async function () {
     console.log("Financial module started...");
 
-    // Show loading state UI
+    // Show loading animations
     showLoadingState();
 
     const csvUrl =
@@ -20,7 +20,7 @@ window.loadFinancialData = async function () {
 
     try {
         const response = await fetch(csvUrl);
-        if (!response.ok) throw new Error("Google Sheet unreachable");
+        if (!response.ok) throw new Error("Google Sheet is unreachable");
 
         const csvText = await response.text();
         const rows = parseCSV(csvText);
@@ -36,14 +36,14 @@ window.loadFinancialData = async function () {
         hideLoadingState();
 
     } catch (error) {
-        console.error(error);
+        console.error("Financial load error:", error);
         showErrorFallback();
     }
 };
 
 
 // ------------------------------------------------------------
-// CSV Parser
+// CSV Parsing
 // ------------------------------------------------------------
 function parseCSV(text) {
     const lines = text.trim().split("\n");
@@ -68,7 +68,6 @@ function toNumber(val) {
 // ------------------------------------------------------------
 function renderCashFlowChart(labels, cashFlow, revenue, expenses) {
     const ctx = document.getElementById("cashFlowChart");
-
     if (!ctx) return console.error("#cashFlowChart missing.");
 
     new Chart(ctx, {
@@ -109,7 +108,12 @@ function renderCashFlowChart(labels, cashFlow, revenue, expenses) {
                 legend: { position: "top" }
             },
             scales: {
-                y: { beginAtZero: true }
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: value => "$" + value.toLocaleString()
+                    }
+                }
             }
         }
     });
@@ -140,40 +144,40 @@ function formatUSD(num) {
 
 
 // ------------------------------------------------------------
-// Loading / Skeleton UI
+// Loading, Skeleton & Fallback
 // ------------------------------------------------------------
 function showLoadingState() {
     const chartBox = document.getElementById("chartContainer");
-    const tableBox = document.getElementById("financialTableBody");
+    const tableBody = document.getElementById("financialTableBody");
 
-    if (chartBox) chartBox.innerHTML = `
-        <div class="spinner"></div>
-    `;
+    if (chartBox) {
+        chartBox.innerHTML = `<div class="spinner"></div>`;
+    }
 
-    if (tableBox) tableBox.innerHTML = `
-        ${"<tr><td colspan='4' class='skeleton'></td></tr>".repeat(5)}
-    `;
+    if (tableBody) {
+        tableBody.innerHTML = `
+            ${"<tr><td colspan='4' class='skeleton'></td></tr>".repeat(6)}
+        `;
+    }
 }
 
 function hideLoadingState() {
-    // handled naturally after chart/table render
+    // automatically replaced after render
 }
 
 function showErrorFallback() {
     const chartBox = document.getElementById("chartContainer");
-    const tableBox = document.getElementById("financialTableBody");
+    const tableBody = document.getElementById("financialTableBody");
 
     if (chartBox) {
         chartBox.innerHTML = `
-            <div class="error-box">
-                Failed to load financial data.
-            </div>
+            <div class="error-box">Failed to load financial data.</div>
         `;
     }
 
-    if (tableBox) {
-        tableBox.innerHTML = `
-            <tr><td colspan="4" class="error-box">No data available.</td></tr>
+    if (tableBody) {
+        tableBody.innerHTML = `
+            <tr><td colspan="4" class="error-box">No financial data available.</td></tr>
         `;
     }
 }
