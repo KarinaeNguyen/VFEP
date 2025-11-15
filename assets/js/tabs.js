@@ -34,7 +34,6 @@
         (el) => el.dataset.tabGroup
       )
     );
-
     groups.forEach((group) => {
       const firstButton = document.querySelector(
         `button[data-tab-group="${group}"][data-tab-target]`
@@ -43,8 +42,11 @@
     });
   }
 
-  // Wait until imported sections finish loading
-  window.addEventListener("DOMContentLoaded", () => {
-    setTimeout(initialize, 100);
+  // --- THIS IS THE CORRECTED PART ---
+  // Wait until all dynamic HTML sections have loaded
+  document.addEventListener("sectionsLoaded", () => {
+    initialize();
   });
+  // --- END OF CORRECTION ---
+  
 })();
