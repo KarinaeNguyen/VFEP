@@ -234,7 +234,7 @@
       'nav_market': 'Phân tích Thị trường',
       'nav_financials': 'Tài chính',
       'nav_advantage': 'Lợi thế Cạnh tranh',
-      'footer_text': '© 2024 Vicinity Safety. Bảo lưu mọi quyền.',
+      'footer_text': '© 2025 Vicinity Safety. Mọi quyền sở hữu trí tuệ đang trong quá trình đăng ký.',
     },
     'en': {
       'page_title': 'Vicinity Safety | Precise Fire Extinguishing Technology VFEP',
@@ -469,7 +469,7 @@
       'nav_market': 'Market Analysis',
       'nav_financials': 'Financials',
       'nav_advantage': 'Competitive Advantage',
-      'footer_text': '© 2024 Vicinity Safety. All rights reserved.',
+      'footer_text': '© 2025 Vicinity Safety. All intellectual property rights are in the process of registration.',
     }
   };
 
