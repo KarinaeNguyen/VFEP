@@ -1,20 +1,21 @@
-body {
-  font-family: 'Inter', sans-serif;
-}
-
-.container {
-  max-width: 1200px;
-}
+/* We removed the 'body' and '.container' rules 
+  because Tailwind is already handling them in your index.html.
+  This file is now only for custom classes that JS controls.
+*/
 
 /* Tab buttons */
 .tab-btn {
-  transition: all 0.25s ease;
+  /* Using Tailwind @apply to be consistent */
+  @apply px-4 py-2 rounded-lg text-neutral-600 font-medium transition-all duration-200 ease-in-out;
+}
+
+.tab-btn:hover {
+  @apply bg-neutral-100;
 }
 
 .tab-btn.active {
-  background-color: #4338ca;
-  color: #fff;
-  font-weight: 600;
+  /* This is your original .active style, which is great */
+  @apply bg-indigo-700 text-white font-semibold shadow-md;
 }
 
 /* Tab content */
@@ -30,17 +31,12 @@ body {
 .chart-container {
   position: relative;
   width: 100%;
-  max-width: 520px;
-  margin: 0 auto;
-}
-
-@media (min-width: 768px) {
-  .chart-container {
-    max-width: 680px;
-  }
+  /* Using Tailwind's breakpoints for consistency */
+  @apply max-w-lg md:max-w-2xl mx-auto;
 }
 
 /* Utility */
 .card-shadow {
+  /* This is a great custom shadow */
   box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
 }
