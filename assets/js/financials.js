@@ -1,18 +1,18 @@
-// financials.js – Upgraded Professional Edition
+// financials.js – FIXED EDITION
 // ------------------------------------------------------------
-// Features:
-// ✔ Modern Chart.js styling
-// ✔ Animated chart load
-// ✔ Professional financial table styling
-// ✔ Loading spinner + table skeleton
-// ✔ Graceful fallback if CSV fails
-// ✔ Compatible with window.getTranslation()
+// All bugs that prevented the chart from rendering are fixed:
+// ✔ Canvas restored after loading state
+// ✔ Chart.js instance properly destroyed before re-render
+// ✔ CSV parser fixed for values containing commas
+// ✔ All DOM IDs matched with your financials.html
 // ------------------------------------------------------------
+
+let cashFlowChart = null;
 
 window.loadFinancialData = async function () {
     console.log("Financial module started...");
 
-    // Show loading animations
+    // Show skeleton + spinner
     showLoadingState();
 
     const csvUrl =
@@ -30,10 +30,11 @@ window.loadFinancialData = async function () {
         const revenue = rows.map(r => toNumber(r.Revenue));
         const expenses = rows.map(r => toNumber(r.Expenses));
 
+        // Restore canvas BEFORE Chart.js runs
+        restoreCanvas();
+
         renderCashFlowChart(labels, cashFlow, revenue, expenses);
         renderFinancialTable(rows);
-
-        hideLoadingState();
 
     } catch (error) {
         console.error("Financial load error:", error);
@@ -43,16 +44,16 @@ window.loadFinancialData = async function () {
 
 
 // ------------------------------------------------------------
-// CSV Parsing
+// FIXED CSV Parser – supports commas inside values
 // ------------------------------------------------------------
 function parseCSV(text) {
     const lines = text.trim().split("\n");
-    const head = lines.shift().split(",");
+    const header = lines.shift().split(",");
 
     return lines.map(line => {
-        const cols = line.split(",");
+        const cols = line.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g); // <— FIXED
         const obj = {};
-        head.forEach((h, i) => obj[h.trim()] = cols[i]?.trim());
+        header.forEach((h, i) => obj[h.trim()] = cols[i]?.replace(/"/g, "").trim());
         return obj;
     });
 }
@@ -64,13 +65,18 @@ function toNumber(val) {
 
 
 // ------------------------------------------------------------
-// Chart Rendering
+// FIXED Chart Rendering
 // ------------------------------------------------------------
 function renderCashFlowChart(labels, cashFlow, revenue, expenses) {
     const ctx = document.getElementById("cashFlowChart");
     if (!ctx) return console.error("#cashFlowChart missing.");
 
-    new Chart(ctx, {
+    // FIX: destroy older instance before re-rendering
+    if (cashFlowChart) {
+        cashFlowChart.destroy();
+    }
+
+    cashFlowChart = new Chart(ctx, {
         type: "line",
         data: {
             labels,
@@ -121,7 +127,7 @@ function renderCashFlowChart(labels, cashFlow, revenue, expenses) {
 
 
 // ------------------------------------------------------------
-// Financial Table Rendering
+// Table Rendering (unchanged)
 // ------------------------------------------------------------
 function renderFinancialTable(rows) {
     const body = document.getElementById("financialTableBody");
@@ -144,7 +150,7 @@ function formatUSD(num) {
 
 
 // ------------------------------------------------------------
-// Loading, Skeleton & Fallback
+// LOADING STATE FIXES
 // ------------------------------------------------------------
 function showLoadingState() {
     const chartBox = document.getElementById("chartContainer");
@@ -155,14 +161,17 @@ function showLoadingState() {
     }
 
     if (tableBody) {
-        tableBody.innerHTML = `
-            ${"<tr><td colspan='4' class='skeleton'></td></tr>".repeat(6)}
-        `;
+        tableBody.innerHTML =
+            `${"<tr><td colspan='4' class='skeleton'></td></tr>".repeat(6)}`;
     }
 }
 
-function hideLoadingState() {
-    // automatically replaced after render
+// FIX: restore <canvas> after spinner is removed
+function restoreCanvas() {
+    const chartBox = document.getElementById("chartContainer");
+    if (chartBox) {
+        chartBox.innerHTML = `<canvas id="cashFlowChart"></canvas>`;
+    }
 }
 
 function showErrorFallback() {
