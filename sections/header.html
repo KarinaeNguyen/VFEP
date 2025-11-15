@@ -1,28 +1,20 @@
-<header class="bg-white shadow-md sticky top-0 z-50">
-    <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-            <div class="flex-shrink-0 flex items-center">
-                <span class="text-2xl font-bold text-indigo-700" data-key="header_main_title">
-                    Thông Tin Dự Án
-                </span>
-                <span class="text-xl font-light text-neutral-600 ml-2" data-key="header_subtitle">
-                    | Công Nghệ VFEP
-                </span>
-            </div>
-
-            <div class="flex items-center space-x-4">
-                <button 
-                    id="language-switch-btn"
-                    onclick="switchLanguage('en')" 
-                    class="px-3 py-1 bg-neutral-200 text-neutral-700 rounded-full text-sm font-semibold hover:bg-neutral-300 transition-colors duration-200 focus:outline-none"
-                >
-                    English
-                </button>
-                
-                <span id="lang-display" class="px-3 py-1 bg-indigo-700 text-white rounded-full text-sm font-bold">
-                    VN
-                </span>
-            </div>
-        </div>
-    </nav>
+<header class="bg-white shadow-md sticky top-0 z-40">
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <div>
+      <p class="text-2xl font-bold text-indigo-700" data-key="header_title">Vicinity Safety</p>
+      <p class="text-sm text-neutral-500" data-key="header_subtitle">Công nghệ dập lửa VFEP</p>
+    </div>
+    <div class="flex items-center space-x-3">
+      <button
+        id="language-switch-btn"
+        onclick="switchLanguage(window.appLanguage === 'vi' ? 'en' : 'vi')"
+        class="px-3 py-1 rounded-full text-sm font-semibold bg-neutral-200 hover:bg-neutral-300 transition"
+      >
+        English
+      </button>
+      <span id="language-current" class="px-3 py-1 rounded-full text-sm font-bold bg-indigo-600 text-white">
+        VN
+      </span>
+    </div>
+  </nav>
 </header>
