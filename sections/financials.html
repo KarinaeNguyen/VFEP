@@ -1,43 +1,49 @@
-<section id="financials" class="bg-white shadow-xl rounded-2xl p-6 md:p-10">
-    <h2 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-4" data-key="fin_main_title"></h2>
-    <p class="text-lg text-neutral-600 mb-8" data-key="fin_intro_p"></p>
-    
-    <div class="mb-10">
-        <h3 class="text-2xl font-bold text-indigo-800 mb-6 text-center" data-key="fin_chart_title"></h3>
-        
-        <div id="financials-loading" class="text-center p-10 text-indigo-700 font-semibold">
-            <p data-key="fin_loading_msg"></p>
-        </div>
+<section class="bg-white p-6 rounded-xl shadow-md">
+    <h2 class="text-3xl font-bold text-indigo-800 mb-6" data-key="financial_section_title">
+        Financial Overview
+    </h2>
 
-        <div class="chart-container-large hidden" id="chart-wrapper">
-            <canvas id="cashFlowChart"></canvas>
-        </div>
+    <!-- Chart Container (REQUIRED for financials.js) -->
+    <div id="chartContainer" class="w-full mb-10">
+        <div class="spinner mx-auto"></div> <!-- loading state placeholder -->
+        <canvas id="cashFlowChart" class="w-full"></canvas>
     </div>
 
-    <div id="table-wrapper" class="overflow-x-auto bg-white rounded-lg shadow mt-10 hidden">
-        <h3 class="text-2xl font-bold text-indigo-800 mb-6 text-center pt-6" data-key="fin_table_title"></h3>
-        <table class="min-w-full divide-y divide-neutral-300">
-            <thead class="bg-neutral-100" id="financial-table-head">
-                </thead>
-            <tbody class="bg-white divide-y divide-neutral-200" id="financial-table-body">
-                </tbody>
+    <!-- Table -->
+    <div class="overflow-x-auto">
+        <table class="w-full border-collapse text-left">
+            <thead class="bg-indigo-50 border-b border-indigo-200">
+                <tr>
+                    <th class="p-3 font-semibold text-indigo-800" data-key="fin_year">Year</th>
+                    <th class="p-3 font-semibold text-indigo-800" data-key="fin_revenue">Revenue</th>
+                    <th class="p-3 font-semibold text-indigo-800" data-key="fin_expenses">Expenses</th>
+                    <th class="p-3 font-semibold text-indigo-800" data-key="fin_cashflow">Cash Flow</th>
+                </tr>
+            </thead>
+
+            <tbody id="financialTableBody">
+                <!-- Rows generated dynamically -->
+            </tbody>
         </table>
     </div>
 
+    <!-- Cards (3 KPIs) -->
     <div class="mt-12 grid md:grid-cols-3 gap-6 text-center">
         <div class="bg-indigo-50 p-6 rounded-lg border border-indigo-200">
             <h3 class="text-lg font-semibold text-neutral-600" data-key="fin_card1_h"></h3>
             <p class="text-4xl font-bold text-indigo-800" data-key="fin_card1_amount"></p>
             <p class="text-neutral-700 mt-1" data-key="fin_card1_p"></p>
         </div>
+
         <div class="bg-green-50 p-6 rounded-lg border border-green-200">
             <h3 class="text-lg font-semibold text-neutral-600" data-key="fin_card2_h"></h3>
             <p class="text-4xl font-bold text-green-800" data-key="fin_card2_amount"></p>
             <p class="text-neutral-700 mt-1" data-key="fin_card2_p"></p>
         </div>
-        <div class="bg-neutral-50 p-6 rounded-lg border border-neutral-200">
+
+        <div class="bg-red-50 p-6 rounded-lg border border-red-200">
             <h3 class="text-lg font-semibold text-neutral-600" data-key="fin_card3_h"></h3>
-            <p class="text-4xl font-bold text-neutral-800" data-key="fin_card3_amount"></p>
+            <p class="text-4xl font-bold text-red-800" data-key="fin_card3_amount"></p>
             <p class="text-neutral-700 mt-1" data-key="fin_card3_p"></p>
         </div>
     </div>
