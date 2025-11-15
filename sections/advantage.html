@@ -1,102 +1,104 @@
 <section id="advantage" class="bg-white shadow-xl rounded-2xl p-6 md:p-10">
-    <h2 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-4" data-key="adv_main_title">Lợi Thế Cạnh Tranh & So Sánh</h2>
-    <p class="text-lg text-neutral-600 mb-8" data-key="adv_intro_p">
-        Lợi thế của Vicinity Safety không chỉ đến từ công nghệ, mà còn từ chiến lược "vi mô" độc đáo, trái ngược hoàn toàn với các giải pháp "vĩ mô" hiện có trên thị trường.
-    </p>
+    <h2 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-4" data-key="adv_main_title"></h2>
+    <p class="text-lg text-neutral-600 mb-8" data-key="adv_intro_p"></p>
 
-    <div class="flex flex-wrap gap-2 mb-6" id="advantage-tabs">
-        <button class="tab-btn advantage-tab-btn active px-5 py-2 rounded-lg text-sm font-medium" data-target="adv-direct" data-key="adv_tab1_btn">1. Phân Tích Đối Thủ</button>
-        <button class="tab-btn advantage-tab-btn px-5 py-2 rounded-lg text-sm font-medium" data-target="adv-usp" data-key="adv_tab2_btn">2. Giá Trị Cốt Lõi (USP)</button>
+    <div class="flex flex-wrap gap-2 mb-6">
+        <button class="tab-btn active" data-tab-group="advantage" data-tab-target="adv-direct" data-key="adv_tab1_btn"></button>
+        <button class="tab-btn" data-tab-group="advantage" data-tab-target="adv-usp" data-key="adv_tab2_btn"></button>
     </div>
 
     <div class="bg-neutral-50 border border-neutral-200 rounded-xl p-6 min-h-[300px]">
-        <div id="adv-direct" class="tab-content advantage-tab-content active overflow-x-auto">
-            <h3 class="text-2xl font-bold text-indigo-800 mb-4" data-key="adv_direct_h">So Sánh Chiến Lược: Chính xác (Vicinity) vs. Bao phủ (Đối thủ)</h3>
-            <p class="text-neutral-700 mb-6" data-key="adv_direct_p">Chúng tôi không cạnh tranh trực tiếp; chúng tôi tạo ra một thị trường ngách mới về "bảo vệ tài sản".</p>
+        <div id="adv-direct" class="tab-content active" data-tab-group="advantage">
+            <h3 class="text-2xl font-bold text-indigo-800 mb-4" data-key="adv_direct_h"></h3>
+            <p class="text-neutral-700 mb-6" data-key="adv_direct_p"></p>
             
-            <table class="min-w-full divide-y divide-neutral-300 border border-neutral-300 rounded-lg">
-                <thead class="bg-neutral-100">
-                    <tr>
-                        <th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700 w-1/4" data-key="adv_direct_table_h1">Hệ Thống</th>
-                        <th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700" data-key="adv_direct_table_h2">Triết Lý Thiết Kế</th>
-                        <th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700" data-key="adv_direct_table_h3">Mục Tiêu</th>
-                        <th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700" data-key="adv_direct_table_h4">Điểm Yếu</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-neutral-200 bg-white">
-                    <tr class="bg-indigo-50">
-                        <td class="px-4 py-3 text-sm font-bold text-indigo-900" data-key="adv_direct_r1_c1">VFEP (Vicinity Safety)</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">
-                            <strong class="text-indigo-700" data-key="adv_direct_r1_c2_strong">Chiến lược Vi mô (Micro):</strong> 
-                            <span data-key="adv_direct_r1_c2_p">Dùng động năng tối thiểu (3-4g) làm cơ chế kích hoạt để phân tán hóa chất chính xác.</span>
-                        </td>
-                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_direct_r1_c3">Bảo vệ tài sản cục bộ, không gây hư hại (tủ rack, thiết bị điện tử).</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_direct_r1_c4">Không hiệu quả cho các đám cháy lớn, ngoài trời.</td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-3 text-sm font-medium text-neutral-900" data-key="adv_direct_r2_c1">Stat-X (Global) / Hệ thống khí</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_direct_r2_c2">Thụ động, khối lượng lớn. Kích hoạt để phân tán aerosol/khí bao phủ toàn bộ phòng.</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_direct_r2_c3">Bao phủ toàn bộ phòng (room-scale), không định hướng.</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_direct_r2_c4">Tốn kém, cần hệ thống kín, có thể gây thiệt hại thứ cấp.</td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-3 text-sm font-medium text-neutral-900" data-key="adv_direct_r3_c1">Dàn Phóng (Quốc phòng VN)</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700">
-                            <strong class="text-red-700" data-key="adv_direct_r3_c2_strong">Chiến lược Vĩ mô (Macro):</strong>
-                            <span data-key="adv_direct_r3_c2_p">Dùng động năng cực cao để vận chuyển khối lượng lớn (tầm bắn 250m).</span>
-                        </td>
-                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_direct_r3_c3">Dập tắt các đám cháy lớn, không thể tiếp cận (ví dụ: cháy rừng, tòa nhà).</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_direct_r3_c4">Phá hủy hoàn toàn mục tiêu; không thể sử dụng trong nhà/gần thiết bị.</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-neutral-300 border border-neutral-300 rounded-lg">
+                    <thead class="bg-neutral-100">
+                        <tr>
+                            <th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700 w-1/4" data-key="adv_direct_table_h1"></th>
+                            <th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700" data-key="adv_direct_table_h2"></th>
+                            <th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700" data-key="adv_direct_table_h3"></th>
+                            <th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700" data-key="adv_direct_table_h4"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-neutral-200 bg-white">
+                        <tr class="bg-indigo-50">
+                            <td class="px-4 py-3 text-sm font-bold text-indigo-900" data-key="adv_direct_r1_c1"></td>
+                            <td class="px-4 py-3 text-sm text-neutral-700">
+                                <strong class="text-indigo-700" data-key="adv_direct_r1_c2_strong"></strong> 
+                                <span data-key="adv_direct_r1_c2_p"></span>
+                            </td>
+                            <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_direct_r1_c3"></td>
+                            <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_direct_r1_c4"></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-medium text-neutral-900" data-key="adv_direct_r2_c1"></td>
+                            <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_direct_r2_c2"></td>
+                            <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_direct_r2_c3"></td>
+                            <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_direct_r2_c4"></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-medium text-neutral-900" data-key="adv_direct_r3_c1"></td>
+                            <td class="px-4 py-3 text-sm text-neutral-700">
+                                <strong class="text-red-700" data-key="adv_direct_r3_c2_strong"></strong>
+                                <span data-key="adv_direct_r3_c2_p"></span>
+                            </td>
+                            <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_direct_r3_c3"></td>
+                            <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_direct_r3_c4"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <!-- TAB CONTENT 2: UNIQUE SELLING PROPOSITION (USP) -->
-        <div id="adv-usp" class="tab-content advantage-tab-content overflow-x-auto">
-            <h3 class="text-2xl font-bold text-indigo-800 mb-4" data-key="adv_usp_h">Giá Trị Cốt Lõi (USP)</h3>
-            <p class="text-neutral-700 mb-6" data-key="adv_usp_p">Đây là những giá trị mà chúng tôi cam kết với khách hàng, chia theo danh mục.</p>
+        
+        <div id="adv-usp" class="tab-content" data-tab-group="advantage">
+            <h3 class="text-2xl font-bold text-indigo-800 mb-4" data-key="adv_usp_h"></h3>
+            <p class="text-neutral-700 mb-6" data-key="adv_usp_p"></p>
             
-            <table class="min-w-full divide-y divide-neutral-300 border border-neutral-300 rounded-lg">
-                <thead class="bg-neutral-100">
-                    <tr>
-                        <th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700 w-1/4" data-key="adv_usp_table_h1">Danh Mục</th>
-                        <th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700" data-key="adv_usp_table_h2">Lợi Ích (USP)</th>
-                        <th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700" data-key="adv_usp_table_h3">Giá Trị cho Khách Hàng</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-neutral-200 bg-white">
-                    <tr>
-                        <td class="px-4 py-3 text-sm font-medium text-neutral-900 align-top" data-key="adv_usp_r1_c1">I. Công nghệ (Sản phẩm)</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r1_c2">Dập tắt chính xác, không ăn mòn</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r1_c3">Đảm bảo dập tắt cháy Loại C (điện) và B (chất lỏng) với thiệt hại tài sản (máy chủ, robot) ở mức tối thiểu.</td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-3 text-sm font-medium text-neutral-900 align-top" data-key="adv_usp_r2_c1"></td>
-                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r2_c2">Tùy biến cho Pin Lithium-ion</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r2_c3">Cung cấp một lựa chọn dập lửa và làm mát chuyên biệt (với lõi gel) để xử lý "thoát nhiệt" (thermal runaway).</td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-3 text-sm font-medium text-neutral-900 align-top" data-key="adv_usp_r3_c1"></td>
-                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r3_c2">Cơ chế phóng (Cỡ 0.68)</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r3_c3">Đảm bảo triển khai nhanh, đào tạo đơn giản, và tiếp cận ngay lập tức với nền tảng phóng có thể sản xuất hàng loạt (không phải súng).</td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-3 text-sm font-medium text-neutral-900 align-top" data-key="adv_usp_r4_c1">II. Chiến lược (Mô hình)</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r4_c2">Giấy phép "Mã Nguồn Mở" cho Chính Phủ</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r4_c3">Tạo ra một con hào thị trường (market moat) toàn cầu; các chính phủ trở thành đối tác trung thành, đảm bảo thị trường cho nhà sản xuất (người trả tiền bản quyền).</td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-3 text-sm font-medium text-neutral-900 align-top" data-key="adv_usp_r5_c1"></td>
-                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r5_c2">Đòn bẩy Tài chính Cao</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r5_c3">Cung cấp biên lợi nhuận đặc biệt và khả năng mở rộng, giảm vốn sản xuất trong khi vẫn đảm bảo doanh thu cao, định kỳ.</td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-3 text-sm font-medium text-neutral-900 align-top" data-key="adv_usp_r6_c1"></td>
-                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r6_c2">Cấu trúc IP (Sing) / R&D (ĐNÁ)</td>
-                        <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r6_c3">Giảm thiểu rủi ro bằng cách bảo vệ tài sản cốt lõi theo khung pháp lý tốt nhất thế giới, đồng thời tối đa hóa hiệu quả chi phí phát triển.</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-neutral-300 border border-neutral-300 rounded-lg">
+                    <thead class="bg-neutral-100">
+                        <tr>
+                            <th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700 w-1/4" data-key="adv_usp_table_h1"></th>
+                            <th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700" data-key="adv_usp_table_h2"></th>
+                            <th scope="col" class="px-4 py-3 text-left text-sm font-semibold text-indigo-700" data-key="adv_usp_table_h3"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-neutral-200 bg-white">
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-medium text-neutral-900 align-top" data-key="adv_usp_r1_c1"></td>
+                            <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r1_c2"></td>
+                            <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r1_c3"></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-medium text-neutral-900 align-top" data-key="adv_usp_r2_c1"></td>
+                            <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r2_c2"></td>
+                            <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r2_c3"></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-medium text-neutral-900 align-top" data-key="adv_usp_r3_c1"></td>
+                            <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r3_c2"></td>
+                            <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r3_c3"></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-medium text-neutral-900 align-top" data-key="adv_usp_r4_c1"></td>
+                            <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r4_c2"></td>
+                            <td classL="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r4_c3"></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-medium text-neutral-900 align-top" data-key="adv_usp_r5_c1"></td>
+                            <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r5_c2"></td>
+                            <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r5_c3"></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-medium text-neutral-900 align-top" data-key="adv_usp_r6_c1"></td>
+                            <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r6_c2"></td>
+                            <td class="px-4 py-3 text-sm text-neutral-700" data-key="adv_usp_r6_c3"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </section>
