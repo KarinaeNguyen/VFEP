@@ -1,53 +1,46 @@
 body {
-    font-family: 'Inter', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
-/* Base style for chart containers */
-.chart-container {
-    position: relative;
-    width: 100%;
-    max-width: 450px;
-    height: 320px;
-    margin: auto;
-}
-@media (min-width: 768px) {
-    .chart-container {
-        height: 350px;
-    }
+.container {
+  max-width: 1200px;
 }
 
-/* Style for the wider cash flow chart */
-.chart-container-large {
-    position: relative;
-    width: 100%;
-    max-width: 1000px; /* Wider for cash flow */
-    height: 400px; /* Taller */
-    margin: auto;
-}
-@media (min-width: 768px) {
-    .chart-container-large {
-        height: 500px;
-    }
-}
-
-/* Tab button styling */
+/* Tab buttons */
 .tab-btn {
-    transition: all 0.3s ease;
-}
-.tab-btn.active {
-    background-color: #4338ca; /* indigo-700 */
-    color: white;
-    font-weight: 600;
-}
-.tab-btn:not(.active) {
-    background-color: #e5e7eb; /* gray-200 */
-    color: #374151; /* gray-700 */
+  transition: all 0.25s ease;
 }
 
-/* Tab content visibility */
-.tab-content {
-    display: none;
+.tab-btn.active {
+  background-color: #4338ca;
+  color: #fff;
+  font-weight: 600;
 }
+
+/* Tab content */
+.tab-content {
+  display: none;
+}
+
 .tab-content.active {
-    display: block;
+  display: block;
+}
+
+/* Chart containers */
+.chart-container {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .chart-container {
+    max-width: 680px;
+  }
+}
+
+/* Utility */
+.card-shadow {
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
 }
