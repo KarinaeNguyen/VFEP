@@ -1,42 +1,81 @@
-/* We removed the 'body' and '.container' rules 
-  because Tailwind is already handling them in your index.html.
-  This file is now only for custom classes that JS controls.
-*/
-
-/* Tab buttons */
-.tab-btn {
-  /* Using Tailwind @apply to be consistent */
-  @apply px-4 py-2 rounded-lg text-neutral-600 font-medium transition-all duration-200 ease-in-out;
+/* ------------------------------------------------------------
+   LOADING SPINNER
+------------------------------------------------------------ */
+.spinner {
+    width: 36px;
+    height: 36px;
+    margin: 40px auto;
+    border: 4px solid #d6d6d6;
+    border-top-color: #4b2bbd;
+    border-radius: 50%;
+    animation: spin 0.75s linear infinite;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
 
-.tab-btn:hover {
-  @apply bg-neutral-100;
+/* ------------------------------------------------------------
+   SKELETON LOADING
+------------------------------------------------------------ */
+.skeleton {
+    height: 22px;
+    background: linear-gradient(90deg, #ececec 25%, #f8f8f8 50%, #ececec 75%);
+    background-size: 200% 100%;
+    animation: skeleton-load 1.2s infinite;
+}
+@keyframes skeleton-load {
+    0% { background-position: -200px 0; }
+    100% { background-position: 200px 0; }
 }
 
-.tab-btn.active {
-  /* This is your original .active style, which is great */
-  @apply bg-indigo-700 text-white font-semibold shadow-md;
+/* ------------------------------------------------------------
+   FINANCIAL CHART WRAPPER
+------------------------------------------------------------ */
+.chart-wrapper {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 10px;
 }
 
-/* Tab content */
-.tab-content {
-  display: none;
+/* ------------------------------------------------------------
+   FINANCIAL TABLE STYLING
+------------------------------------------------------------ */
+.financial-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    font-size: 16px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
-.tab-content.active {
-  display: block;
+.financial-table th {
+    background: #4b2bbd;
+    color: #fff;
+    padding: 14px;
+    font-weight: 600;
+    text-align: left;
 }
 
-/* Chart containers */
-.chart-container {
-  position: relative;
-  width: 100%;
-  /* Using Tailwind's breakpoints for consistency */
-  @apply max-w-lg md:max-w-2xl mx-auto;
+.fin-row:nth-child(even) {
+    background: #f7f4ff;
 }
 
-/* Utility */
-.card-shadow {
-  /* This is a great custom shadow */
-  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+.fin-col {
+    padding: 12px 14px;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+/* ------------------------------------------------------------
+   ERROR BLOCK
+------------------------------------------------------------ */
+.error-box {
+    color: #b30000;
+    background: #ffe6e6;
+    padding: 16px;
+    text-align: center;
+    font-weight: 600;
+    border-radius: 6px;
 }
