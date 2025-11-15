@@ -97,17 +97,20 @@
       fin_chart_title: "Biểu đồ dòng tiền (USD)",
       fin_table_title: "Bảng dòng tiền chi tiết",
       fin_loading_msg: "Đang tải dữ liệu tài chính...",
-      fin_card1_title: "Seed cần huy động",
-      fin_card1_note: "100.000 USD cho 6 tháng R&D/POC.",
-      fin_card2_title: "Bridge/VC tiếp theo",
-      fin_card2_note: "250.000 USD để scale sản xuất thử.",
-      fin_card3_title: "Tổng nhu cầu 2 năm",
-      fin_card3_note: "350.000 USD đạt mốc cấp phép toàn cầu.",
       fin_chart_dataset_label: "Dòng tiền ròng",
       fin_table_header_quarter: "Quý",
       fin_table_header_revenue: "Doanh thu (USD)",
       fin_table_header_expenses: "Chi phí (USD)",
       fin_table_header_cashflow: "Dòng tiền (USD)",
+      fin_card1_title: "Seed cần huy động",
+      fin_card1_amount: "$100.000",
+      fin_card1_note: "cho 6 tháng R&D/POC.",
+      fin_card2_title: "Bridge/VC tiếp theo",
+      fin_card2_amount: "$250.000",
+      fin_card2_note: "để scale sản xuất thử.",
+      fin_card3_title: "Tổng nhu cầu 2 năm",
+      fin_card3_amount: "$350.000",
+      fin_card3_note: "đạt mốc cấp phép toàn cầu.",
 
       adv_section_title: "Lợi thế cạnh tranh",
       adv_section_intro:
@@ -224,17 +227,20 @@
       fin_chart_title: "Cash-flow chart (USD)",
       fin_table_title: "Detailed cash-flow table",
       fin_loading_msg: "Loading financial data...",
-      fin_card1_title: "Seed requirement",
-      fin_card1_note: "US$100k for 6-month R&D/POC.",
-      fin_card2_title: "Next Bridge/VC",
-      fin_card2_note: "US$250k to scale pilot manufacturing.",
-      fin_card3_title: "Total 2-year ask",
-      fin_card3_note: "US$350k to reach global licensing milestones.",
       fin_chart_dataset_label: "Net cash flow",
       fin_table_header_quarter: "Quarter",
       fin_table_header_revenue: "Revenue (USD)",
       fin_table_header_expenses: "Expenses (USD)",
       fin_table_header_cashflow: "Cash Flow (USD)",
+      fin_card1_title: "Seed requirement",
+      fin_card1_amount: "$100,000",
+      fin_card1_note: "for 6-month R&D/POC.",
+      fin_card2_title: "Next Bridge/VC",
+      fin_card2_amount: "$250,000",
+      fin_card2_note: "to scale pilot manufacturing.",
+      fin_card3_title: "Total 2-year ask",
+      fin_card3_amount: "$350,000",
+      fin_card3_note: "to reach global licensing milestones.",
 
       adv_section_title: "Competitive advantage",
       adv_section_intro:
@@ -295,7 +301,7 @@
 
     applyTranslations(currentLang);
 
-    if (typeof window.initializeApp === "function") {
+    if (typeof window.initializeApp === 'function') {
       window.initializeApp();
     }
   }
