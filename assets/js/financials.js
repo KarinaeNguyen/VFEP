@@ -1,132 +1,179 @@
-(() => {
-  const sampleCsv = `
-Quarter,Revenue,Expenses
-Y1-Q1,25000,18000
-Y1-Q2,32000,21000
-Y1-Q3,42000,26000
-Y1-Q4,60000,32000
-Y2-Q1,75000,38000
-Y2-Q2,90000,45000
-Y2-Q3,110000,52000
-Y2-Q4,135000,63000
-`;
+// financials.js – Upgraded Professional Edition
+// ------------------------------------------------------------
+// Features:
+// ✔ Modern Chart.js styling
+// ✔ Animated chart load
+// ✔ Professional financial table styling
+// ✔ Loading spinner + table skeleton
+// ✔ Graceful fallback if CSV fails
+// ✔ Compatible with window.getTranslation()
+// ------------------------------------------------------------
 
-  let financialDataCache = [];
-  let chartInstance = null;
+window.loadFinancialData = async function () {
+    console.log("Financial module started...");
 
-  function buildDataset(rows) {
-    return rows.map((row) => {
-      const revenue = Number(row.Revenue) || 0;
-      const expenses = Number(row.Expenses) || 0;
-      return {
-        quarter: row.Quarter || '',
-        revenue,
-        expenses,
-        cashFlow: revenue - expenses
-      };
+    // Show loading state UI
+    showLoadingState();
+
+    const csvUrl =
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vRdnGGLERma9OCgM-Y6hGfFn2RnyjAMZeGT_zHviVrBKdC5h3947vTg66xfwg1RbcrGbgQm1cIAWKhS/pub?output=csv";
+
+    try {
+        const response = await fetch(csvUrl);
+        if (!response.ok) throw new Error("Google Sheet unreachable");
+
+        const csvText = await response.text();
+        const rows = parseCSV(csvText);
+
+        const labels = rows.map(r => r.Quarter);
+        const cashFlow = rows.map(r => toNumber(r.CashFlow));
+        const revenue = rows.map(r => toNumber(r.Revenue));
+        const expenses = rows.map(r => toNumber(r.Expenses));
+
+        renderCashFlowChart(labels, cashFlow, revenue, expenses);
+        renderFinancialTable(rows);
+
+        hideLoadingState();
+
+    } catch (error) {
+        console.error(error);
+        showErrorFallback();
+    }
+};
+
+
+// ------------------------------------------------------------
+// CSV Parser
+// ------------------------------------------------------------
+function parseCSV(text) {
+    const lines = text.trim().split("\n");
+    const head = lines.shift().split(",");
+
+    return lines.map(line => {
+        const cols = line.split(",");
+        const obj = {};
+        head.forEach((h, i) => obj[h.trim()] = cols[i]?.trim());
+        return obj;
     });
-  }
+}
 
-  function renderChart(data) {
-    const ctx = document.getElementById('cashFlowChart');
-    if (!ctx || typeof Chart === 'undefined') return;
+function toNumber(val) {
+    if (!val) return 0;
+    return Number(val.replace(/,/g, "")) || 0;
+}
 
-    if (chartInstance) chartInstance.destroy();
 
-    const lang = window.appLanguage || 'vi';
-    const label = window.getTranslation(lang, 'fin_chart_dataset_label') || 'Net cash flow';
+// ------------------------------------------------------------
+// Chart Rendering
+// ------------------------------------------------------------
+function renderCashFlowChart(labels, cashFlow, revenue, expenses) {
+    const ctx = document.getElementById("cashFlowChart");
 
-    chartInstance = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: data.map((item) => item.quarter),
-        datasets: [
-          {
-            label,
-            data: data.map((item) => item.cashFlow),
-            borderColor: '#4338ca',
-            backgroundColor: 'rgba(67, 56, 202, 0.15)',
-            borderWidth: 3,
-            fill: true,
-            tension: 0.3
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: true }
+    if (!ctx) return console.error("#cashFlowChart missing.");
+
+    new Chart(ctx, {
+        type: "line",
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: window.getTranslation("cash_flow_projection") || "Cash Flow",
+                    data: cashFlow,
+                    borderWidth: 3,
+                    pointRadius: 4,
+                    fill: true,
+                    tension: 0.35
+                },
+                {
+                    label: window.getTranslation("revenue") || "Revenue",
+                    data: revenue,
+                    borderDash: [5, 5],
+                    borderWidth: 2,
+                    tension: 0.35
+                },
+                {
+                    label: window.getTranslation("expenses") || "Expenses",
+                    data: expenses,
+                    borderWidth: 2,
+                    tension: 0.35
+                }
+            ]
         },
-        scales: {
-          y: {
-            beginAtZero: false,
-            ticks: {
-              callback: (value) => `$${value.toLocaleString()}`
+        options: {
+            responsive: true,
+            animation: {
+                duration: 1000,
+                easing: "easeOutQuart"
+            },
+            plugins: {
+                legend: { position: "top" }
+            },
+            scales: {
+                y: { beginAtZero: true }
             }
-          }
         }
-      }
     });
-  }
+}
 
-  function renderTable(data) {
-    const headEl = document.getElementById('financial-table-head');
-    const bodyEl = document.getElementById('financial-table-body');
-    if (!headEl || !bodyEl) return;
 
-    const lang = window.appLanguage || 'vi';
-    const headers = [
-      window.getTranslation(lang, 'fin_table_header_quarter') || 'Quarter',
-      window.getTranslation(lang, 'fin_table_header_revenue') || 'Revenue (USD)',
-      window.getTranslation(lang, 'fin_table_header_expenses') || 'Expenses (USD)',
-      window.getTranslation(lang, 'fin_table_header_cashflow') || 'Cash Flow (USD)'
-    ];
+// ------------------------------------------------------------
+// Financial Table Rendering
+// ------------------------------------------------------------
+function renderFinancialTable(rows) {
+    const body = document.getElementById("financialTableBody");
+    if (!body) return;
 
-    headEl.innerHTML = `
-      <tr>
-        ${headers.map((text) => `<th class="px-4 py-3 text-left text-sm font-semibold text-indigo-800">${text}</th>`).join('')}
-      </tr>
+    body.innerHTML = rows.map(r => `
+        <tr class="fin-row">
+            <td class="fin-col">${r.Quarter}</td>
+            <td class="fin-col">${formatUSD(r.Revenue)}</td>
+            <td class="fin-col">${formatUSD(r.Expenses)}</td>
+            <td class="fin-col">${formatUSD(r.CashFlow)}</td>
+        </tr>
+    `).join("");
+}
+
+function formatUSD(num) {
+    num = toNumber(num);
+    return num.toLocaleString("en-US", { style: "currency", currency: "USD" });
+}
+
+
+// ------------------------------------------------------------
+// Loading / Skeleton UI
+// ------------------------------------------------------------
+function showLoadingState() {
+    const chartBox = document.getElementById("chartContainer");
+    const tableBox = document.getElementById("financialTableBody");
+
+    if (chartBox) chartBox.innerHTML = `
+        <div class="spinner"></div>
     `;
 
-    bodyEl.innerHTML = data
-      .map(
-        (item) => `
-      <tr class="hover:bg-neutral-50">
-        <td class="px-4 py-3 text-sm font-medium text-neutral-800">${item.quarter}</td>
-        <td class="px-4 py-3 text-sm text-neutral-600">$${item.revenue.toLocaleString()}</td>
-        <td class="px-4 py-3 text-sm text-neutral-600">$${item.expenses.toLocaleString()}</td>
-        <td class="px-4 py-3 text-sm font-semibold text-indigo-700">$${item.cashFlow.toLocaleString()}</td>
-      </tr>
-    `
-      )
-      .join('');
-  }
+    if (tableBox) tableBox.innerHTML = `
+        ${"<tr><td colspan='4' class='skeleton'></td></tr>".repeat(5)}
+    `;
+}
 
-  function toggleVisibility(show = false) {
-    const loading = document.getElementById('financials-loading');
-    const chartWrapper = document.getElementById('chart-wrapper');
-    const tableWrapper = document.getElementById('table-wrapper');
+function hideLoadingState() {
+    // handled naturally after chart/table render
+}
 
-    if (loading) loading.classList.toggle('hidden', show);
-    if (chartWrapper) chartWrapper.classList.toggle('hidden', !show);
-    if (tableWrapper) tableWrapper.classList.toggle('hidden', !show);
-  }
+function showErrorFallback() {
+    const chartBox = document.getElementById("chartContainer");
+    const tableBox = document.getElementById("financialTableBody");
 
-  async function loadFinancials() {
-    const rows = CSVParser.parse(sampleCsv);
-    financialDataCache = buildDataset(rows);
-    toggleVisibility(true);
-    renderChart(financialDataCache);
-    renderTable(financialDataCache);
-  }
+    if (chartBox) {
+        chartBox.innerHTML = `
+            <div class="error-box">
+                Failed to load financial data.
+            </div>
+        `;
+    }
 
-  function handleLanguageChange() {
-    if (!financialDataCache.length) return;
-    renderChart(financialDataCache);
-    renderTable(financialDataCache);
-  }
-
-  window.addEventListener('app-language-changed', handleLanguageChange);
-  window.loadFinancials = loadFinancials;
-})();
+    if (tableBox) {
+        tableBox.innerHTML = `
+            <tr><td colspan="4" class="error-box">No data available.</td></tr>
+        `;
+    }
+}
