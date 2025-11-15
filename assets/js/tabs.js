@@ -1,24 +1,28 @@
 (() => {
   function activateTab(group, targetId) {
-    // FIXED: correct selector syntax
+    // Correct button selector
     const buttons = document.querySelectorAll(
       `[data-tab-group="${group}"][data-tab-target]`
     );
 
+    // Correct panel selector
     const panels = document.querySelectorAll(
-      `[data-tab-group="${group}"].tab-content`
+      `.tab-content[data-tab-group="${group}"]`
     );
 
     buttons.forEach((btn) => {
-      btn.classList.toggle("active", btn.dataset.tabTarget === targetId);
+      const active = btn.dataset.tabTarget === targetId;
+      btn.classList.toggle("active", active);
     });
 
     panels.forEach((panel) => {
-      panel.classList.toggle("active", panel.id === targetId);
+      const active = panel.id === targetId;
+      panel.classList.toggle("active", active);
     });
   }
 
-  window.initTabs = function initTabs() {
+  function initialize() {
+    // Attach click handlers
     document.querySelectorAll("[data-tab-target]").forEach((button) => {
       button.addEventListener("click", () => {
         const { tabGroup, tabTarget } = button.dataset;
@@ -28,7 +32,7 @@
       });
     });
 
-    // AUTO-INIT FIRST TAB IN EACH GROUP
+    // Auto activate first tab per group
     const groups = new Set(
       [...document.querySelectorAll("[data-tab-group]")].map(
         (el) => el.dataset.tabGroup
@@ -41,5 +45,11 @@
       );
       if (firstButton) firstButton.click();
     });
-  };
+  }
+
+  // Delay init until ALL imported sections are loaded
+  window.addEventListener("DOMContentLoaded", () => {
+    // importSections.js finishes dynamically → wait for it
+    setTimeout(initialize, 100);
+  });
 })();
