@@ -1,52 +1,51 @@
-(() => {
-  function activateTab(group, targetId) {
-    const buttons = document.querySelectorAll(
-      `button[data-tab-group="${group}"][data-tab-target]`
-    );
+function initTabs() {
+  console.log("Initializing tabs...");
 
-    const panels = document.querySelectorAll(
-      `.tab-content[data-tab-group="${group}"]`
-    );
+  function setupTabGroup(groupName) {
+    const tabButtons = document.querySelectorAll(`[data-tab-group="${groupName}"]`);
+    const tabContents = document.querySelectorAll(`[data-tab-content="${groupName}"]`);
 
-    buttons.forEach((btn) => {
-      btn.classList.toggle("active", btn.dataset.tabTarget === targetId);
-    });
+    if (tabButtons.length === 0 || tabContents.length === 0) {
+      console.warn(`No tabs found for group: ${groupName}`);
+      return;
+    }
 
-    panels.forEach((panel) => {
-      panel.classList.toggle("active", panel.id === targetId);
-    });
-  }
+    console.log(`Setting up tab group: ${groupName} with ${tabButtons.length} buttons.`);
 
-  function initialize() {
-    // Handle clicks
-    document.querySelectorAll("button[data-tab-target]").forEach((button) => {
-      button.addEventListener("click", () => {
-        const { tabGroup, tabTarget } = button.dataset;
-        if (!tabGroup || !tabTarget) return;
+    function switchTab(targetId) {
+      tabContents.forEach(content => {
+        if (content.id === targetId) {
+          content.classList.remove('hidden');
+        } else {
+          content.classList.add('hidden');
+        }
+      });
 
-        activateTab(tabGroup, tabTarget);
+      tabButtons.forEach(button => {
+        if (button.getAttribute('data-tab-target') === targetId) {
+          button.classList.add('bg-gray-700', 'text-white');
+          button.classList.remove('text-gray-300', 'hover:bg-gray-700', 'hover:text-white');
+        } else {
+          button.classList.remove('bg-gray-700', 'text-white');
+          button.classList.add('text-gray-300', 'hover:bg-gray-700', 'hover:text-white');
+        }
+      });
+    }
+
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const targetId = button.getAttribute('data-tab-target');
+        switchTab(targetId);
       });
     });
 
-    // Auto-activate first tab PER GROUP
-    const groups = new Set(
-      [...document.querySelectorAll("button[data-tab-group]")].map(
-        (el) => el.dataset.tabGroup
-      )
-    );
-    groups.forEach((group) => {
-      const firstButton = document.querySelector(
-        `button[data-tab-group="${group}"][data-tab-target]`
-      );
-      if (firstButton) firstButton.click();
-    });
+    if (tabButtons.length > 0) {
+      const defaultTabId = tabButtons[0].getAttribute('data-tab-target');
+      switchTab(defaultTabId);
+    }
   }
 
-  // --- THIS IS THE CORRECTED PART ---
-  // Wait until all dynamic HTML sections have loaded
-  document.addEventListener("sectionsLoaded", () => {
-    initialize();
-  });
-  // --- END OF CORRECTION ---
-  
-})();
+  setupTabGroup('tech-tabs');
+  setupTabGroup('market-tabs');
+  setupTabGroup('advantage-tabs');
+}
