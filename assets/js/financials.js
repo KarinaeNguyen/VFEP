@@ -1,188 +1,173 @@
-// financials.js – Final Version for New CSV Format (Year, Quarter, Gain, Lost, CashFlow, Balance)
+async function loadFinancialData(url) {
+  const loadingOverlay = document.getElementById('loading-overlay');
+  
+  function showLoading(isLoading) {
+    if (loadingOverlay) {
+      loadingOverlay.style.display = isLoading ? 'flex' : 'none';
+    }
+  }
 
-let cashFlowChart = null;
-
-window.loadFinancialData = async function () {
-  console.log("Financial module started...");
-
-  showLoadingState();
-
-  const csvUrl =
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vRdnGGLERma9OCgM-Y6hGfFn2RnyjAMZeGT_zHviVrBKdC5h3947vTg66xfwg1RbcrGbgQm1cIAWKhS/pub?output=csv";
+  showLoading(true);
 
   try {
-    const response = await fetch(csvUrl);
-    if (!response.ok) throw new Error("Google Sheet is unreachable");
-
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Network response was not ok: ${response.statusText}`);
+    }
     const csvText = await response.text();
-    const rows = parseCSV(csvText);
+    
+    if (typeof parseCSV === 'function') {
+      const data = parseCSV(csvText);
+      createChart(data);
+      createTable(data);
+    } else {
+      console.error("parseCSV function not found. Did csvParser.js load?");
+    }
 
-    console.log("Parsed rows:", rows);
-
-    const labels = rows.map(r => `${r.Year} ${r.Quarter}`);
-    const gains = rows.map(r => toNumber(r.Gain));
-    const lost = rows.map(r => toNumber(r.Lost));
-    const cashflow = rows.map(r => toNumber(r.CashFlow));
-    const balance = rows.map(r => toNumber(r.Balance));
-
-    restoreCanvas();
-    renderCashFlowChart(labels, gains, lost, cashflow, balance);
-    renderFinancialTable(rows);
   } catch (error) {
-    console.error("Financial load error:", error);
-    showErrorFallback();
+    console.error('Failed to load or parse financial data:', error);
+    if (loadingOverlay) {
+      loadingOverlay.innerHTML = `<p class="text-red-400">Error loading financial data.</p>`;
+    }
+  } finally {
+    showLoading(false);
   }
-};
-
-
-// ------------------------------------------------------------
-// CSV Parsing
-// ------------------------------------------------------------
-function parseCSV(text) {
-  const lines = text.trim().split("\n");
-  const header = lines.shift().split(",");
-
-  return lines.map(line => {
-    const cols = line
-      .match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g)
-      .map(s => s.replace(/^"|"$/g, "").trim());
-
-    const obj = {};
-    header.forEach((h, i) => {
-      obj[h.trim()] = cols[i] ?? "";
-    });
-    return obj;
-  });
 }
 
-function toNumber(val) {
-  if (!val) return 0;
-  return Number(val.replace(/[\$,]/g, "").replace(/,/g, "").trim()) || 0;
-}
+function createChart(data) {
+  const ctx = document.getElementById('financialsChart').getContext('2d');
+  
+  const labels = data.slice(1).map(row => `${row[0]} ${row[1]}`); // e.g., "Year 1 Q1"
+  const revenues = data.slice(1).map(row => parseFloat(row[7]));
+  const cashFlow = data.slice(1).map(row => parseFloat(row[8]));
+  const cumulativeCash = data.slice(1).map(row => parseFloat(row[9]));
 
-
-// ------------------------------------------------------------
-// Chart Rendering
-// ------------------------------------------------------------
-function renderCashFlowChart(labels, gains, lost, cashflow, balance) {
-  const ctx = document.getElementById("cashFlowChart");
-  if (!ctx) return;
-
-  if (cashFlowChart) cashFlowChart.destroy();
-
-  cashFlowChart = new Chart(ctx, {
-    type: "line",
+  const chartConfig = {
+    type: 'bar',
     data: {
-      labels,
+      labels: labels,
       datasets: [
         {
-          label: "Gain",
-          data: gains,
-          borderWidth: 2,
-          tension: 0.35,
-          pointRadius: 4
+          label: 'Quarterly Cash Flow',
+          data: cashFlow,
+          backgroundColor: '#4ade80', // green-400
+          borderColor: '#4ade80',
+          borderWidth: 1,
+          yAxisID: 'yBar',
+          order: 2
         },
         {
-          label: "Lost",
-          data: lost,
-          borderWidth: 2,
-          borderDash: [5, 5],
-          tension: 0.35
-        },
-        {
-          label: "Cash Flow",
-          data: cashflow,
-          borderWidth: 3,
-          pointRadius: 4,
-          fill: true,
-          tension: 0.35
-        },
-        {
-          label: "Balance",
-          data: balance,
-          borderWidth: 2,
-          tension: 0.35
+          label: 'Cumulative Cash Position',
+          data: cumulativeCash,
+          backgroundColor: '#38bdf8', // sky-400
+          borderColor: '#38bdf8',
+          type: 'line',
+          yAxisID: 'yLine',
+          order: 1
         }
       ]
     },
     options: {
       responsive: true,
-      animation: { duration: 1000, easing: "easeOutQuart" },
-      plugins: { legend: { position: "top" } },
+      maintainAspectRatio: false,
       scales: {
-        y: {
+        x: {
+          ticks: { color: '#9ca3af' },
+          grid: { color: 'rgba(255, 255, 255, 0.1)' }
+        },
+        yBar: {
+          type: 'linear',
+          position: 'left',
           beginAtZero: true,
-          ticks: {
-            callback: v => "$" + v.toLocaleString()
+          ticks: { 
+            color: '#9ca3af',
+            callback: value => `$${(value / 1000).toFixed(0)}k`
+          },
+          grid: { color: 'rgba(255, 255, 255, 0.1)' },
+          title: {
+            display: true,
+            text: 'Quarterly Cash Flow',
+            color: '#9ca3af'
+          }
+        },
+        yLine: {
+          type: 'linear',
+          position: 'right',
+          beginAtZero: true,
+          ticks: { 
+            color: '#9ca3af',
+            callback: value => `$${(value / 1000).toFixed(0)}k`
+          },
+          grid: { display: false },
+          title: {
+            display: true,
+            text: 'Cumulative Cash',
+            color: '#9ca3af'
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          labels: { color: '#e5e7eb' }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              let label = context.dataset.label || '';
+              if (label) {
+                label += ': ';
+              }
+              if (context.parsed.y !== null) {
+                label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
+              }
+              return label;
+            }
           }
         }
       }
     }
+  };
+
+  const chart = new Chart(ctx, chartConfig);
+}
+
+function createTable(data) {
+  const tableContainer = document.getElementById('financials-table-container');
+  if (!tableContainer) return;
+
+  const headers = data[0];
+  const rows = data.slice(1);
+
+  let table = '<div class="overflow-x-auto"><table class="min-w-full divide-y divide-gray-700">';
+  
+  // Header
+  table += '<thead class="bg-gray-800"><tr>';
+  headers.forEach(header => {
+    table += `<th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">${header}</th>`;
   });
-}
+  table += '</tr></thead>';
 
-
-// ------------------------------------------------------------
-// Table Rendering
-// ------------------------------------------------------------
-function renderFinancialTable(rows) {
-  const body = document.getElementById("financialTableBody");
-  if (!body) return;
-
-  body.innerHTML = rows
-    .map(
-      r => `
-      <tr class="fin-row">
-        <td class="fin-col">${r.Year} ${r.Quarter}</td>
-        <td class="fin-col">${formatUSD(r.Gain)}</td>
-        <td class="fin-col">${formatUSD(r.Lost)}</td>
-        <td class="fin-col">${formatUSD(r.CashFlow)}</td>
-        <td class="fin-col">${formatUSD(r.Balance)}</td>
-      </tr>`
-    )
-    .join("");
-}
-
-function formatUSD(val) {
-  return toNumber(val).toLocaleString("en-US", {
-    style: "currency",
-    currency: "USD"
+  // Body
+  table += '<tbody class="bg-gray-900 divide-y divide-gray-700">';
+  rows.forEach(row => {
+    table += '<tr>';
+    row.forEach((cell, index) => {
+      let cellClass = 'px-4 py-4 whitespace-nowrap text-sm text-gray-300';
+      // Format currency columns
+      if (index >= 2) {
+        const value = parseFloat(cell);
+        if (!isNaN(value)) {
+          cell = value.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+          if (value < 0) {
+            cellClass = 'px-4 py-4 whitespace-nowrap text-sm text-red-400';
+          }
+        }
+      }
+      table += `<td class="${cellClass}">${cell}</td>`;
+    });
+    table += '</tr>';
   });
-}
-
-
-// ------------------------------------------------------------
-// UI States
-// ------------------------------------------------------------
-function showLoadingState() {
-  const chartBox = document.getElementById("chartContainer");
-  const tableBody = document.getElementById("financialTableBody");
-
-  if (chartBox) {
-    chartBox.innerHTML = `<div class="spinner"></div>`;
-  }
-
-  if (tableBody) {
-    tableBody.innerHTML = `${"<tr><td colspan='5' class='skeleton'></td></tr>".repeat(6)}`;
-  }
-}
-
-function restoreCanvas() {
-  const chartBox = document.getElementById("chartContainer");
-  if (chartBox) {
-    chartBox.innerHTML = `<canvas id="cashFlowChart"></canvas>`;
-  }
-}
-
-function showErrorFallback() {
-  const chartBox = document.getElementById("chartContainer");
-  const tableBody = document.getElementById("financialTableBody");
-
-  if (chartBox) {
-    chartBox.innerHTML = `<div class="error-box">Failed to load financial data.</div>`;
-  }
-
-  if (tableBody) {
-    tableBody.innerHTML = `<tr><td colspan="5" class="error-box">No financial data available.</td></tr>`;
-  }
+  table += '</tbody></table></div>';
+  
+  tableContainer.innerHTML = table;
 }
