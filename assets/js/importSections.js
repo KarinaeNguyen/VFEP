@@ -520,7 +520,7 @@ s     'footer_text': '© 2025 Vicinity Safety. All intellectual property right
         .catch(error => {
           console.error(`Error fetching section ${section}:`, error);
           return `<p class="text-red-600 text-center">Lỗi nghiêm trọng khi tải '${section}'.</p>`;
-section: 35
+//section: 35
         });
     });
 
@@ -530,7 +530,8 @@ section: 35
       console.log("Tất cả section HTML đã tải xong. Bắt đầu đưa vào trang...");
       
       for (let i = 0; i < sections.length; i++) {
-  Dòng 660:       const sectionId = sections[i];
+//Dòng 660:
+        const sectionId = sections[i];
         const html = htmlContents[i];
         const element = document.getElementById(sectionId);
         if (element) {
