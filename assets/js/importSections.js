@@ -78,7 +78,7 @@
       'tech_proj_row1_p2': 'Tương thích với súng paintball 0.68-caliber tiêu chuẩn.',
       'tech_proj_row2_h': 'Cỡ nòng',
       'tech_proj_row2_p1': '0.68 inch (khoảng 17.3 mm)',
-section: 12
+//section: 12
       'tech_proj_row2_p2': 'Cỡ nòng paintball tiêu chuẩn.',
       'tech_proj_row3_h': 'Vật liệu vỏ',
       'tech_proj_row3_p1': 'Gelatin giòn hoặc Polymer phân hủy sinh học siêu mỏng',
@@ -119,12 +119,11 @@ section: 12
       'tech_agent_l4_item': ' Màu tím (Purple) - mã màu công nghiệp tiêu chuẩn.',
       'tech_sensor_h': 'Hệ Thống Phát Hiện Tự Động (AI-Driven)',
       'tech_sensor_p': 'Mục tiêu cuối cùng của hệ thống là hoàn toàn tự động, sử dụng AI để phát hiện và phản ứng nhanh hơn con người.',
-.
       'tech_sensor_l1_strong': 'Cảm biến:',
       'tech_sensor_l1_item': ' Đa phương thức (ví dụ: nhiệt, khói, quang phổ) để giám sát liên tục.',
       'tech_sensor_l2_strong': 'Trí tuệ nhân tạo (AI):',
       'tech_sensor_l2_item': ' Các thuật toán thông minh để phân loại mối đe dọa, định vị đám cháy và kích hoạt hệ thống phóng.',
-Dòng 160:       'tech_sensor_l3_strong': 'Mục tiêu:',
+//Dòng 160:       'tech_sensor_l3_strong': 'Mục tiêu:',
       'tech_sensor_l3_item': ' Phản ứng tức thì tại các khoang không người lái hoặc ở xa, đảm bảo dập tắt đám cháy "trước khi chúng có thể vượt khỏi tầm kiểm soát."',
       'strategy_main_title': 'Mô Hình Của Vicinity Safety: "Vốn Mỏng" & Lấy IP Làm Trung Tâm',
       'strategy_intro_p': 'Vicinity Safety không phải là một công ty sản xuất. Chúng tôi là một trung tâm R&D "không nhà máy" (fabless). Chiến lược của chúng tôi là phát triển, cấp bằng sáng chế, và cấp phép công nghệ cho các đối tác lớn, tạo ra doanh thu từ tài sản trí tuệ (IP) thay vì bán phần cứng vật lý.',
@@ -140,7 +139,7 @@ Dòng 160:       'tech_sensor_l3_strong': 'Mục tiêu:',
       'strategy_l2_item2': ' Doanh thu phần trăm định kỳ trên mỗi đơn vị hệ thống được bán ra bởi các đối tác.',
       'strategy_h_key_strategy': 'Chiến Lược Then Chốt: Hợp Tác Với Chính Phủ',
       'strategy_p_key_strategy': 'Cung cấp giấy phép miễn phí bản quyền (royalty-free) cho các cơ quan chính phủ (Quốc phòng, PCCC, An ninh). Chiến lược này tạo dựng lòng tin, biến chính phủ thành đối tác và tạo ra một "con hào thị trường" (market moat) khổng lồ. Các nhà sản xuất được cấp phép (người trả tiền cho Vicinity Safety) sẽ có một thị trường chính phủ được đảm bảo.',
-section: 13
+//section: 13
       'strategy_h_value_prop': 'Đề Xuất Giá Trị (Value Proposition)',
       'strategy_p_value_prop': 'Đầu tư vào Vicinity Safety là cơ hội để sở hữu IP có lợi nhuận cao và đảm bảo vị thế trong thế hệ công nghệ dập lửa chuyên biệt, giảm thiểu thiệt hại, tận dụng mô hình kinh doanh "vốn mỏng" bền vững và thực tế tại Việt Nam.',
       'strategy_card1_h': '1. Tác Động Bền Vững & Giá Trị Cao',
@@ -170,7 +169,7 @@ section: 13
       'market_space_item2': ' Chất Purple K bảo vệ các hệ thống quang học nhạy cảm và hệ thống hỗ trợ sự sống.',
       'fin_main_title': 'Dự Báo Tài Chính & Kêu Gọi Vốn',
       'fin_intro_p': 'Phần này trình bày chi tiết về dự báo dòng tiền trong 2 năm (8 quý) dựa trên mô hình kinh doanh cấp phép IP và các mốc quan trọng. Dữ liệu được tải trực tiếp từ Google Sheet của chúng tôi.',
-section: 14
+//section: 14
       'fin_chart_title': 'Biểu Đồ Dòng Tiền 8 Quý (USD)',
       'fin_loading_msg': 'Đang tải dữ liệu tài chính trực tiếp từ Google Sheet...',
       'fin_table_title': 'Chi Tiết Kế Hoạch Tài Chính (USD)',
@@ -194,7 +193,6 @@ section: 14
       'adv_direct_table_h3': 'Mục Tiêu',
       'adv_direct_table_h4': 'Điểm Yếu',
       'adv_direct_r1_c1': 'VFEP (Vicinity Safety)',
-is-disabled.
       'adv_direct_r1_c2_strong': 'Chiến lược Vi mô (Micro):',
       'adv_direct_r1_c2_p': 'Dùng động năng tối thiểu (3-4g) làm cơ chế kích hoạt để phân tán hóa chất chính xác.',
       'adv_direct_r1_c3': 'Bảo vệ tài sản cục bộ, không gây hư hại (tủ rack, thiết bị điện tử).',
@@ -214,10 +212,10 @@ is-disabled.
       'adv_usp_table_h2': 'Lợi Ích (USP)',
       'adv_usp_table_h3': 'Giá Trị cho Khách Hàng',
       'adv_usp_r1_c1': 'I. Công nghệ (Sản phẩm)',
-section: 15
+//section: 15
       'adv_usp_r1_c2': 'Dập tắt chính xác, không ăn mòn',
       'adv_usp_r1_c3': 'Đảm bảo dập tắt cháy Loại C (điện) và B (chất lỏng) với thiệt hại tài sản (máy chủ, robot) ở mức tối thiểu.',
-section: 16
+//section: 16
       'adv_usp_r2_c1': '',
       'adv_usp_r2_c2': 'Tùy biến cho Pin Lithium-ion',
       'adv_usp_r2_c3': 'Cung cấp một lựa chọn dập lửa và làm mát chuyên biệt (với lõi gel) để xử lý "thoát nhiệt" (thermal runaway).',
@@ -238,7 +236,7 @@ section: 16
       'nav_lean_canvas': 'Mô hình Lean Canvas',
       'nav_technology': 'Công nghệ',
       'nav_strategy': 'Chiến lược',
-section: 17
+//section: 17
       'nav_market': 'Phân tích Thị trường',
       'nav_financials': 'Tài chính',
       'nav_advantage': 'Lợi thế Cạnh tranh',
@@ -264,7 +262,7 @@ section: 17
       'overview_card3_p': 'Data Centers, Manufacturing Plants, and Battery Energy Infrastructure.',
       'vision_h': 'Vision',
       'vision_p': 'To become the global standard for precise, non-damaging fire suppression for high-tech assets and critical infrastructure, starting with terrestrial data centers and manufacturing, and expanding to aerospace applications.',
-section: 18
+//section: 18
       'mission_h': 'Mission',
       'mission_p': 'Vicinity Safety’s mission is to lead R&D in Vietnam, holding the Intellectual Property (IP) for the design and manufacturing process of the Firefighting Bullet-VFEV©, while strategically licensing it royalty-free to government agencies (Defense, Fire Dept.) to secure national infrastructure.',
       'lc_main_title': 'Lean Business Canvas',
@@ -275,7 +273,7 @@ section: 18
       'lc_col1_item3': 'Traditional suppression systems are slow and imprecise.',
       'lc_col2_title': '2. Solution',
       'lc_col2_item1': 'Firefighting Bullet-VFEV© Projectile System.',
-section: 19
+//section: 19
       'lc_col2_item2': 'Ultra-fine, non-corrosive Potassium Bicarbonate (Purple K) agent.',
       'lc_col2_item3': 'AI-driven precision targeting software.',
       'lc_col3_title': '3. Unique Value Proposition (UVP)',
@@ -284,7 +282,7 @@ section: 19
       'lc_col3_item3': 'Royalty-free government license, creating a market for OEM partners.',
       'lc_col4_title': '4. Unfair Advantage',
       'lc_col4_item1': 'Patented design and manufacturing process (IP House).',
-section: 20
+//section: 20
       'lc_col4_item2': 'Proprietary agent formulation for optimal performance.',
       'lc_col4_item3': 'Asset-light business model enabling high profit margins.',
       'lc_col5_title': '5. Customer Segments',
@@ -305,7 +303,7 @@ section: 20
       'lc_col8_item2': 'Global IP Filing/Protection costs (Singapore).',
       'lc_col8_item3': 'High-caliber Engineering Personnel costs.',
       'lc_col9_title': '9. Revenue Streams',
-    Dòng 360:   'lc_col9_item1': 'Technology Licensing Fees (Upfront NRE).',
+  //Dòng 360:   'lc_col9_item1': 'Technology Licensing Fees (Upfront NRE).',
       'lc_col9_item2': 'Royalty Payments: Recurring percentage per system unit sold by partners.',
       'lc_col9_item3': 'Technical Support/Consulting Contracts.',
       'tech_main_title': 'Exploring the Core Technology',
@@ -330,14 +328,14 @@ section: 20
       'tech_proj_row3_p2': 'Must be strong enough to fire, but shatter reliably on impact.',
       'tech_proj_row4_h': 'Agent',
       'tech_proj_row4_p1': 'Potassium Bicarbonate (Purple K)',
-section: 21
+//section: 21
       'tech_proj_row4_p2': 'Highly effective dry chemical (per unit mass) for Class B & C fires.',
       'tech_proj_row5_h': 'Agent State',
       'tech_proj_row5_p1': 'Micronized Ultra-Fine Powder',
       'tech_proj_row5_p2': 'Necessary for rapid, wide "mist" dispersal (including corners).',
       'tech_proj_row6_h': 'Velocity',
       'tech_proj_row6_p1': '250-300 FPS',
-section: 22
+//section: 22
       'tech_proj_row6_p2': 'Standard limit for paintball markers. Provides kinetic energy for shell break.',
       'tech_proj_row7_h': 'Effective Range',
       'tech_proj_row7_p1': '15-30 meters',
@@ -372,10 +370,10 @@ s       'tech_sensor_l1_strong': 'Sensors:',
       'tech_sensor_l2_item': ' Intelligent algorithms to classify threats, pinpoint the fire, and activate the launch system.',
       'tech_sensor_l3_strong': 'Objective:',
       'tech_sensor_l3_item': ' Instantaneous response in unmanned or remote bays, ensuring fires are suppressed "before they can escalate."',
-section: 23
+//section: 23
       'strategy_main_title': 'Vicinity Safety\'s Model: Asset-Light & IP-Centric',
       'strategy_intro_p': 'Vicinity Safety is not a manufacturing company. We are a "fabless" R&D center. Our strategy is to develop, patent, and license our technology to major partners, generating revenue from intellectual property (IP) rather than selling physical hardware.',
-section: 24
+//section: 24
       'strategy_h1': '1. Legal & IP Structure (Practical)',
       'strategy_l1_strong1': 'IP Holding in Singapore:',
       'strategy_l1_item1': ' Establish a Singaporean entity, an IP-friendly and stable jurisdiction, to protect core assets and facilitate international transactions.',
@@ -396,12 +394,12 @@ s     'strategy_h_value_prop': 'Value Proposition',
       'strategy_card2_p': 'The business model is an "IP House." Primary revenue comes from selling VFB© technology licenses. This bypasses the need for massive CAPEX on factories, warehousing, and global logistics.',
       'strategy_card3_h': '3. De-Risked Development Strategy',
       'strategy_card3_p': 'Uses a lean MVP approach, focusing capital on testing and IP validation. By modifying off-the-shelf components (like paintball markers), we can rapidly prove feasibility before investing in mass production.',
-section: 25
+//section: 25
       'market_main_title': 'Market & Vision',
       'market_intro_p': 'Our strategy is to focus on ',
       'market_highlight': 'practical, immediate-need markets',
       'market_tab_ground_btn': '1. Core Market (Terrestrial)',
-section: 26
+//section: 26
       'market_tab_space_btn': '2. Future Vision (Aerospace)',
       'market_ground_h': 'Core Market (Data Centers, Factories, Li-ion Batteries)',
       'market_ground_p_intro': 'Protecting critical infrastructure where secondary damage is more costly than the fire itself.',
@@ -415,7 +413,7 @@ section: 26
       'market_space_p_intro': 'This is a long-term R&D market. By solving terrestrial problems, we build the foundation (data, IP, certification) to become a future supplier for NASA, ESA, Boeing, etc., once the technology is proven.',
       'market_space_item1_strong': 'Problem 1: Zero-G Reliability:',
       'market_space_item1': ' Traditional agents disperse unpredictably in microgravity. VFEP\'s projectile system is a potential solution.',
-section: 27
+//section: 27
       'market_space_item2_strong': 'Problem 2: Non-Contaminating:',
       'market_space_item2': ' Purple K agent protects sensitive optics and life-support systems.',
       'fin_main_title': 'Financial Projections & Funding Ask',
@@ -423,7 +421,7 @@ section: 27
       'fin_chart_title': '8-Quarter Cash Flow Projection (USD)',
       'fin_loading_msg': 'Loading live financial data from Google Sheet...',
       'fin_table_title': 'Detailed Financial Plan (USD)',
-section: 28
+//section: 28
       'fin_card1_h': 'Seed Funding Ask',
       'fin_card1_amount': '$100,000',
       'fin_card1_p': '(For Y1 Q1)',
@@ -434,12 +432,12 @@ section: 28
       'fin_card3_amount': '$350,000',
       'fin_card3_p': '(To achieve milestones)',
       'adv_main_title': 'Competitive Advantage & Comparison',
-section: 29
+//section: 29
       'adv_intro_p': 'Vicinity Safety\'s advantage comes not just from technology, but from its unique "micro" strategy, which is in direct contrast to the "macro" solutions currently on the market.',
       'adv_tab1_btn': '1. Competitor Analysis',
       'adv_tab2_btn': '2. Core Value (USP)',
       'adv_direct_h': 'Strategic Comparison: Precision (Vicinity) vs. Flooding (Competitors)',
-section: 30
+//section: 30
       'adv_direct_p': 'We do not compete directly; we create a new niche market for "asset protection".',
       'adv_direct_table_h1': 'System',
       'adv_direct_table_h2': 'Design Philosophy',
@@ -451,17 +449,17 @@ section: 30
       'adv_direct_r1_c3': 'Protect local assets, non-corrosive (server racks, electronics).',
       'adv_direct_r1_c4': 'Not effective for large-scale, outdoor fires.',
       'adv_direct_r2_c1': 'Stat-X (Global) / Gas Systems',
-section: 31
+//section: 31
       'adv_direct_r2_c2': 'Passive, high-mass. Activates to disperse aerosol/gas to flood an entire room.',
       'adv_direct_r2_c3': 'Room-scale flooding, non-directional.',
       'adv_direct_r2_c4': 'Costly, requires sealed room, potential for secondary damage.',
       'adv_direct_r3_c1': 'Launcher Systems (VN Defense)',
       'adv_direct_r3_c2_strong': 'Macro-Strategy:',
       'adv_direct_r3_c2_p': 'Uses extremely high kinetic energy to deliver large mass (250m range).',
-section: 32
+//section: 32
       'adv_direct_r3_c3': 'Suppress large, inaccessible fires (e.g., forest fires, buildings).',
       'adv_direct_r3_c4': 'Completely destructive to target; cannot be used indoors/near equipment.',
-section: 33
+//section: 33
       'adv_usp_h': 'Unique Selling Proposition (USP)',
       'adv_usp_p': 'These are the values we commit to our customers, categorized.',
       'adv_usp_table_h1': 'Category',
@@ -475,7 +473,7 @@ section: 33
       'adv_usp_r2_c3': 'Provides a specialized extinguishing and cooling option (with gel-core) to handle thermal runaway.',
       'adv_usp_r3_c1': '',
       'adv_usp_r3_c2': 'Delivery Mechanism (0.68 Cal)',
-section: 34
+//section: 34
       'adv_usp_r3_c3': 'Ensures rapid deployment, simple training, and immediate access to a mass-producible launch platform (non-firearm).',
       'adv_usp_r4_c1': 'II. Strategy (Model)',
       'adv_usp_r4_c2': '"Open Source" Government Licensing',
