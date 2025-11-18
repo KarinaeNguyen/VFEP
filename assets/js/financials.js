@@ -16,12 +16,12 @@ async function loadFinancialData(url) {
     }
     const csvText = await response.text();
     
-    if (typeof parseCSV === 'function') {
-      const data = parseCSV(csvText);
+    if (typeof window.CSVParser === 'object' && typeof window.CSVParser.parse === 'function') {
+      const data = window.CSVParser.parse(csvText);
       createChart(data);
       createTable(data);
     } else {
-      console.error("parseCSV function not found. Did csvParser.js load?");
+      console.error("CSVParser.parse function not found. Did csvParser.js load?");
     }
 
   } catch (error) {
@@ -35,7 +35,7 @@ async function loadFinancialData(url) {
 }
 
 function createChart(data) {
-  const ctx = document.getElementById('financialsChart').getContext('2d');
+  const ctx = document.getElementById('cashFlowChart').getContext('2d');
   
   const labels = data.slice(1).map(row => `${row[0]} ${row[1]}`); // e.g., "Year 1 Q1"
   const revenues = data.slice(1).map(row => parseFloat(row[7]));
