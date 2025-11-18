@@ -1,5 +1,5 @@
 async function loadFinancialData(url) {
-  // Find the loading spinner, which is now inside the chartContainer
+  // Find the chart container and spinner
   const chartContainer = document.getElementById('chartContainer');
   const spinner = chartContainer ? chartContainer.querySelector('.spinner') : null;
 
@@ -7,7 +7,6 @@ async function loadFinancialData(url) {
     if (spinner) {
       spinner.style.display = isLoading ? 'block' : 'none';
     }
-    // Also hide/show the canvas itself
     const canvas = document.getElementById('cashFlowChart');
     if (canvas) {
       canvas.style.display = isLoading ? 'none' : 'block';
@@ -27,10 +26,9 @@ async function loadFinancialData(url) {
     if (typeof window.CSVParser === 'object' && typeof window.CSVParser.parse === 'function') {
       const data = window.CSVParser.parse(csvText);
       
-      // Check if data was parsed correctly
       if (data && data.length > 0) {
         createChart(data);
-        // createTable(data); // You can re-enable this if you fix the table part too
+        // createTable(data); // This is still disabled, as it needs a similar update
         showLoading(false); // Hide loading *after* chart is created
       } else {
         throw new Error("CSV data was empty or parsed incorrectly.");
@@ -44,21 +42,34 @@ async function loadFinancialData(url) {
   } catch (error) {
     console.error('Failed to load or parse financial data:', error);
     if (chartContainer) {
-      chartContainer.innerHTML = `<div class="error-box">Error: Failed to load financial data. Please check the CSV link and data format.</div>`;
+      // Display a user-friendly error message where the chart should be
+      chartContainer.innerHTML = `<div style="padding: 20px; border: 1px solid #fecaca; background: #fef2f2; color: #b91c1c; border-radius: 8px;">
+        <strong>Error:</strong> Failed to load financial data.
+        <ul style="list-style-type: disc; margin-left: 20px; margin-top: 10px;">
+          <li>Please check that the Google Sheet is 'Published to the web'.</li>
+          <li>Ensure the CSV column headers (Year, Quarter, CashFlow, Balance) are correct.</li>
+        </ul>
+      </div>`;
     }
   }
-  // Note: showLoading(false) is now handled on success, error is handled by replacing HTML
 }
 
 function createChart(data) {
   // FIX 2: Use the correct canvas ID 'cashFlowChart'
   const ctx = document.getElementById('cashFlowChart').getContext('2d');
   
-  // FIX 3: Use OBJECT KEYS (from your screenshot) instead of array indices
-  // We skip the header row, which csvParser.js does automatically.
+  // FIX 3: Use OBJECT KEYS from your provided header:
+  // "YearQuarterGainLostCashFlowBalance"
   const labels = data.map(row => `${row['Year']} ${row['Quarter']}`); 
-  const cashFlow = data.map(row => parseFloat(row['Quarterly Cash Flow']));
-  const cumulativeCash = data.map(row => parseFloat(row['Cumulative Cash Position']));
+  const cashFlow = data.map(row => parseFloat(row['CashFlow']));
+  const cumulativeCash = data.map(row => parseFloat(row['Balance']));
+
+  // Check if data is valid
+  if (labels.length === 0 || cashFlow.some(isNaN) || cumulativeCash.some(isNaN)) {
+      console.error("Data parsing error: Check your 'CashFlow' and 'Balance' columns. They may contain non-numeric data.");
+      // You could show an error on the canvas here
+      return;
+  }
 
   const chartConfig = {
     type: 'bar',
@@ -66,7 +77,7 @@ function createChart(data) {
       labels: labels,
       datasets: [
         {
-          label: 'Quarterly Cash Flow',
+          label: 'Quarterly Cash Flow', // This is just a label, the data is from 'CashFlow'
           data: cashFlow,
           backgroundColor: '#4ade80', // green-400
           borderColor: '#4ade80',
@@ -75,7 +86,7 @@ function createChart(data) {
           order: 2
         },
         {
-          label: 'Cumulative Cash Position',
+          label: 'Cumulative Balance', // This is just a label, the data is from 'Balance'
           data: cumulativeCash,
           backgroundColor: '#38bdf8', // sky-400
           borderColor: '#38bdf8',
@@ -119,7 +130,7 @@ function createChart(data) {
           grid: { display: false },
           title: {
             display: true,
-            text: 'Cumulative Cash',
+            text: 'Cumulative Balance',
             color: '#1f2937'
           }
         }
@@ -155,8 +166,6 @@ function createTable(data) {
   const tableContainer = document.getElementById('financials-table-container');
   if (!tableContainer) return;
 
-  // This function is now broken because 'data' is an array of objects, not arrays.
-  // It needs to be rewritten to use object keys.
   console.warn("createTable() function is not yet updated for the new object-based data structure.");
   
   /* // Example of how to fix createTable:
@@ -180,10 +189,10 @@ function createTable(data) {
     table += '<tr>';
     headers.forEach(header => {
       let cell = rowObject[header];
-      let cellClass = 'px-4 py-4 whitespace-nowrap text-sm text-gray-700';
+      let cellClass = 'px-4 py-4 whitespace-nowrawrap text-sm text-gray-700';
       
-      // Simple currency formatting (you can make this more robust)
-      if (header === 'Quarterly Cash Flow' || header === 'Cumulative Cash Position' || header === 'Revenue') {
+      // Simple currency formatting
+      if (header === 'CashFlow' || header === 'Balance' || header === 'Gain' || header === 'Lost') {
          const value = parseFloat(cell);
          if (!isNaN(value)) {
            cell = value.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 });
