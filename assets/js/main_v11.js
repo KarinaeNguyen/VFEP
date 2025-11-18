@@ -1,5 +1,5 @@
 (async () => {
-  const G_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQJd-jS-S-c-G-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B/pub?output=csv";
+  const G_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRdnGGLERma9OCgM-Y6hGfFn2RnyjAMZeGT_zHviVrBKdC5h3947vTg66xfwg1RbcrGbgQm1cIAWKhS/pub?output=csv";
 
   function initSmoothScroll() {
     console.log("Initializing smooth scroll...");
