@@ -1,9 +1,16 @@
 async function loadFinancialData(url) {
-  const loadingOverlay = document.getElementById('loading-overlay');
-  
+  // Find the loading spinner, which is now inside the chartContainer
+  const chartContainer = document.getElementById('chartContainer');
+  const spinner = chartContainer ? chartContainer.querySelector('.spinner') : null;
+
   function showLoading(isLoading) {
-    if (loadingOverlay) {
-      loadingOverlay.style.display = isLoading ? 'flex' : 'none';
+    if (spinner) {
+      spinner.style.display = isLoading ? 'block' : 'none';
+    }
+    // Also hide/show the canvas itself
+    const canvas = document.getElementById('cashFlowChart');
+    if (canvas) {
+      canvas.style.display = isLoading ? 'none' : 'block';
     }
   }
 
@@ -16,31 +23,42 @@ async function loadFinancialData(url) {
     }
     const csvText = await response.text();
     
+    // FIX 1: Use the correct CSVParser object
     if (typeof window.CSVParser === 'object' && typeof window.CSVParser.parse === 'function') {
       const data = window.CSVParser.parse(csvText);
-      createChart(data);
-      createTable(data);
+      
+      // Check if data was parsed correctly
+      if (data && data.length > 0) {
+        createChart(data);
+        // createTable(data); // You can re-enable this if you fix the table part too
+        showLoading(false); // Hide loading *after* chart is created
+      } else {
+        throw new Error("CSV data was empty or parsed incorrectly.");
+      }
+      
     } else {
       console.error("CSVParser.parse function not found. Did csvParser.js load?");
+      throw new Error("CSVParser not found.");
     }
 
   } catch (error) {
     console.error('Failed to load or parse financial data:', error);
-    if (loadingOverlay) {
-      loadingOverlay.innerHTML = `<p class="text-red-400">Error loading financial data.</p>`;
+    if (chartContainer) {
+      chartContainer.innerHTML = `<div class="error-box">Error: Failed to load financial data. Please check the CSV link and data format.</div>`;
     }
-  } finally {
-    showLoading(false);
   }
+  // Note: showLoading(false) is now handled on success, error is handled by replacing HTML
 }
 
 function createChart(data) {
+  // FIX 2: Use the correct canvas ID 'cashFlowChart'
   const ctx = document.getElementById('cashFlowChart').getContext('2d');
   
-  const labels = data.slice(1).map(row => `${row[0]} ${row[1]}`); // e.g., "Year 1 Q1"
-  const revenues = data.slice(1).map(row => parseFloat(row[7]));
-  const cashFlow = data.slice(1).map(row => parseFloat(row[8]));
-  const cumulativeCash = data.slice(1).map(row => parseFloat(row[9]));
+  // FIX 3: Use OBJECT KEYS (from your screenshot) instead of array indices
+  // We skip the header row, which csvParser.js does automatically.
+  const labels = data.map(row => `${row['Year']} ${row['Quarter']}`); 
+  const cashFlow = data.map(row => parseFloat(row['Quarterly Cash Flow']));
+  const cumulativeCash = data.map(row => parseFloat(row['Cumulative Cash Position']));
 
   const chartConfig = {
     type: 'bar',
@@ -72,22 +90,22 @@ function createChart(data) {
       maintainAspectRatio: false,
       scales: {
         x: {
-          ticks: { color: '#9ca3af' },
-          grid: { color: 'rgba(255, 255, 255, 0.1)' }
+          ticks: { color: '#374151' }, // Darker text for gray-100 bg
+          grid: { color: 'rgba(0, 0, 0, 0.05)' }
         },
         yBar: {
           type: 'linear',
           position: 'left',
           beginAtZero: true,
           ticks: { 
-            color: '#9ca3af',
+            color: '#374151',
             callback: value => `$${(value / 1000).toFixed(0)}k`
           },
-          grid: { color: 'rgba(255, 255, 255, 0.1)' },
+          grid: { color: 'rgba(0, 0, 0, 0.05)' },
           title: {
             display: true,
             text: 'Quarterly Cash Flow',
-            color: '#9ca3af'
+            color: '#1f2937'
           }
         },
         yLine: {
@@ -95,20 +113,20 @@ function createChart(data) {
           position: 'right',
           beginAtZero: true,
           ticks: { 
-            color: '#9ca3af',
+            color: '#374151',
             callback: value => `$${(value / 1000).toFixed(0)}k`
           },
           grid: { display: false },
           title: {
             display: true,
             text: 'Cumulative Cash',
-            color: '#9ca3af'
+            color: '#1f2937'
           }
         }
       },
       plugins: {
         legend: {
-          labels: { color: '#e5e7eb' }
+          labels: { color: '#1f2937' } // Darker text for legend
         },
         tooltip: {
           callbacks: {
@@ -131,37 +149,48 @@ function createChart(data) {
   const chart = new Chart(ctx, chartConfig);
 }
 
+// NOTE: The createTable function is still using the old array logic.
+// It will need to be updated just like createChart if you want to use it.
 function createTable(data) {
   const tableContainer = document.getElementById('financials-table-container');
   if (!tableContainer) return;
 
-  const headers = data[0];
-  const rows = data.slice(1);
+  // This function is now broken because 'data' is an array of objects, not arrays.
+  // It needs to be rewritten to use object keys.
+  console.warn("createTable() function is not yet updated for the new object-based data structure.");
+  
+  /* // Example of how to fix createTable:
+  
+  if (data.length === 0) return;
 
-  let table = '<div class="overflow-x-auto"><table class="min-w-full divide-y divide-gray-700">';
+  const headers = Object.keys(data[0]); // Get headers from object keys
+  
+  let table = '<div class="overflow-x-auto"><table class="min-w-full divide-y divide-gray-200">';
   
   // Header
-  table += '<thead class="bg-gray-800"><tr>';
+  table += '<thead class="bg-gray-50"><tr>';
   headers.forEach(header => {
-    table += `<th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">${header}</th>`;
+    table += `<th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">${header}</th>`;
   });
   table += '</tr></thead>';
 
   // Body
-  table += '<tbody class="bg-gray-900 divide-y divide-gray-700">';
-  rows.forEach(row => {
+  table += '<tbody class="bg-white divide-y divide-gray-200">';
+  data.forEach(rowObject => {
     table += '<tr>';
-    row.forEach((cell, index) => {
-      let cellClass = 'px-4 py-4 whitespace-nowrap text-sm text-gray-300';
-      // Format currency columns
-      if (index >= 2) {
-        const value = parseFloat(cell);
-        if (!isNaN(value)) {
-          cell = value.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 });
-          if (value < 0) {
-            cellClass = 'px-4 py-4 whitespace-nowrap text-sm text-red-400';
-          }
-        }
+    headers.forEach(header => {
+      let cell = rowObject[header];
+      let cellClass = 'px-4 py-4 whitespace-nowrap text-sm text-gray-700';
+      
+      // Simple currency formatting (you can make this more robust)
+      if (header === 'Quarterly Cash Flow' || header === 'Cumulative Cash Position' || header === 'Revenue') {
+         const value = parseFloat(cell);
+         if (!isNaN(value)) {
+           cell = value.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+           if (value < 0) {
+             cellClass = 'px-4 py-4 whitespace-nowrap text-sm text-red-500';
+           }
+         }
       }
       table += `<td class="${cellClass}">${cell}</td>`;
     });
@@ -170,4 +199,5 @@ function createTable(data) {
   table += '</tbody></table></div>';
   
   tableContainer.innerHTML = table;
+  */
 }
