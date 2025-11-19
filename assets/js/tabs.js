@@ -3,7 +3,6 @@
 
 function initTabs() {
   console.log("Tabs initialized with delegated events.");
-
   // A map to track default tabs per group
   const defaultTabForGroup = {};
 
@@ -61,5 +60,6 @@ function initTabs() {
   initializeDefaultTabs();
 }
 
-// Auto-run once
-initTabs();
+// Auto-run removed to prevent double-init race condition. 
+// Main_v11.js will call this after sectionsLoaded.
+// initTabs();
