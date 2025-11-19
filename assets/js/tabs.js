@@ -1,12 +1,11 @@
-// tabs.js — Fixed: Strictly separates Buttons vs Content to prevent "null" errors
+// tabs.js — Final Fix: Strictly separates Buttons vs Content to prevent "null" errors
 
 function initTabs() {
   console.log("✅ Tabs System: Initializing...");
 
   function switchTab(groupName, targetId) {
-    // console.log(`🖱️ Switching Group: [${groupName}] to Target: [${targetId}]`);
-    
     // 1. Select ONLY Content for this group
+    // We look for elements with the specific class .tab-content
     const tabContents = document.querySelectorAll(`.tab-content[data-tab-group="${groupName}"]`);
     
     // 2. Select ONLY Buttons for this group (must have data-tab-target)
@@ -15,10 +14,10 @@ function initTabs() {
     // Update Content Visibility
     tabContents.forEach(content => {
       if (content.id === targetId) {
-        content.classList.add("active");
-        content.classList.remove("hidden");
+        content.classList.add("active");  // Matches CSS to show
+        content.classList.remove("hidden"); 
       } else {
-        content.classList.remove("active");
+        content.classList.remove("active"); // Matches CSS to hide
         content.classList.add("hidden");
       }
     });
@@ -39,7 +38,7 @@ function initTabs() {
 
   // Delegated click listener
   document.addEventListener("click", (e) => {
-    // Find closest element with both group AND target attributes (strictly a button)
+    // STRICT CHECK: Only react if the clicked element has BOTH group and target attributes
     const button = e.target.closest("[data-tab-group][data-tab-target]");
     if (!button) return;
 
@@ -51,7 +50,7 @@ function initTabs() {
 
   // Initialize defaults
   function initializeDefaultTabs() {
-    // Get all unique group names from buttons only
+    // STRICT CHECK: Only look for groups based on BUTTONS, not content divs
     const allButtons = document.querySelectorAll("[data-tab-group][data-tab-target]");
     const groups = new Set();
 
@@ -66,7 +65,6 @@ function initTabs() {
         let defaultTabId = tabButtons[0].getAttribute("data-tab-target");
         
         // If one is explicitly active in HTML, use that instead
-        // (Make sure we don't accidentally pick a content div by checking for data-tab-target)
         for (const btn of tabButtons) {
             if (btn.classList.contains('active')) {
                 defaultTabId = btn.getAttribute("data-tab-target");
