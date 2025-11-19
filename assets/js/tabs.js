@@ -1,35 +1,36 @@
-// tabs.js — Updated to toggle .active class matching style.css
+// tabs.js — Fixed: Strictly separates Buttons vs Content to prevent "null" errors
 
 function initTabs() {
   console.log("✅ Tabs System: Initializing...");
 
   function switchTab(groupName, targetId) {
-    console.log(`🖱️ Switching Group: [${groupName}] to Target: [${targetId}]`);
+    // console.log(`🖱️ Switching Group: [${groupName}] to Target: [${targetId}]`);
     
-    const tabButtons = document.querySelectorAll(`[data-tab-group="${groupName}"]`);
-    const tabContents = document.querySelectorAll(`[data-tab-content="${groupName}"]`);
+    // 1. Select ONLY Content for this group
+    const tabContents = document.querySelectorAll(`.tab-content[data-tab-group="${groupName}"]`);
+    
+    // 2. Select ONLY Buttons for this group (must have data-tab-target)
+    const tabButtons = document.querySelectorAll(`[data-tab-group="${groupName}"][data-tab-target]`);
 
-    // 1. Handle Content Visibility (CSS requires .active to display:block)
+    // Update Content Visibility
     tabContents.forEach(content => {
       if (content.id === targetId) {
-        content.classList.add("active"); // SHOW
-        content.classList.remove("hidden"); // Safety removal
+        content.classList.add("active");
+        content.classList.remove("hidden");
       } else {
-        content.classList.remove("active"); // HIDE
-        content.classList.add("hidden"); // Optional safety
+        content.classList.remove("active");
+        content.classList.add("hidden");
       }
     });
 
-    // 2. Handle Button Styling
+    // Update Button Styling
     tabButtons.forEach(button => {
       if (button.getAttribute("data-tab-target") === targetId) {
-        button.classList.add("active"); 
-        // Add visual active styles
+        button.classList.add("active");
         button.classList.add("bg-gray-700", "text-white");
         button.classList.remove("text-gray-300", "hover:bg-gray-700", "hover:text-white");
       } else {
         button.classList.remove("active");
-        // Remove visual active styles
         button.classList.remove("bg-gray-700", "text-white");
         button.classList.add("text-gray-300", "hover:bg-gray-700", "hover:text-white");
       }
@@ -38,7 +39,8 @@ function initTabs() {
 
   // Delegated click listener
   document.addEventListener("click", (e) => {
-    const button = e.target.closest("[data-tab-group]");
+    // Find closest element with both group AND target attributes (strictly a button)
+    const button = e.target.closest("[data-tab-group][data-tab-target]");
     if (!button) return;
 
     const groupName = button.getAttribute("data-tab-group");
@@ -49,24 +51,33 @@ function initTabs() {
 
   // Initialize defaults
   function initializeDefaultTabs() {
-    const allButtons = document.querySelectorAll("[data-tab-group]");
+    // Get all unique group names from buttons only
+    const allButtons = document.querySelectorAll("[data-tab-group][data-tab-target]");
     const groups = new Set();
 
     allButtons.forEach(btn => groups.add(btn.getAttribute("data-tab-group")));
 
     groups.forEach(groupName => {
-      const tabButtons = document.querySelectorAll(`[data-tab-group="${groupName}"]`);
+      // Select only the buttons for this group
+      const tabButtons = document.querySelectorAll(`[data-tab-group="${groupName}"][data-tab-target]`);
+      
       if (tabButtons.length > 0) {
-        // Default to the first tab, or the one marked 'active' in HTML
+        // Default to the first button's target
         let defaultTabId = tabButtons[0].getAttribute("data-tab-target");
-        tabButtons.forEach(btn => {
-            if(btn.classList.contains('active')) {
+        
+        // If one is explicitly active in HTML, use that instead
+        // (Make sure we don't accidentally pick a content div by checking for data-tab-target)
+        for (const btn of tabButtons) {
+            if (btn.classList.contains('active')) {
                 defaultTabId = btn.getAttribute("data-tab-target");
+                break; 
             }
-        });
+        }
         
         console.log(`🔹 Init Default for [${groupName}]: ${defaultTabId}`);
-        switchTab(groupName, defaultTabId);
+        if (defaultTabId) {
+            switchTab(groupName, defaultTabId);
+        }
       }
     });
   }
