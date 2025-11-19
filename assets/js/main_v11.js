@@ -5,20 +5,20 @@
     console.log("Initializing smooth scroll...");
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
+        // Only prevent default if it's NOT a tab button (which might need its own handler)
+        // But usually smooth scroll is good for all anchors.
         e.preventDefault();
         const targetId = this.getAttribute('href');
+        if(targetId === '#') return;
+        
         const targetElement = document.querySelector(targetId);
         if (targetElement) {
-          targetElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-
-          if (window.innerWidth < 1024) {
-            const nav = document.getElementById('main-nav');
-            if (nav) {
-              nav.classList.add('hidden');
-            }
+          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          
+          // Mobile menu close logic
+          const nav = document.getElementById('main-nav');
+          if (nav && window.innerWidth < 1024) {
+            nav.classList.add('hidden');
           }
         }
       });
@@ -26,34 +26,39 @@
   }
 
   function initMobileMenu() {
-    console.log("Initializing mobile menu...");
     const menuBtn = document.getElementById('menu-btn');
     const nav = document.getElementById('main-nav');
-
+    // Safety check to prevent console errors if header.html is missing IDs
     if (menuBtn && nav) {
+      console.log("Initializing mobile menu...");
       menuBtn.addEventListener('click', () => {
         nav.classList.toggle('hidden');
       });
+    } else {
+      console.warn("Mobile menu elements (menu-btn or main-nav) not found.");
     }
   }
 
   function initScrollSpy() {
-    console.log("Initializing scroll spy...");
     const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('#main-nav a[href^="#"]');
+    // More robust selector
+    const navLinks = document.querySelectorAll('nav a[href^="#"], #main-nav a[href^="#"]');
 
     if (sections.length === 0 || navLinks.length === 0) {
-      console.warn("Scroll spy disabled: Sections or nav links not found.");
+      console.warn("Scroll spy skipped: No sections or nav links found.");
       return;
     }
-
+    
+    console.log("Initializing scroll spy...");
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.3) { // Reduced threshold for better responsiveness
           const id = entry.target.getAttribute('id');
           navLinks.forEach(link => {
+            // Reset styles
             link.classList.remove('text-white', 'bg-opacity-100', 'bg-gray-700');
             link.classList.add('text-gray-300', 'hover:text-white', 'hover:bg-gray-700');
+            // Active style
             if (link.getAttribute('href') === `#${id}`) {
               link.classList.add('text-white', 'bg-opacity-100', 'bg-gray-700');
               link.classList.remove('text-gray-300', 'hover:text-white', 'hover:bg-gray-700');
@@ -61,21 +66,16 @@
           });
         }
       });
-    }, {
-      threshold: 0.5,
-      rootMargin: '0px 0px -40% 0px'
-    });
+    }, { threshold: 0.3, rootMargin: '0px 0px -40% 0px' });
 
-    sections.forEach(section => {
-      observer.observe(section);
-    });
+    sections.forEach(section => observer.observe(section));
   }
 
   async function loadFinancials() {
     console.log("Loading financials...");
-    if (typeof loadFinancialData === 'function') {
+    if (typeof window.loadFinancialData === 'function') {
       try {
-        await loadFinancialData(G_SHEET_URL);
+        await window.loadFinancialData(G_SHEET_URL);
       } catch (error) {
         console.error("Error loading financial data:", error);
       }
@@ -88,12 +88,13 @@
     console.log("Applying initial translations...");
     if (typeof window.applyTranslations === 'function') {
       window.applyTranslations();
-      document.title = window.LANGUAGE_DATA[window.currentLang]['page_title'];
-    } else {
-      console.error("applyTranslations function not found. Did importSections.js load?");
+      if(window.LANGUAGE_DATA && window.currentLang) {
+         document.title = window.LANGUAGE_DATA[window.currentLang]['page_title'];
+      }
     }
   }
 
+  // GLOBAL LISTENER FOR DYNAMIC SECTIONS
   document.addEventListener('sectionsLoaded', () => {
     console.log("'sectionsLoaded' event received. Initializing UI components...");
     
@@ -101,15 +102,15 @@
     initSmoothScroll();
     initMobileMenu();
     initScrollSpy();
-    loadFinancials();
-
+    
+    // Init Tabs (Ensuring it runs after HTML is present)
     if (typeof initTabs === 'function') {
       initTabs();
     } else {
-      console.error("initTabs function not found. Did tabs.js load?");
+      console.warn("initTabs function not found. Check tabs.js loading.");
     }
 
+    loadFinancials();
     console.log("All UI components initialized.");
   });
-
 })();
