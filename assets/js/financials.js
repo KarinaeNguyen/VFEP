@@ -1,11 +1,8 @@
 /*
-  financials.js — Professional Modern Dashboard Version (B)
-  - Robust loading/waiting for Chart.js
-  - Works with Google Sheets CSV (or any CSV URL)
-  - Auto-detects headers: Year, Quarter, CashFlow, Balance (flexible names)
-  - Recomputes cumulative balance if missing
-  - Responsive, ResizeObserver, spinner + graceful errors
-  - Clean API: window.loadFinancialData(url, options)
+  financials.js — Professional Modern Dashboard Version (C)
+  - FIX: Handles headers with '#' symbols (e.g., "# Year")
+  - FIX: Reads "Gain" and "Lost" columns for the table
+  - Robust CSV parsing and number formatting
 */
 (function () {
   'use strict';
@@ -17,7 +14,6 @@
     canvasId: 'cashFlowChart',
     tableContainerId: 'financials-table-container',
     spinnerHtml: '<div class="spinner">Loading financials…</div>',
-    dateFormat: 'YYYY Q', 
     currency: 'USD',
     animate: true,
     animationDuration: 600,
@@ -45,56 +41,66 @@
   function toNumberSafe(value) {
     if (value === null || value === undefined) return NaN;
     if (typeof value === 'number') return value;
-    let s = String(value).trim();
-    if (!s) return NaN;
+    
+    // Cleanup string: remove whitespace, $, and commas
+    let s = String(value).trim().replace(/[$,]/g, ''); 
+    
+    // Handle negative parentheses: (100) -> -100
     let negative = false;
     if (/^\(.+\)$/.test(s)) {
       negative = true;
       s = s.replace(/^\(|\)$/g, '');
     }
-    s = s.replace(/^\$|,/g, ''); // Remove $ and commas
-    s = s.replace(/[^0-9.+-]/g, '');
-    const parts = s.split('.');
-    if (parts.length > 2) s = parts.shift() + '.' + parts.join('');
+    
     const n = parseFloat(s);
     if (isNaN(n)) return NaN;
     return negative ? -Math.abs(n) : n;
   }
 
+  // --------- Header Mapping -------------------------------------------------------
+  // Maps CSV headers to internal keys. 
   const HEADER_MAP = {
-    year: ['year', 'y', 'fiscal year', 'fy', 'date'],
-    quarter: ['quarter', 'q', 'qtr', 'period'],
-    cashflow: ['cashflow', 'cash flow', 'cf', 'inflow', 'net cash', 'cash'],
-    balance: ['balance', 'cumulative', 'cum balance', 'ending balance', 'running balance']
+    year: ['year', 'y', 'date', 'năm', 'nam'],
+    quarter: ['quarter', 'q', 'qtr', 'quý', 'quy'],
+    // Added 'gain' for Revenue
+    revenue: ['revenue', 'gain', 'income', 'thu', 'doanh thu'], 
+    // Added 'lost' for Expenses
+    expenses: ['expense', 'expenses', 'lost', 'loss', 'cost', 'chi', 'chi phí'],
+    cashflow: ['cashflow', 'cash flow', 'cf', 'net cash', 'dòng tiền', 'dong tien'],
+    balance: ['balance', 'cumulative', 'ending balance', 'số dư', 'so du']
   };
 
   function normalizeHeaderKey(h) {
-    return String(h || '').trim().toLowerCase().replace(/[\s_\-]+/g, ' ');
+    // SUPER ROBUST: Remove '#', symbols, spaces. Keep only letters/numbers.
+    // "# Year" -> "year", "Cash-Flow" -> "cashflow"
+    return String(h || '').toLowerCase().replace(/[^a-z0-9]/g, '');
   }
 
   function detectHeaders(headers) {
     const map = {};
     const norm = headers.map(h => normalizeHeaderKey(h));
+    
+    console.log("Processed Headers:", norm); // Debug log
+
     for (let i = 0; i < norm.length; i++) {
       const key = norm[i];
       if (!key) continue;
       for (const canon in HEADER_MAP) {
         for (const variant of HEADER_MAP[canon]) {
-          if (key === variant || key.indexOf(variant) !== -1) {
+          if (key.includes(variant)) { // Fuzzy match
              map[canon] = i;
             break;
           }
         }
-        if (map[canon] != null) break;
       }
     }
     return map;
   }
 
-  // ---------------- CSV PARSING FALLBACK -----------------------------------------
+  // ---------------- CSV PARSER FALLBACK -----------------------------------------
   function parseCSV(text) {
     if (typeof text !== 'string') return { headers: [], rows: [] };
-    text = text.replace(/^\uFEFF/, ''); // Remove BOM
+    text = text.replace(/^\uFEFF/, ''); 
     text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
     const lines = text.split('\n').filter(l => l.trim() !== '');
     if (lines.length === 0) return { headers: [], rows: [] };
@@ -140,34 +146,41 @@
   function normalizeData(parsed) {
     const headers = parsed.headers || [];
     const rows = parsed.rows || [];
-    const hmap = detectHeaders(headers);
+    let hmap = detectHeaders(headers);
+
     const out = [];
     
     for (let r = 0; r < rows.length; r++) {
       const row = rows[r];
+      const val = (idx) => {
+          if (idx == null) return null;
+          const key = headers[idx];
+          return row[key];
+      };
+
       const outRow = {
         raw: row,
-        Year: '',
-        Quarter: '',
-        CashFlow: NaN,
-        Balance: NaN
+        Year: val(hmap.year) || '',
+        Quarter: val(hmap.quarter) || '',
+        Revenue: toNumberSafe(val(hmap.revenue)),  // Mapped from 'Gain'
+        Expenses: toNumberSafe(val(hmap.expenses)), // Mapped from 'Lost'
+        CashFlow: toNumberSafe(val(hmap.cashflow)),
+        Balance: toNumberSafe(val(hmap.balance))
       };
-      if (hmap.year != null) outRow.Year = row[headers[hmap.year]] || '';
-      if (hmap.quarter != null) outRow.Quarter = row[headers[hmap.quarter]] || '';
-      if (hmap.cashflow != null) outRow.CashFlow = toNumberSafe(row[headers[hmap.cashflow]]);
-      if (hmap.balance != null) outRow.Balance = toNumberSafe(row[headers[hmap.balance]]);
-      
-      // Fallback detection
-      if ((outRow.Year === '' || outRow.Year == null) && row['Date']) outRow.Year = row['Date'];
-      if ((outRow.Quarter === '' || outRow.Quarter == null) && typeof outRow.Year === 'string') {
-        const m = outRow.Year.match(/(Q[1-4]|q[1-4])|([0-9]{4}[-\/]Q[1-4])/);
+
+      // Fallback: if Year is missing, look for Date
+      if ((!outRow.Year) && row['Date']) outRow.Year = row['Date'];
+      // Fallback: Extract Q1/Q2 from Year if Quarter is empty
+      if (!outRow.Quarter && typeof outRow.Year === 'string') {
+        const m = outRow.Year.match(/(Q[1-4]|q[1-4])/);
         if (m) outRow.Quarter = m[0];
       }
+
       out.push(outRow);
     }
 
-    // Auto-calculate balance if missing
-    const hasAnyBalance = out.some(r => !isNaN(r.Balance));
+    // Auto-calculate balance if missing (using CashFlow)
+    const hasAnyBalance = out.some(r => !isNaN(r.Balance) && r.Balance !== 0);
     if (!hasAnyBalance) {
       let running = 0;
       for (let i = 0; i < out.length; i++) {
@@ -176,6 +189,7 @@
         out[i].Balance = running;
       }
     }
+    
     return out;
   }
 
@@ -218,11 +232,7 @@
 
   function createTable(normalized) {
     const container = qs(currentOptions.tableContainerId);
-    // Graceful exit if container missing, instead of crash
-    if (!container) {
-        console.warn(`Financials table container #${currentOptions.tableContainerId} not found. Skipping table render.`);
-        return; 
-    }
+    if (!container) return;
     
     if (!Array.isArray(normalized) || normalized.length === 0) {
       container.innerHTML = '<div style="padding:12px;color:#6b7280">No financial rows to display.</div>';
@@ -232,7 +242,8 @@
     let html = '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse">';
     html += '<thead><tr>';
     html += '<th style="padding:10px 12px;text-align:left;border-bottom:1px solid #e5e7eb;background:#f9fafb;font-size:12px;color:#6b7280;text-transform:uppercase">Period</th>';
-    html += '<th style="padding:10px 12px;text-align:right;border-bottom:1px solid #e5e7eb;background:#f9fafb;font-size:12px;color:#6b7280;text-transform:uppercase">Revenue (est)</th>';
+    html += '<th style="padding:10px 12px;text-align:right;border-bottom:1px solid #e5e7eb;background:#f9fafb;font-size:12px;color:#6b7280;text-transform:uppercase">Revenue (Gain)</th>';
+    html += '<th style="padding:10px 12px;text-align:right;border-bottom:1px solid #e5e7eb;background:#f9fafb;font-size:12px;color:#6b7280;text-transform:uppercase">Expenses (Lost)</th>';
     html += '<th style="padding:10px 12px;text-align:right;border-bottom:1px solid #e5e7eb;background:#f9fafb;font-size:12px;color:#6b7280;text-transform:uppercase">Cash Flow</th>';
     html += '<th style="padding:10px 12px;text-align:right;border-bottom:1px solid #e5e7eb;background:#f9fafb;font-size:12px;color:#6b7280;text-transform:uppercase">Balance</th>';
     html += '</tr></thead><tbody>';
@@ -241,18 +252,16 @@
       const period = (row.Year || '') + (row.Quarter ? (' ' + row.Quarter) : '');
       const cf = isNaN(row.CashFlow) ? 0 : row.CashFlow;
       const bal = isNaN(row.Balance) ? 0 : row.Balance;
-      // Simple dummy revenue logic for display if not present, or just N/A
-      const rev = cf > 0 ? cf * 1.2 : 0; 
+      const rev = isNaN(row.Revenue) ? 0 : row.Revenue;
+      const exp = isNaN(row.Expenses) ? 0 : row.Expenses;
 
-      const cfStr = formatCurrency(cf);
-      const balStr = formatCurrency(bal);
-      const revStr = rev > 0 ? formatCurrency(rev) : '-';
       const cfColor = cf < 0 ? 'color:#dc2626' : 'color:#059669';
 
       html += `<tr><td style="padding:10px 12px;border-bottom:1px solid #e5e7eb;color:#374151;font-size:14px">${escapeHtml(period || '(n/a)')}</td>`;
-      html += `<td style="padding:10px 12px;border-bottom:1px solid #e5e7eb;text-align:right;color:#6b7280">${escapeHtml(revStr)}</td>`;
-      html += `<td style="padding:10px 12px;border-bottom:1px solid #e5e7eb;text-align:right;${cfColor}">${escapeHtml(cfStr)}</td>`;
-      html += `<td style="padding:10px 12px;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:600">${escapeHtml(balStr)}</td></tr>`;
+      html += `<td style="padding:10px 12px;border-bottom:1px solid #e5e7eb;text-align:right;color:#6b7280">${formatCurrency(rev)}</td>`;
+      html += `<td style="padding:10px 12px;border-bottom:1px solid #e5e7eb;text-align:right;color:#dc2626">(${formatCurrency(exp).replace('$','')})</td>`;
+      html += `<td style="padding:10px 12px;border-bottom:1px solid #e5e7eb;text-align:right;${cfColor}">${formatCurrency(cf)}</td>`;
+      html += `<td style="padding:10px 12px;border-bottom:1px solid #e5e7eb;text-align:right;font-weight:600">${formatCurrency(bal)}</td></tr>`;
     }
 
     html += '</tbody></table></div>';
@@ -381,7 +390,6 @@
     try {
       const txt = await fetchWithTimeout(currentOptions.csvUrl, currentOptions.fallbackFetchTimeout);
       
-      // PARSER SELECTION & VALIDATION
       let parsed;
       if (typeof window.CSVParser === 'object' && typeof window.CSVParser.parse === 'function') {
         parsed = window.CSVParser.parse(txt);
@@ -389,11 +397,8 @@
         parsed = parseCSV(txt);
       }
 
-      // Handle both array return (legacy) and object return (correct)
-      let rows = [];
-      let headers = [];
+      let rows = [], headers = [];
       if (Array.isArray(parsed)) {
-         // If parser returns just array, assume they are the rows
          rows = parsed;
       } else if (parsed && Array.isArray(parsed.rows)) {
          rows = parsed.rows;
@@ -402,7 +407,6 @@
 
       if (rows.length === 0) throw new Error('CSV parsed empty');
 
-      // Re-normalize with correct structure
       const structure = { headers: headers.length ? headers : Object.keys(rows[0] || {}), rows: rows };
       const normalized = normalizeData(structure);
 
