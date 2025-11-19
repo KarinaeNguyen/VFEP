@@ -2,7 +2,7 @@
   function parse(csvText) {
     const rows = [];
     const lines = csvText.trim().split(/\r?\n/);
-    if (!lines.length) return [];
+    if (!lines.length) return { headers: [], rows: [] }; // Return empty object structure
 
     const headers = parseCSVLine(lines[0]);
 
@@ -17,7 +17,8 @@
       rows.push(row);
     }
 
-    return rows;
+    // FIX: Return the structure financials.js expects
+    return { headers, rows };
   }
 
   // --- Robust CSV line parser (supports quotes + commas) ---
