@@ -190,3 +190,26 @@
         background: transparent;
     }
 }
+
+/* ------------------------------------------------------------
+   SCROLL REVEAL ANIMATION (NEW)
+------------------------------------------------------------ */
+/* 1. The Starting State (Hidden) */
+section {
+    opacity: 0;                  /* Invisible */
+    transform: translateY(40px); /* Pushed down 40px */
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Smooth transition */
+    will-change: opacity, transform; /* Performance optimization */
+}
+
+/* 2. The Ending State (Visible) */
+section.is-visible {
+    opacity: 1;                  /* Fully visible */
+    transform: translateY(0);    /* Back to original position */
+}
+
+/* IMPORTANT: Ensure header and footer are always visible */
+header, footer {
+    opacity: 1 !important;
+    transform: none !important;
+}
