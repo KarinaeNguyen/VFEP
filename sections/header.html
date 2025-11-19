@@ -3,46 +3,54 @@
     <div class="flex justify-between items-center h-16">
       
       <a href="." class="flex-shrink-0 flex items-center cursor-pointer hover:opacity-80 transition-opacity">
-        
         <img 
           src="assets/image/logo-long.png" 
           alt="Vicinity Safety Logo" 
           class="h-10 w-auto mr-2" 
         />
-        
         <div class="flex flex-col">
-            <span class="text-xl font-bold text-indigo-700 leading-none" data-key="header_main_title">
-            </span>
-            <span class="text-xs font-light text-neutral-500" data-key="header_subtitle">
-            </span>
+            <span class="text-xl font-bold text-indigo-700 leading-none" data-key="header_main_title"></span>
+            <span class="text-xs font-light text-neutral-500" data-key="header_subtitle"></span>
         </div>
-
       </a>
 
-      <div class="flex items-center space-x-4">
+      <div class="hidden lg:flex items-center space-x-6">
+        <a href="#overview" class="text-sm font-medium text-neutral-600 hover:text-indigo-700 transition-colors">Overview</a>
+        <a href="#vision" class="text-sm font-medium text-neutral-600 hover:text-indigo-700 transition-colors">Vision</a>
+        <a href="#technology" class="text-sm font-medium text-neutral-600 hover:text-indigo-700 transition-colors">Technology</a>
+        <a href="#strategy" class="text-sm font-medium text-neutral-600 hover:text-indigo-700 transition-colors">Strategy</a>
+        <a href="#market" class="text-sm font-medium text-neutral-600 hover:text-indigo-700 transition-colors">Market</a>
+        <a href="#financials" class="text-sm font-medium text-neutral-600 hover:text-indigo-700 transition-colors">Financials</a>
+      </div>
+
+      <div class="flex items-center space-x-3">
         <button
           id="language-switch-btn"
-          class="px-3 py-1 bg-neutral-100 text-neutral-600 border border-neutral-200 rounded-full text-xs font-semibold hover:bg-neutral-200 transition-colors duration-200 focus:outline-none"
+          class="px-4 py-1.5 bg-neutral-100 text-neutral-600 border border-neutral-200 rounded-full text-sm font-semibold hover:bg-neutral-200 transition-colors duration-200 focus:outline-none shadow-sm"
         >
-        </button>
+          </button>
 
-        <span id="lang-display" class="px-2 py-1 bg-indigo-700 text-white rounded text-xs font-bold uppercase tracking-wide">
-        </span>
+        <span id="lang-display" class="px-3 py-1.5 bg-indigo-700 text-white rounded-full text-xs font-bold uppercase tracking-wide shadow-sm">
+          </span>
         
-        <button id="menu-btn" class="lg:hidden text-neutral-500 hover:text-indigo-700 focus:outline-none">
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <button id="menu-btn" class="lg:hidden p-2 text-neutral-500 hover:text-indigo-700 focus:outline-none ml-2">
+            <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
         </button>
       </div>
     </div>
     
-    <div id="main-nav" class="hidden lg:hidden pb-4">
-        <div class="flex flex-col space-y-2">
-            <a href="#overview" class="text-neutral-600 hover:text-indigo-700 py-2 font-medium">Overview</a>
-            <a href="#technology" class="text-neutral-600 hover:text-indigo-700 py-2 font-medium">Technology</a>
-            <a href="#market" class="text-neutral-600 hover:text-indigo-700 py-2 font-medium">Market</a>
-            <a href="#financials" class="text-neutral-600 hover:text-indigo-700 py-2 font-medium">Financials</a>
+    <div id="main-nav" class="hidden lg:hidden border-t border-neutral-100 bg-white pb-4 max-h-[80vh] overflow-y-auto">
+        <div class="flex flex-col space-y-1 mt-2 px-2">
+            <a href="#overview" class="block px-4 py-3 text-base font-medium text-neutral-600 hover:bg-indigo-50 hover:text-indigo-700 rounded-md transition-colors">Overview</a>
+            <a href="#vision" class="block px-4 py-3 text-base font-medium text-neutral-600 hover:bg-indigo-50 hover:text-indigo-700 rounded-md transition-colors">Vision & Mission</a>
+            <a href="#lean-canvas" class="block px-4 py-3 text-base font-medium text-neutral-600 hover:bg-indigo-50 hover:text-indigo-700 rounded-md transition-colors">Lean Canvas</a>
+            <a href="#technology" class="block px-4 py-3 text-base font-medium text-neutral-600 hover:bg-indigo-50 hover:text-indigo-700 rounded-md transition-colors">Technology</a>
+            <a href="#strategy" class="block px-4 py-3 text-base font-medium text-neutral-600 hover:bg-indigo-50 hover:text-indigo-700 rounded-md transition-colors">Strategy</a>
+            <a href="#market" class="block px-4 py-3 text-base font-medium text-neutral-600 hover:bg-indigo-50 hover:text-indigo-700 rounded-md transition-colors">Market Analysis</a>
+            <a href="#financials" class="block px-4 py-3 text-base font-medium text-neutral-600 hover:bg-indigo-50 hover:text-indigo-700 rounded-md transition-colors">Financials</a>
+            <a href="#advantage" class="block px-4 py-3 text-base font-medium text-neutral-600 hover:bg-indigo-50 hover:text-indigo-700 rounded-md transition-colors">Competitive Advantage</a>
         </div>
     </div>
 
