@@ -3,31 +3,14 @@
         Financial Overview
     </h2>
 
-    <!-- Chart Container (REQUIRED for financials.js) -->
     <div id="chartContainer" class="w-full mb-10">
-        <div class="spinner mx-auto"></div> <!-- loading state placeholder -->
+        <div class="spinner mx-auto"></div> 
         <canvas id="cashFlowChart" class="w-full"></canvas>
     </div>
 
-    <!-- Table -->
-    <div class="overflow-x-auto">
-        <table class="w-full border-collapse text-left">
-            <thead class="bg-indigo-50 border-b border-indigo-200">
-                <tr>
-                    <th class="p-3 font-semibold text-indigo-800" data-key="fin_year">Year</th>
-                    <th class="p-3 font-semibold text-indigo-800" data-key="fin_revenue">Revenue</th>
-                    <th class="p-3 font-semibold text-indigo-800" data-key="fin_expenses">Expenses</th>
-                    <th class="p-3 font-semibold text-indigo-800" data-key="fin_cashflow">Cash Flow</th>
-                </tr>
-            </thead>
+    <div id="financials-table-container" class="overflow-x-auto">
+        </div>
 
-            <tbody id="financialTableBody">
-                <!-- Rows generated dynamically -->
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Cards (3 KPIs) -->
     <div class="mt-12 grid md:grid-cols-3 gap-6 text-center">
         <div class="bg-indigo-50 p-6 rounded-lg border border-indigo-200">
             <h3 class="text-lg font-semibold text-neutral-600" data-key="fin_card1_h"></h3>
