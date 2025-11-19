@@ -12,7 +12,15 @@
         
         const targetElement = document.querySelector(targetId);
         if (targetElement) {
-          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // Offset for fixed header (approx 80px)
+          const headerOffset = 80;
+          const elementPosition = targetElement.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          });
           
           const nav = document.getElementById('main-nav');
           if (nav && window.innerWidth < 1024) {
@@ -36,6 +44,7 @@
     }
   }
 
+  // --- UPDATED SCROLL SPY (Clean Text, No Black Background) ---
   function initScrollSpy() {
     const sections = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('nav a[href^="#"], #main-nav a[href^="#"]');
@@ -51,31 +60,32 @@
         if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
           const id = entry.target.getAttribute('id');
           navLinks.forEach(link => {
-            link.classList.remove('text-white', 'bg-opacity-100', 'bg-gray-700');
-            link.classList.add('text-gray-300', 'hover:text-white', 'hover:bg-gray-700');
+            // RESET: Remove active styles (Clean text only)
+            link.classList.remove('text-indigo-700', 'font-bold');
+            link.classList.add('text-neutral-600');
+            
+            // ACTIVE: Add bold and indigo color (No background box)
             if (link.getAttribute('href') === `#${id}`) {
-              link.classList.add('text-white', 'bg-opacity-100', 'bg-gray-700');
-              link.classList.remove('text-gray-300', 'hover:text-white', 'hover:bg-gray-700');
+              link.classList.add('text-indigo-700', 'font-bold');
+              link.classList.remove('text-neutral-600');
             }
           });
         }
       });
-    }, { threshold: 0.3, rootMargin: '0px 0px -40% 0px' });
+    }, { threshold: 0.3, rootMargin: '-20% 0px -50% 0px' });
 
     sections.forEach(section => observer.observe(section));
   }
 
-  // --- NEW FUNCTION: SCROLL REVEAL ---
+  // --- SCROLL REVEAL ---
   function initScrollReveal() {
     console.log("Initializing scroll reveal animations...");
     const sections = document.querySelectorAll('section');
     
     const observer = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
-        // When section enters viewport (15% visible)
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
-          // Stop watching once revealed
           observer.unobserve(entry.target);
         }
       });
@@ -121,11 +131,8 @@
     initSmoothScroll();
     initMobileMenu();
     initScrollSpy();
-    
-    // Initialize Scroll Reveal Animation
     initScrollReveal(); 
     
-    // Init Tabs
     if (typeof initTabs === 'function') {
       initTabs();
     } else {
