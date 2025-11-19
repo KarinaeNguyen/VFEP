@@ -1,32 +1,35 @@
-// tabs.js — Fixed to match CSS (.active class)
+// tabs.js — Updated to toggle .active class matching style.css
 
 function initTabs() {
-  console.log("Tabs initialized with delegated events.");
-  const defaultTabForGroup = {};
+  console.log("✅ Tabs System: Initializing...");
 
   function switchTab(groupName, targetId) {
+    console.log(`🖱️ Switching Group: [${groupName}] to Target: [${targetId}]`);
+    
     const tabButtons = document.querySelectorAll(`[data-tab-group="${groupName}"]`);
     const tabContents = document.querySelectorAll(`[data-tab-content="${groupName}"]`);
 
-    // 1. Handle Content Visibility (CSS expects .active to show)
+    // 1. Handle Content Visibility (CSS requires .active to display:block)
     tabContents.forEach(content => {
       if (content.id === targetId) {
-        content.classList.add("active");  // ADD active to show
+        content.classList.add("active"); // SHOW
+        content.classList.remove("hidden"); // Safety removal
       } else {
-        content.classList.remove("active"); // REMOVE active to hide
+        content.classList.remove("active"); // HIDE
+        content.classList.add("hidden"); // Optional safety
       }
     });
 
     // 2. Handle Button Styling
     tabButtons.forEach(button => {
       if (button.getAttribute("data-tab-target") === targetId) {
-        button.classList.add("active"); // Matches CSS .tab-btn.active
-        // Remove Tailwind utility classes if they conflict, but your CSS uses .active
-        // Keeping these for safety if you mix Tailwind + Custom CSS
+        button.classList.add("active"); 
+        // Add visual active styles
         button.classList.add("bg-gray-700", "text-white");
         button.classList.remove("text-gray-300", "hover:bg-gray-700", "hover:text-white");
       } else {
         button.classList.remove("active");
+        // Remove visual active styles
         button.classList.remove("bg-gray-700", "text-white");
         button.classList.add("text-gray-300", "hover:bg-gray-700", "hover:text-white");
       }
@@ -54,16 +57,15 @@ function initTabs() {
     groups.forEach(groupName => {
       const tabButtons = document.querySelectorAll(`[data-tab-group="${groupName}"]`);
       if (tabButtons.length > 0) {
-        // Find which one is currently active in HTML, or default to first
+        // Default to the first tab, or the one marked 'active' in HTML
         let defaultTabId = tabButtons[0].getAttribute("data-tab-target");
-        
-        // Optional: Check if HTML already has an "active" class manually set
         tabButtons.forEach(btn => {
             if(btn.classList.contains('active')) {
                 defaultTabId = btn.getAttribute("data-tab-target");
             }
         });
-
+        
+        console.log(`🔹 Init Default for [${groupName}]: ${defaultTabId}`);
         switchTab(groupName, defaultTabId);
       }
     });
