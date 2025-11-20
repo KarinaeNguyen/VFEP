@@ -3,8 +3,9 @@
   const G_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRdnGGLERma9OCgM-Y6hGfFn2RnyjAMZeGT_zHviVrBKdC5h3947vTg66xfwg1RbcrGbgQm1cIAWKhS/pub?output=csv";
 
   // --- 1. GLOBAL CONTACT WIDGET LOGIC ---
+  // Fixed: Button stays visible and acts as a Toggle (Open/Close)
   document.addEventListener('click', (e) => {
-      // A. Handle Toggle Button Click (Open/Close)
+      // A. Handle Toggle Button Click
       const toggleBtn = e.target.closest('#toggleContactBtn');
       if (toggleBtn) {
           const box = document.getElementById('contactFormBox');
@@ -21,7 +22,7 @@
                   box.classList.add('opacity-0', 'pointer-events-none', 'scale-95', 'invisible');
                   box.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100', 'visible');
               }
-              // Note: We keep the button visible as a toggle
+              // Note: We do NOT hide the button anymore.
           }
           return;
       }
@@ -103,11 +104,11 @@
         if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
           const id = entry.target.getAttribute('id');
           navLinks.forEach(link => {
-            // RESET: Clean text only
+            // RESET: Remove active styles (Clean text only)
             link.classList.remove('text-indigo-700', 'font-bold');
             link.classList.add('text-neutral-600');
             
-            // ACTIVE: Bold Indigo
+            // ACTIVE: Add bold and color (No background box)
             if (link.getAttribute('href') === `#${id}`) {
               link.classList.add('text-indigo-700', 'font-bold');
               link.classList.remove('text-neutral-600');
@@ -184,6 +185,20 @@
     }
   }
 
+  // --- NEW: FORCE VIDEO AUTOPLAY ---
+  function initVideoBackground() {
+    const video = document.getElementById('heroVideo');
+    if (video) {
+        video.muted = true; // Required for autoplay
+        video.loop = true;
+        video.playsInline = true;
+        video.play().catch(error => {
+            console.log("Autoplay prevented by browser policy:", error);
+        });
+    }
+  }
+
+  // --- MAIN INIT ---
   document.addEventListener('sectionsLoaded', () => {
     console.log("'sectionsLoaded' event received. Initializing UI components...");
     
@@ -193,6 +208,7 @@
     initScrollSpy();
     initScrollReveal(); 
     initScrollToTop();
+    initVideoBackground(); // Kickstart the video
     
     if (typeof initTabs === 'function') {
       initTabs();
