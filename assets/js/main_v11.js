@@ -126,7 +126,7 @@
     });
   }
 
-  // --- 3. ROBUST VIDEO AUTOPLAY FIX (Enhanced) ---
+  // --- 3. FORCE VIDEO AUTOPLAY (Start at 0:03) ---
   function initVideoBackground() {
     const video = document.getElementById('heroVideo');
     if (video) {
@@ -137,10 +137,20 @@
         video.setAttribute('playsinline', '');
         video.setAttribute('autoplay', '');
         
+        // NEW: Skip the first 3 seconds
+        // We wait for metadata to load to ensure we can seek
+        if (video.readyState >= 1) {
+            video.currentTime = 3;
+        } else {
+            video.addEventListener('loadedmetadata', () => {
+                video.currentTime = 3;
+            }, { once: true });
+        }
+        
         const playPromise = video.play();
         if (playPromise !== undefined) {
             playPromise.catch(error => {
-                console.warn("Autoplay blocked by browser (user interaction needed):", error);
+                console.warn("Autoplay blocked by browser:", error);
             });
         }
     }
@@ -173,7 +183,7 @@
     initScrollReveal(); 
     initScrollToTop();
     
-    initVideoBackground(); // Kickstart Video
+    initVideoBackground(); // Kickstart Video at 0:03
     
     if (typeof initTabs === 'function') initTabs();
     loadFinancials();
