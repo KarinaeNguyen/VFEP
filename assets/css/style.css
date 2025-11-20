@@ -1,4 +1,12 @@
 /* ------------------------------------------------------------
+   CORE LAYOUT FIXES
+------------------------------------------------------------ */
+/* Push website content down so it doesn't hide behind the fixed header */
+body {
+    padding-top: 80px; /* Approx height of header (64px) + extra breathing room */
+}
+
+/* ------------------------------------------------------------
    LOADING SPINNER
 ------------------------------------------------------------ */
 .spinner {
