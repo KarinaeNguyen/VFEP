@@ -5,7 +5,7 @@
       'page_title': 'Vicinity Safety | Công Nghệ Dập Lửa Chính Xác VFEP',
       'header_main_title': 'Thông Tin Dự Án',
       'header_subtitle': '| Công Nghệ VFEP',
-      'language_switch': 'English',
+      'language_switch': 'EN',
       'language_current': 'VN',
       'footer_text': '© 2025 Vicinity Safety. Mọi quyền sở hữu trí tuệ đang trong quá trình đăng ký.',
 
@@ -251,7 +251,7 @@
       'page_title': 'Vicinity Safety | Precise Fire Extinguishing Technology VFEP',
       'header_main_title': 'Project Information',
       'header_subtitle': '| VFEP Technology',
-      'language_switch': 'Tiếng Việt',
+      'language_switch': 'VN',
       'language_current': 'EN',
       'footer_text': '© 2025 Vicinity Safety. All intellectual property rights are in the process of registration.',
 
