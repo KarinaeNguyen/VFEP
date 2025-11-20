@@ -92,12 +92,11 @@
     });
   }
 
-  // --- SCROLL TO TOP LOGIC (NEW) ---
+  // --- SCROLL TO TOP LOGIC ---
   function initScrollToTop() {
     const btn = document.getElementById('scrollTopBtn');
     if (!btn) return;
 
-    // Show button when scrolled down 300px
     window.addEventListener('scroll', () => {
       if (window.scrollY > 300) {
         btn.classList.remove('opacity-0', 'invisible');
@@ -108,10 +107,38 @@
       }
     });
 
-    // Scroll to top on click
     btn.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+  }
+
+  // --- CONTACT WIDGET LOGIC (NEW) ---
+  function initContactWidget() {
+    const toggleBtn = document.getElementById('toggleContactBtn');
+    const closeBtn = document.getElementById('closeContactBtn');
+    const box = document.getElementById('contactFormBox');
+
+    if (!toggleBtn || !box) return;
+
+    const toggleBox = () => {
+        // Check if hidden by checking pointer-events-none (since we toggle classes)
+        const isClosed = box.classList.contains('pointer-events-none');
+        
+        if (isClosed) {
+            // Open
+            box.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+            box.classList.add('opacity-100', 'pointer-events-auto', 'scale-100');
+            toggleBtn.classList.add('hidden'); // Hide button when open
+        } else {
+            // Close
+            box.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+            box.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
+            toggleBtn.classList.remove('hidden'); // Show button when closed
+        }
+    };
+
+    toggleBtn.addEventListener('click', toggleBox);
+    if(closeBtn) closeBtn.addEventListener('click', toggleBox);
   }
 
   async function loadFinancials() {
@@ -123,7 +150,7 @@
         console.error("Error loading financial data:", error);
       }
     } else {
-      console.error("loadFinancialData function not found. Did financials.js load?");
+      console.error("loadFinancialData function not found.");
     }
   }
 
@@ -145,12 +172,11 @@
     initMobileMenu();
     initScrollSpy();
     initScrollReveal(); 
-    initScrollToTop(); // <--- Initialize button here
+    initScrollToTop();
+    initContactWidget(); // <--- Initialize Widget
     
     if (typeof initTabs === 'function') {
       initTabs();
-    } else {
-      console.warn("initTabs function not found. Check tabs.js loading.");
     }
 
     loadFinancials();
