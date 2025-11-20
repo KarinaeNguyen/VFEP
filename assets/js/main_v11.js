@@ -12,7 +12,6 @@
         
         const targetElement = document.querySelector(targetId);
         if (targetElement) {
-          // Offset for fixed header (approx 80px)
           const headerOffset = 80;
           const elementPosition = targetElement.getBoundingClientRect().top;
           const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
@@ -44,15 +43,11 @@
     }
   }
 
-  // --- UPDATED SCROLL SPY (Clean Text, No Black Background) ---
   function initScrollSpy() {
     const sections = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('nav a[href^="#"], #main-nav a[href^="#"]');
 
-    if (sections.length === 0 || navLinks.length === 0) {
-      console.warn("Scroll spy skipped: No sections or nav links found.");
-      return;
-    }
+    if (sections.length === 0 || navLinks.length === 0) return;
     
     console.log("Initializing scroll spy...");
     const observer = new IntersectionObserver((entries) => {
@@ -60,11 +55,9 @@
         if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
           const id = entry.target.getAttribute('id');
           navLinks.forEach(link => {
-            // RESET: Remove active styles (Clean text only)
             link.classList.remove('text-indigo-700', 'font-bold');
             link.classList.add('text-neutral-600');
             
-            // ACTIVE: Add bold and indigo color (No background box)
             if (link.getAttribute('href') === `#${id}`) {
               link.classList.add('text-indigo-700', 'font-bold');
               link.classList.remove('text-neutral-600');
@@ -77,7 +70,6 @@
     sections.forEach(section => observer.observe(section));
   }
 
-  // --- SCROLL REVEAL ---
   function initScrollReveal() {
     console.log("Initializing scroll reveal animations...");
     const sections = document.querySelectorAll('section');
@@ -97,6 +89,28 @@
 
     sections.forEach(section => {
       observer.observe(section);
+    });
+  }
+
+  // --- SCROLL TO TOP LOGIC (NEW) ---
+  function initScrollToTop() {
+    const btn = document.getElementById('scrollTopBtn');
+    if (!btn) return;
+
+    // Show button when scrolled down 300px
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        btn.classList.remove('opacity-0', 'invisible');
+        btn.classList.add('opacity-100', 'visible');
+      } else {
+        btn.classList.add('opacity-0', 'invisible');
+        btn.classList.remove('opacity-100', 'visible');
+      }
+    });
+
+    // Scroll to top on click
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 
@@ -123,7 +137,6 @@
     }
   }
 
-  // GLOBAL LISTENER FOR DYNAMIC SECTIONS
   document.addEventListener('sectionsLoaded', () => {
     console.log("'sectionsLoaded' event received. Initializing UI components...");
     
@@ -132,6 +145,7 @@
     initMobileMenu();
     initScrollSpy();
     initScrollReveal(); 
+    initScrollToTop(); // <--- Initialize button here
     
     if (typeof initTabs === 'function') {
       initTabs();
