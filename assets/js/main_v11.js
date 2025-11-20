@@ -112,33 +112,49 @@
     });
   }
 
-  // --- CONTACT WIDGET LOGIC (NEW) ---
+  // --- CONTACT WIDGET LOGIC (Fixed) ---
   function initContactWidget() {
     const toggleBtn = document.getElementById('toggleContactBtn');
     const closeBtn = document.getElementById('closeContactBtn');
     const box = document.getElementById('contactFormBox');
 
-    if (!toggleBtn || !box) return;
+    if (!toggleBtn || !box) {
+        console.warn("Contact widget elements not found");
+        return;
+    }
 
-    const toggleBox = () => {
-        // Check if hidden by checking pointer-events-none (since we toggle classes)
-        const isClosed = box.classList.contains('pointer-events-none');
-        
-        if (isClosed) {
-            // Open
-            box.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
-            box.classList.add('opacity-100', 'pointer-events-auto', 'scale-100');
-            toggleBtn.classList.add('hidden'); // Hide button when open
-        } else {
-            // Close
-            box.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
-            box.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
-            toggleBtn.classList.remove('hidden'); // Show button when closed
+    console.log("Contact widget initialized.");
+
+    function openBox() {
+        box.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+        box.classList.add('opacity-100', 'pointer-events-auto', 'scale-100');
+        toggleBtn.classList.add('hidden'); 
+    }
+
+    function closeBox() {
+        box.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+        box.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
+        toggleBtn.classList.remove('hidden');
+    }
+
+    toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent immediate closing if clicking bubble
+        openBox();
+    });
+
+    if(closeBtn) {
+        closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeBox();
+        });
+    }
+
+    // Optional: Close if clicking outside
+    document.addEventListener('click', (e) => {
+        if (!box.contains(e.target) && !toggleBtn.contains(e.target) && !box.classList.contains('pointer-events-none')) {
+            closeBox();
         }
-    };
-
-    toggleBtn.addEventListener('click', toggleBox);
-    if(closeBtn) closeBtn.addEventListener('click', toggleBox);
+    });
   }
 
   async function loadFinancials() {
