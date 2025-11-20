@@ -1,11 +1,23 @@
 (() => {
   const LANGUAGE_DATA = {
     'vi': {
+      // ... (Existing Translations) ...
       'page_title': 'Vicinity Safety | Công Nghệ Dập Lửa Chính Xác VFEP',
       'header_main_title': 'Thông Tin Dự Án',
       'header_subtitle': '| Công Nghệ VFEP',
       'language_switch': 'English',
       'language_current': 'VN',
+      'footer_text': '© 2025 Vicinity Safety. Mọi quyền sở hữu trí tuệ đang trong quá trình đăng ký.',
+
+      // === NEW: Contact Form Translations ===
+      'contact_header': 'Liên Hệ Với Chúng Tôi',
+      'contact_ph_name': 'Họ và Tên',
+      'contact_ph_email': 'Địa chỉ Email',
+      'contact_ph_phone': 'Số điện thoại (Tùy chọn)',
+      'contact_ph_msg': 'Chúng tôi có thể giúp gì cho bạn?',
+      'contact_btn': 'Gửi Tin Nhắn',
+
+      // ... (Rest of your existing keys) ...
       'overview_hero_title': 'Vicinity Safety: Công Nghệ Dập Lửa VFEP',
       'overview_hero_p1': 'Chào mừng bạn đến với phân tích tương tác của Vicinity Safety. Chúng tôi phát triển công nghệ VFEP: giải pháp dập lửa bằng đạn phóng (projectile) thế hệ mới, được thiết kế đặc biệt để bảo vệ các tài sản giá trị cao, ví dụ như ',
       'overview_highlight_1': 'trung tâm dữ liệu',
@@ -241,6 +253,17 @@
       'header_subtitle': '| VFEP Technology',
       'language_switch': 'Tiếng Việt',
       'language_current': 'EN',
+      'footer_text': '© 2025 Vicinity Safety. All intellectual property rights are in the process of registration.',
+
+      // === NEW: Contact Form Translations (EN) ===
+      'contact_header': 'Contact Us',
+      'contact_ph_name': 'Your Name',
+      'contact_ph_email': 'Your Email',
+      'contact_ph_phone': 'Phone (Optional)',
+      'contact_ph_msg': 'How can we help you?',
+      'contact_btn': 'Send Message',
+
+      // ... (Existing Keys) ...
       'overview_hero_title': 'Vicinity Safety: VFEP Fire Suppression Technology',
       'overview_hero_p1': 'Welcome to the interactive analysis of Vicinity Safety. We are developing VFEP technology: a next-generation projectile-based fire suppression solution, specifically designed to protect high-value assets, such as ',
       'overview_highlight_1': 'data centers',
@@ -471,7 +494,6 @@
       'footer_text': '© 2025 Vicinity Safety. All intellectual property rights are in the process of registration.',
     }
   };
-
   let currentLang = localStorage.getItem('lang') || 'vi';
 
   async function importSections() {
@@ -495,7 +517,6 @@
           return `<p class="text-red-600 text-center">Lỗi nghiêm trọng khi tải '${section}'.</p>`;
         });
     });
-
     try {
       const htmlContents = await Promise.all(fetchPromises);
       console.log("Tất cả section HTML đã tải xong. Bắt đầu đưa vào trang...");
@@ -507,11 +528,9 @@
           element.innerHTML = html;
         }
       }
-
       console.log("Tất cả HTML đã ở trên trang. Bắn sự kiện 'sectionsLoaded'.");
       const event = new Event('sectionsLoaded');
       document.dispatchEvent(event);
-      
     } catch (error) {
       console.error("Lỗi nghiêm trọng trong Promise.all:", error);
     }
@@ -521,10 +540,10 @@
     window.LANGUAGE_DATA = LANGUAGE_DATA;
     window.currentLang = lang;
     
+    // 1. Translate Text Content
     document.querySelectorAll('[data-key]').forEach(element => {
       const key = element.getAttribute('data-key');
       const translation = LANGUAGE_DATA[lang][key];
-      
       if (translation !== undefined) {
         if (translation === "") {
           element.innerHTML = "";
@@ -534,9 +553,17 @@
       }
     });
 
+    // 2. Translate Input Placeholders (NEW)
+    document.querySelectorAll('[data-placeholder-key]').forEach(element => {
+      const key = element.getAttribute('data-placeholder-key');
+      const translation = LANGUAGE_DATA[lang][key];
+      if (translation !== undefined) {
+        element.placeholder = translation;
+      }
+    });
+
     const switchBtn = document.getElementById('language-switch-btn');
     const displaySpan = document.getElementById('lang-display');
-
     if (switchBtn) {
       const targetLang = lang === 'vi' ? 'en' : 'vi';
       switchBtn.onclick = () => switchLanguage(targetLang);
@@ -548,13 +575,11 @@
   }
   
   window.applyTranslations = () => applyTranslations(currentLang);
-
   window.switchLanguage = function(lang) {
     if (lang === currentLang) return;
     currentLang = lang;
     localStorage.setItem('lang', lang);
     applyTranslations(lang);
   };
-
   document.addEventListener('DOMContentLoaded', importSections);
 })();
