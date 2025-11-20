@@ -3,9 +3,8 @@
   const G_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRdnGGLERma9OCgM-Y6hGfFn2RnyjAMZeGT_zHviVrBKdC5h3947vTg66xfwg1RbcrGbgQm1cIAWKhS/pub?output=csv";
 
   // --- 1. GLOBAL CONTACT WIDGET LOGIC ---
-  // Fixed: Button stays visible and acts as a Toggle (Open/Close)
   document.addEventListener('click', (e) => {
-      // A. Handle Toggle Button Click
+      // A. Handle Toggle Button Click (Open/Close)
       const toggleBtn = e.target.closest('#toggleContactBtn');
       if (toggleBtn) {
           const box = document.getElementById('contactFormBox');
@@ -22,7 +21,7 @@
                   box.classList.add('opacity-0', 'pointer-events-none', 'scale-95', 'invisible');
                   box.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100', 'visible');
               }
-              // Note: We do NOT hide the button anymore.
+              // Note: We keep the button visible as a toggle
           }
           return;
       }
@@ -104,9 +103,11 @@
         if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
           const id = entry.target.getAttribute('id');
           navLinks.forEach(link => {
+            // RESET: Clean text only
             link.classList.remove('text-indigo-700', 'font-bold');
             link.classList.add('text-neutral-600');
             
+            // ACTIVE: Bold Indigo
             if (link.getAttribute('href') === `#${id}`) {
               link.classList.add('text-indigo-700', 'font-bold');
               link.classList.remove('text-neutral-600');
@@ -192,7 +193,6 @@
     initScrollSpy();
     initScrollReveal(); 
     initScrollToTop();
-    // Note: Contact Widget is initialized globally at the top
     
     if (typeof initTabs === 'function') {
       initTabs();
