@@ -92,7 +92,6 @@
     });
   }
 
-  // --- SCROLL TO TOP LOGIC ---
   function initScrollToTop() {
     const btn = document.getElementById('scrollTopBtn');
     if (!btn) return;
@@ -112,47 +111,51 @@
     });
   }
 
-  // --- CONTACT WIDGET LOGIC (Fixed) ---
+  // --- ROBUST CONTACT WIDGET LOGIC ---
+  // We attach the listener to 'document' so it works even if the footer loads late.
   function initContactWidget() {
-    const toggleBtn = document.getElementById('toggleContactBtn');
-    const closeBtn = document.getElementById('closeContactBtn');
-    const box = document.getElementById('contactFormBox');
+    console.log("Initializing Contact Widget...");
 
-    if (!toggleBtn || !box) {
-        console.warn("Contact widget elements not found");
-        return;
-    }
-
-    console.log("Contact widget initialized.");
-
-    function openBox() {
-        box.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
-        box.classList.add('opacity-100', 'pointer-events-auto', 'scale-100');
-        toggleBtn.classList.add('hidden'); 
-    }
-
-    function closeBox() {
-        box.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
-        box.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
-        toggleBtn.classList.remove('hidden');
-    }
-
-    toggleBtn.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent immediate closing if clicking bubble
-        openBox();
-    });
-
-    if(closeBtn) {
-        closeBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            closeBox();
-        });
-    }
-
-    // Optional: Close if clicking outside
     document.addEventListener('click', (e) => {
-        if (!box.contains(e.target) && !toggleBtn.contains(e.target) && !box.classList.contains('pointer-events-none')) {
-            closeBox();
+        // 1. Handle Open Button Click (checks if clicked element is inside the button)
+        const toggleBtn = e.target.closest('#toggleContactBtn');
+        if (toggleBtn) {
+            const box = document.getElementById('contactFormBox');
+            if (box) {
+                // Open Box
+                box.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+                box.classList.add('opacity-100', 'pointer-events-auto', 'scale-100');
+                // Hide Toggle Button
+                toggleBtn.classList.add('hidden');
+            }
+            return;
+        }
+
+        // 2. Handle Close Button Click
+        const closeBtn = e.target.closest('#closeContactBtn');
+        if (closeBtn) {
+             const box = document.getElementById('contactFormBox');
+             const toggleBtnEl = document.getElementById('toggleContactBtn');
+             
+             if (box) {
+                // Close Box
+                box.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+                box.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
+             }
+             // Show Toggle Button
+             if (toggleBtnEl) toggleBtnEl.classList.remove('hidden');
+             return;
+        }
+        
+        // 3. Handle Click Outside (Optional: Close if clicking away)
+        const box = document.getElementById('contactFormBox');
+        if (box && !box.classList.contains('pointer-events-none') && !box.contains(e.target)) {
+             const toggleBtnEl = document.getElementById('toggleContactBtn');
+             // Close Box
+             box.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+             box.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
+             // Show Toggle Button
+             if (toggleBtnEl) toggleBtnEl.classList.remove('hidden');
         }
     });
   }
@@ -189,7 +192,7 @@
     initScrollSpy();
     initScrollReveal(); 
     initScrollToTop();
-    initContactWidget(); // <--- Initialize Widget
+    initContactWidget(); // <--- Logic is now robust!
     
     if (typeof initTabs === 'function') {
       initTabs();
