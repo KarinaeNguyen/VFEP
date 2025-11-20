@@ -18,23 +18,23 @@
                 </div>
             </div>
 
-            <div class="flex flex-col md:flex-row gap-12 w-full lg:w-auto">
-                
+            <div class="flex flex-col md:flex-row gap-8 w-full lg:w-auto">
+
                 <div class="text-sm text-neutral-700 flex-1">
                     <div class="flex flex-col gap-2">
-                        <div class="flex justify-between gap-x-8 border-b border-dashed border-neutral-200 pb-1">
+                        <div class="flex justify-between gap-x-4 border-b border-dashed border-neutral-200 pb-1">
                             <span class="font-semibold text-indigo-800 whitespace-nowrap">Mã số thuế <span class="text-neutral-400 text-xs">(Tax ID)</span>:</span>
                             <span class="font-mono text-neutral-900">0318851299</span>
                         </div>
-                        <div class="flex justify-between gap-x-8 border-b border-dashed border-neutral-200 pb-1">
+                        <div class="flex justify-between gap-x-4 border-b border-dashed border-neutral-200 pb-1">
                             <span class="font-semibold text-indigo-800 whitespace-nowrap">Ngày cấp <span class="text-neutral-400 text-xs">(Date)</span>:</span>
                             <span class="font-mono text-neutral-900">26-02-2025</span>
                         </div>
-                        <div class="flex justify-between gap-x-8 border-b border-dashed border-neutral-200 pb-1">
+                        <div class="flex justify-between gap-x-4 border-b border-dashed border-neutral-200 pb-1">
                             <span class="font-semibold text-indigo-800 whitespace-nowrap">Số định danh <span class="text-neutral-400 text-xs">(Biz ID)</span>:</span>
                             <span class="font-mono text-neutral-900">079212501629</span>
                         </div>
-                        <div class="flex justify-between gap-x-8 border-b border-dashed border-neutral-200 pb-1">
+                        <div class="flex justify-between gap-x-4 border-b border-dashed border-neutral-200 pb-1">
                             <span class="font-semibold text-indigo-800 whitespace-nowrap">Tài khoản <span class="text-neutral-400 text-xs">(Bank)</span>:</span>
                             <span class="font-mono text-neutral-900">318851299 (TCB)</span>
                         </div>
@@ -61,23 +61,44 @@
         </div>
 
         <div class="border-t border-neutral-200 mt-10 pt-4 text-center">
-            <p class="text-neutral-500 text-xs" data-key="footer_text"></p>
+            <p class="text-neutral-500 text-xs" data-key="footer_text">
+                </p>
         </div>
     </div>
 
-    <div id="contactFormBox" class="fixed bottom-24 right-8 z-50 w-80 md:w-96 bg-white rounded-xl shadow-2xl border border-neutral-200 transform scale-95 opacity-0 pointer-events-none transition-all duration-300 origin-bottom-right">
+    <div id="contactFormBox" class="fixed bottom-24 right-8 z-50 w-80 md:w-96 bg-white rounded-xl shadow-2xl border border-neutral-200 transform scale-95 opacity-0 invisible pointer-events-none transition-all duration-300 origin-bottom-right">
+        
         <div class="bg-indigo-700 px-5 py-4 rounded-t-xl flex justify-between items-center">
-            <h3 class="text-white font-bold text-lg">Contact Us</h3>
+            <h3 class="text-white font-bold text-lg" data-key="contact_header">Contact Us</h3>
             <button id="closeContactBtn" type="button" class="text-white hover:bg-indigo-600 rounded-full p-1 focus:outline-none">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
+
         <form action="https://formspree.io/f/mgvdlwql" method="POST" class="p-5 space-y-3">
-            <div><input type="text" name="name" required class="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm bg-neutral-50" placeholder="Name"></div>
-            <div><input type="email" name="email" required class="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm bg-neutral-50" placeholder="Email"></div>
-            <div><input type="tel" name="phone" class="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm bg-neutral-50" placeholder="Phone (Optional)"></div>
-            <div><textarea name="message" rows="3" required class="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm bg-neutral-50 resize-none" placeholder="How can we help?"></textarea></div>
-            <button type="submit" class="w-full py-2 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 transition-colors text-sm shadow-md">Send Message</button>
+            <div>
+                <input type="text" name="name" required 
+                    class="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm bg-neutral-50" 
+                    placeholder="Name" data-placeholder-key="contact_ph_name">
+            </div>
+            <div>
+                <input type="email" name="email" required 
+                    class="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm bg-neutral-50" 
+                    placeholder="Email" data-placeholder-key="contact_ph_email">
+            </div>
+            <div>
+                <input type="tel" name="phone" 
+                    class="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm bg-neutral-50" 
+                    placeholder="Phone (Optional)" data-placeholder-key="contact_ph_phone">
+            </div>
+            <div>
+                <textarea name="message" rows="3" required 
+                    class="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm bg-neutral-50 resize-none" 
+                    placeholder="How can we help?" data-placeholder-key="contact_ph_msg"></textarea>
+            </div>
+            <button type="submit" class="w-full py-2 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 transition-colors text-sm shadow-md" data-key="contact_btn">
+                Send Message
+            </button>
         </form>
     </div>
 
@@ -86,6 +107,8 @@
     </button>
 
     <button id="scrollTopBtn" class="fixed bottom-8 right-8 z-40 bg-indigo-700 text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-indigo-800 hover:-translate-y-1 focus:outline-none" aria-label="Scroll to top">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
     </button>
 </footer>
