@@ -2,6 +2,55 @@
   // UPDATE YOUR LINK HERE 👇
   const G_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRdnGGLERma9OCgM-Y6hGfFn2RnyjAMZeGT_zHviVrBKdC5h3947vTg66xfwg1RbcrGbgQm1cIAWKhS/pub?output=csv";
 
+  // --- 1. GLOBAL CONTACT WIDGET LOGIC ---
+  // Fixed: Button stays visible and acts as a Toggle (Open/Close)
+  document.addEventListener('click', (e) => {
+      // A. Handle Toggle Button Click
+      const toggleBtn = e.target.closest('#toggleContactBtn');
+      if (toggleBtn) {
+          const box = document.getElementById('contactFormBox');
+          if (box) {
+              // Check if currently closed
+              const isClosed = box.classList.contains('opacity-0');
+              
+              if (isClosed) {
+                  // Open Box
+                  box.classList.remove('opacity-0', 'pointer-events-none', 'scale-95', 'invisible');
+                  box.classList.add('opacity-100', 'pointer-events-auto', 'scale-100', 'visible');
+              } else {
+                  // Close Box
+                  box.classList.add('opacity-0', 'pointer-events-none', 'scale-95', 'invisible');
+                  box.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100', 'visible');
+              }
+              // Note: We do NOT hide the button anymore.
+          }
+          return;
+      }
+
+      // B. Handle Close 'X' Button Inside Box
+      const closeBtn = e.target.closest('#closeContactBtn');
+      if (closeBtn) {
+           const box = document.getElementById('contactFormBox');
+           if (box) {
+              // Close Box
+              box.classList.add('opacity-0', 'pointer-events-none', 'scale-95', 'invisible');
+              box.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100', 'visible');
+           }
+           return;
+      }
+      
+      // C. Close if clicking outside (and not on the button)
+      const box = document.getElementById('contactFormBox');
+      if (box && !box.classList.contains('opacity-0')) {
+          // If click is NOT inside box AND NOT inside the toggle button
+          if (!box.contains(e.target) && (!toggleBtn || !toggleBtn.contains(e.target))) {
+             box.classList.add('opacity-0', 'pointer-events-none', 'scale-95', 'invisible');
+             box.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100', 'visible');
+          }
+      }
+  });
+
+  // --- 2. STANDARD FUNCTIONS ---
   function initSmoothScroll() {
     console.log("Initializing smooth scroll...");
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -111,55 +160,6 @@
     });
   }
 
-  // --- ROBUST CONTACT WIDGET LOGIC ---
-  // We attach the listener to 'document' so it works even if the footer loads late.
-  function initContactWidget() {
-    console.log("Initializing Contact Widget...");
-
-    document.addEventListener('click', (e) => {
-        // 1. Handle Open Button Click (checks if clicked element is inside the button)
-        const toggleBtn = e.target.closest('#toggleContactBtn');
-        if (toggleBtn) {
-            const box = document.getElementById('contactFormBox');
-            if (box) {
-                // Open Box
-                box.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
-                box.classList.add('opacity-100', 'pointer-events-auto', 'scale-100');
-                // Hide Toggle Button
-                toggleBtn.classList.add('hidden');
-            }
-            return;
-        }
-
-        // 2. Handle Close Button Click
-        const closeBtn = e.target.closest('#closeContactBtn');
-        if (closeBtn) {
-             const box = document.getElementById('contactFormBox');
-             const toggleBtnEl = document.getElementById('toggleContactBtn');
-             
-             if (box) {
-                // Close Box
-                box.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
-                box.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
-             }
-             // Show Toggle Button
-             if (toggleBtnEl) toggleBtnEl.classList.remove('hidden');
-             return;
-        }
-        
-        // 3. Handle Click Outside (Optional: Close if clicking away)
-        const box = document.getElementById('contactFormBox');
-        if (box && !box.classList.contains('pointer-events-none') && !box.contains(e.target)) {
-             const toggleBtnEl = document.getElementById('toggleContactBtn');
-             // Close Box
-             box.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
-             box.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
-             // Show Toggle Button
-             if (toggleBtnEl) toggleBtnEl.classList.remove('hidden');
-        }
-    });
-  }
-
   async function loadFinancials() {
     console.log("Loading financials...");
     if (typeof window.loadFinancialData === 'function') {
@@ -169,7 +169,7 @@
         console.error("Error loading financial data:", error);
       }
     } else {
-      console.error("loadFinancialData function not found.");
+      console.error("loadFinancialData function not found. Did financials.js load?");
     }
   }
 
@@ -192,10 +192,12 @@
     initScrollSpy();
     initScrollReveal(); 
     initScrollToTop();
-    initContactWidget(); // <--- Logic is now robust!
+    // Note: Contact Widget is initialized globally at the top
     
     if (typeof initTabs === 'function') {
       initTabs();
+    } else {
+      console.warn("initTabs function not found. Check tabs.js loading.");
     }
 
     loadFinancials();
