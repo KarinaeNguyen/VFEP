@@ -227,16 +227,16 @@
       'adv_usp_r2_c3': 'Cung cấp một lựa chọn dập lửa và làm mát chuyên biệt (với lõi gel) để xử lý "thoát nhiệt" (thermal runaway).',
       'adv_usp_r3_c1': '',
       'adv_usp_r3_c2': 'Cơ chế phóng (Cỡ 0.68)',
-      'adv_usp_r3_c3': 'Đảm bảo triển khai nhanh, đào tạo đơn giản, và tiếp cận ngay lập tức với nền tảng phóng có thể sản xuất hàng loạt (không phải súng).',
+      'adv_usp_r3_c3': 'Đảm bảo triển khai nhanh, đào tạo đơn giản, và tiếp cận ngay lập tức với nền tảng phóng có thể sản xuất hàng loạt (non-firearm).',
       'adv_usp_r4_c1': 'II. Chiến lược (Mô hình)',
-      'adv_usp_r4_c2': 'Giấy phép "Mã Nguồn Mở" cho Chính Phủ',
+      'adv_usp_r4_c2': '"Open Source" Government Licensing',
       'adv_usp_r4_c3': 'Tạo ra một con hào thị trường (market moat) toàn cầu; các chính phủ trở thành đối tác trung thành, đảm bảo thị trường cho nhà sản xuất (người trả tiền bản quyền).',
       'adv_usp_r5_c1': '',
       'adv_usp_r5_c2': 'Đòn bẩy Tài chính Cao',
-      'adv_usp_r5_c3': 'Cung cấp biên lợi nhuận đặc biệt và khả năng mở rộng, giảm vốn sản xuất trong khi vẫn đảm bảo doanh thu cao, định kỳ.',
+      'adv_usp_r5_c3': 'Delivers exceptional profit margins and scalability, reducing production capital while securing high, recurring revenue.',
       'adv_usp_r6_c1': '',
-      'adv_usp_r6_c2': 'Cấu trúc IP (Sing) / R&D (ĐNÁ)',
-      'adv_usp_r6_c3': 'Giảm thiểu rủi ro bằng cách bảo vệ tài sản cốt lõi theo khung pháp lý tốt nhất thế giới, đồng thời tối đa hóa hiệu quả chi phí phát triển.',
+      'adv_usp_r6_c2': 'IP Structure (SG) / R&D (SEA)',
+      'adv_usp_r6_c3': 'Minimizes risk by protecting core assets under best-in-class legal frameworks, while maximizing cost-efficiency in development.',
       'nav_overview': 'Tổng quan',
       'nav_vision': 'Tầm nhìn & Sứ mệnh',
       'nav_lean_canvas': 'Mô hình Lean Canvas',
@@ -498,10 +498,14 @@
 
   async function importSections() {
     console.log("Bắt đầu tải các section HTML...");
-    const sections = [
+    const allSections = [
       'header', 'overview', 'vision', 'lean-canvas', 'technology',
       'strategy', 'market', 'financials', 'advantage', 'footer'
     ];
+    
+    // Safety check: Only try to load sections that exist on the page
+    const sections = allSections.filter(id => document.getElementById(id));
+
     const fetchPromises = sections.map(section => {
       const path = `sections/${section}.html`;
       return fetch(path)
