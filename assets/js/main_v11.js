@@ -41,12 +41,12 @@
   function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
-        e.preventDefault();
         const targetId = this.getAttribute('href');
         if(targetId === '#') return;
         
         const targetElement = document.querySelector(targetId);
         if (targetElement) {
+          e.preventDefault(); // Only prevent default if target exists
           const headerOffset = 80;
           const elementPosition = targetElement.getBoundingClientRect().top;
           const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
@@ -66,7 +66,11 @@
     const menuBtn = document.getElementById('menu-btn');
     const nav = document.getElementById('main-nav');
     if (menuBtn && nav) {
-      menuBtn.addEventListener('click', () => {
+      // Remove old listeners to be safe
+      const newBtn = menuBtn.cloneNode(true);
+      menuBtn.parentNode.replaceChild(newBtn, menuBtn);
+      
+      newBtn.addEventListener('click', () => {
         nav.classList.toggle('hidden');
       });
     }
@@ -137,8 +141,6 @@
         video.setAttribute('playsinline', '');
         video.setAttribute('autoplay', '');
         
-        // NEW: Skip the first 3 seconds
-        // We wait for metadata to load to ensure we can seek
         if (video.readyState >= 1) {
             video.currentTime = 3;
         } else {
@@ -168,7 +170,9 @@
     if (typeof window.applyTranslations === 'function') {
       window.applyTranslations();
       if(window.LANGUAGE_DATA && window.currentLang) {
-         document.title = window.LANGUAGE_DATA[window.currentLang]['page_title'];
+          if (window.LANGUAGE_DATA[window.currentLang]['page_title']) {
+             document.title = window.LANGUAGE_DATA[window.currentLang]['page_title'];
+          }
       }
     }
   }
@@ -176,16 +180,21 @@
   // --- MAIN INIT ---
   document.addEventListener('sectionsLoaded', () => {
     console.log("Initializing UI components...");
-    initLanguage();
-    initSmoothScroll();
-    initMobileMenu();
-    initScrollSpy();
-    initScrollReveal(); 
-    initScrollToTop();
     
-    initVideoBackground(); // Kickstart Video at 0:03
+    // SAFETY WRAPPERS: If one fails, others still run
+    try { initLanguage(); } catch(e) { console.error("Lang Error:", e); }
+    try { initSmoothScroll(); } catch(e) { console.error("Scroll Error:", e); }
+    try { initMobileMenu(); } catch(e) { console.error("Menu Error:", e); }
+    try { initScrollSpy(); } catch(e) { console.error("Spy Error:", e); }
+    try { initScrollReveal(); } catch(e) { console.error("Reveal Error:", e); } 
+    try { initScrollToTop(); } catch(e) { console.error("TopBtn Error:", e); }
     
-    if (typeof initTabs === 'function') initTabs();
+    try { initVideoBackground(); } catch(e) { console.error("Video Error:", e); }
+    
+    if (typeof initTabs === 'function') {
+        try { initTabs(); } catch(e) { console.error("Tabs Error:", e); }
+    }
+    
     loadFinancials();
   });
 })();
